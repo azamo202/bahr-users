@@ -7,10 +7,10 @@ export type Lang = "en" | "ar" | "ku";
 type Dict = Record<string, string>;
 const dictionaries: Record<Lang, Dict> = {
   en: {
-    "company.name": "CHRANI COMPANY FOR GENERAL TRADING IMP. & EXP. LTD.",
-    "logo.name": "CHRANI COMPANY",
-    "logo.full_name": "CHRANI COMPANY FOR GENERAL TRADING IMP. & EXP. LTD.",
-    "logo.subtitle": "FOR GENERAL TRADING IMP. & EXP. LTD.",
+    "company.name": "BAHR ALALWAN FOR GENERAL TRADING",
+    "logo.name": "BAHR ALALWAN",
+    "logo.full_name": "BAHR ALALWAN FOR GENERAL TRADING",
+    "logo.subtitle": "FOR GENERAL TRADING",
     "nav.home": "Home",
     "nav.products": "Products",
     "nav.support": "Support",
@@ -23,7 +23,7 @@ const dictionaries: Record<Lang, Dict> = {
     "cta.help.subtitle": "Our specialists will walk you through the catalog and recommend the right model for your home.",
     "home.hero.eyebrow": "Premium Home Appliances",
     "home.hero.title": "Engineered for the Modern Home",
-    "home.hero.subtitle": "Discover the Chrani collection — refined design, lasting performance, and quiet excellence in every appliance.",
+    "home.hero.subtitle": "Discover the Bahr Alalwan collection — refined design, lasting performance, and quiet excellence in every appliance.",
     "home.featured": "Featured Products",
     "home.featured.eyebrow": "03 — Curated",
     "home.new": "New Arrivals",
@@ -71,11 +71,11 @@ const dictionaries: Record<Lang, Dict> = {
     "support.show_more": "Show More",
     "support.back_to_support": "Back to Support",
     "support.centers.title": "All Service Centers",
-    "support.centers.subtitle": "Find the nearest authorized service center for your Chrani appliances.",
+    "support.centers.subtitle": "Find the nearest authorized service center for your Bahr Alalwan appliances.",
     "support.downloads.title": "All User Manuals",
-    "support.downloads.subtitle": "Download user manuals and guides for all Chrani products.",
+    "support.downloads.subtitle": "Download user manuals and guides for all Bahr Alalwan products.",
     "support.videos.title": "All Videos",
-    "support.videos.subtitle": "Watch helpful tutorials and guides for your Chrani appliances.",
+    "support.videos.subtitle": "Watch helpful tutorials and guides for your Bahr Alalwan appliances.",
     "support.filter.city": "City",
     "support.filter.all": "All",
     "support.no_results": "No results found.",
@@ -86,7 +86,7 @@ const dictionaries: Record<Lang, Dict> = {
     "about.vision": "Our Vision",
     "about.mission": "Our Mission",
     "about.history.title": "About Us",
-    "about.history.body": "Chrani Company started in April 2002 in Duhok, Iraq. Today, we are one of the top names for home appliances in Iraq. The company is led by its owner and Chairman, Mr. Saeed Chrani. Since 2002, we have brought the world’s best technology to Iraqi homes. With many stores and partners across the country, we ensure our products are always within reach. We don’t just sell appliances; we also create our own high-quality brands: iLK and iNOX. We work with the best factories across the world to ensure every product is excellent. We trust our quality, which is why we offer strong warranties for up to 5 years. At Chrani Company, our goal is simple: to provide our customers with the best appliances and great service.",
+    "about.history.body": "Bahr Alalwan started in April 2002 in Duhok, Iraq. Today, we are one of the top names for home appliances in Iraq. The company is led by its owner and Chairman. Since 2002, we have brought the world’s best technology to Iraqi homes. With many stores and partners across the country, we ensure our products are always within reach. We don’t just sell appliances; we also create our own high-quality brands. We work with the best factories across the world to ensure every product is excellent. We trust our quality, which is why we offer strong warranties for up to 5 years. At Bahr Alalwan, our goal is simple: to provide our customers with the best appliances and great service.",
     "about.vision.body": "To become the preeminent player in the Iraqi appliance industry by expanding our dealer’s network, leveraging the deep customer confidence we have earned since our founding in 2002.",
     "about.mission.body": "To deliver high-quality home appliances at accessible price points, ensuring that premium technology is affordable for all segments of the community, supported by dependable after-sales service.",
     "about.certificates.title": "Our Certificates",
@@ -117,7 +117,7 @@ const dictionaries: Record<Lang, Dict> = {
     "footer.tagline": "Premium home appliances, refined for modern living.",
     "footer.quickLinks": "Quick Links",
     "footer.contact": "Contact",
-    "footer.rights": "Copyright © 2026 Chrani Company. All Rights Reserved",
+    "footer.rights": "Copyright © 2026 Bahr Alalwan. All Rights Reserved",
     "warranty": "Reliable Warranty",
     "elegance": "Serene Elegance",
     "excellence": "Enduring Excellence",
@@ -131,10 +131,10 @@ const dictionaries: Record<Lang, Dict> = {
   },
 
   ar: {
-    "company.name": "شركة چراني للتجارة العامة استيراد وتصدير المحدودة",
-    "logo.name": "شركة چراني",
-    "logo.full_name": "شركة چراني للتجارة العامة استيراد وتصدير المحدودة",
-    "logo.subtitle": "للتجارة العامة استيراد وتصدير المحدودة",
+    "company.name": "شركة بحر الألوان للتجارة العامة",
+    "logo.name": "بحر الألوان",
+    "logo.full_name": "شركة بحر الألوان للتجارة العامة",
+    "logo.subtitle": "للتجارة العامة",
     "nav.home": "الرئيسية",
     "nav.products": "المنتجات",
     "nav.support": "الدعم",
@@ -147,7 +147,7 @@ const dictionaries: Record<Lang, Dict> = {
     "cta.help.subtitle": "سيقوم خبراؤنا بإرشادك عبر الكتالوج واقتراح الموديل المناسب لمنزلك.",
     "home.hero.eyebrow": "أجهزة منزلية فاخرة",
     "home.hero.title": "مصممة للمنزل العصري",
-    "home.hero.subtitle": "اكتشف مجموعة چراني — تصميم راقٍ، أداء يدوم، وتميّز هادئ في كل جهاز.",
+    "home.hero.subtitle": "اكتشف مجموعة بحر الألوان — تصميم راقٍ، أداء يدوم، وتميّز هادئ في كل جهاز.",
     "home.featured": "المنتجات المميزة",
     "home.featured.eyebrow": "03 — مختاراتنا",
     "home.new": "وصل حديثاً",
@@ -195,11 +195,11 @@ const dictionaries: Record<Lang, Dict> = {
     "support.show_more": "عرض المزيد",
     "support.back_to_support": "العودة للدعم",
     "support.centers.title": "جميع مراكز الخدمة",
-    "support.centers.subtitle": "ابحث عن أقرب مركز صيانة معتمد لأجهزة چراني.",
+    "support.centers.subtitle": "ابحث عن أقرب مركز صيانة معتمد لأجهزة بحر الألوان.",
     "support.downloads.title": "جميع أدلة الاستخدام",
-    "support.downloads.subtitle": "حمّل أدلة الاستخدام والإرشادات لجميع منتجات چراني.",
+    "support.downloads.subtitle": "حمّل أدلة الاستخدام والإرشادات لجميع منتجات بحر الألوان.",
     "support.videos.title": "جميع الفيديوهات",
-    "support.videos.subtitle": "شاهد الفيديوهات التعليمية والإرشادية لأجهزة چراني.",
+    "support.videos.subtitle": "شاهد الفيديوهات التعليمية والإرشادية لأجهزة بحر الألوان.",
     "support.filter.city": "المدينة",
     "support.filter.all": "الكل",
     "support.no_results": "لا توجد نتائج.",
@@ -210,7 +210,7 @@ const dictionaries: Record<Lang, Dict> = {
     "about.vision": "رؤيتنا",
     "about.mission": "رسالتنا",
     "about.history.title": "نبذة عنا",
-    "about.history.body": "تأسست شركة چراني في نيسان عام 2002 بمدينة دهوك في العراق. واليوم، نعتز بكوننا أحد الأسماء الرائدة في مجال الأجهزة المنزلية على مستوى العراق، تحت قيادة مالكها ورئيس مجلس إدارتها السيد سعيد چراني. منذ انطلاقتنا في عام 2002، حرصنا على جلب أفضل التقنيات العالمية إلى المنازل العراقية. ومن خلال شبكة واسعة من المتاجر والشركاء في كافة أنحاء البلاد، نضمن وصول منتجاتنا إلى عملائنا أينما كانوا. نحن لا نكتفي ببيع الأجهزة فحسب، بل قمنا بابتكار علاماتنا التجارية الخاصة ذات الجودة العالية iLK و iNOX حيث نتعاون مع نخبة المصانع العالمية لضمان تميز وجودة كل منتج نقدمه. ولأننا نثق تماماً بجودة منتجاتنا، فإننا نقدم ضمانات قوية تصل إلى 5 سنوات. في شركة چراني، هدفنا بسيط وواضح: تزويد عملائنا بأفضل الأجهزة المنزلية مع خدمة استثنائية.",
+    "about.history.body": "تأسست شركة بحر الألوان في نيسان عام 2002 بمدينة دهوك في العراق. واليوم، نعتز بكوننا أحد الأسماء الرائدة في مجال الأجهزة المنزلية على مستوى العراق. منذ انطلاقتنا، حرصنا على جلب أفضل التقنيات العالمية إلى المنازل العراقية. ومن خلال شبكة واسعة من المتاجر والشركاء في كافة أنحاء البلاد، نضمن وصول منتجاتنا إلى عملائنا أينما كانوا. نتعاون مع نخبة المصانع العالمية لضمان تميز وجودة كل منتج نقدمه. ولأننا نثق تماماً بجودة منتجاتنا، فإننا نقدم ضمانات قوية تصل إلى 5 سنوات. في شركة بحر الألوان، هدفنا بسيط وواضح: تزويد عملائنا بأفضل الأجهزة المنزلية مع خدمة استثنائية.",
     "about.vision.body": "أن نصبح اللاعب الأبرز في صناعة الأجهزة المنزلية على مستوى العراق، من خلال توسيع شبكة وكلائنا، مستندين إلى الثقة العمقة التي اكتسبناها من عملائنا منذ تأسيسنا عام 2002.",
     "about.mission.body": "توفير أجهزة منزلية عالية الجودة بأسعار مناسبة، لضمان وصول التكنولوجيا المتطورة إلى جميع فئات المجتمع، مدعومة بخدمات ما بعد البيع الموثوقة.",
     "about.certificates.title": "شهاداتنا",
@@ -241,7 +241,7 @@ const dictionaries: Record<Lang, Dict> = {
     "footer.tagline": "أجهزة منزلية فاخرة، مصممة للحياة العصرية.",
     "footer.quickLinks": "روابط سريعة",
     "footer.contact": "اتصل",
-    "footer.rights": "حقوق الطبع والنشر © ٢٠٢٦ شركة چراني. جميع الحقوق محفوظة.",
+    "footer.rights": "حقوق الطبع والنشر © ٢٠٢٦ شركة بحر الألوان. جميع الحقوق محفوظة.",
     "warranty": "ضمان موثوق",
     "elegance": "رفاهية هادئة",
     "excellence": "إتقان يدوم",
@@ -255,10 +255,10 @@ const dictionaries: Record<Lang, Dict> = {
 
   },
   ku: {
-    "company.name": "کۆمپانیای چرانى بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردنی سنووردار",
-    "logo.name": "کۆمپانیای چرانى",
-    "logo.full_name": "کۆمپانیای چرانى بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردنی سنووردار",
-    "logo.subtitle": "بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردنی سنووردار",
+    "company.name": "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی",
+    "logo.name": "بەحری ئەلوان",
+    "logo.full_name": "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی",
+    "logo.subtitle": "بۆ بازرگانی گشتی",
     "warranty": "گەرەنتییەکی جێی متمانە",
     "elegance": "خۆشگوزەرانییەکی ئارام",
     "excellence": "داهێنانێک بۆ هەمیشە",
@@ -275,7 +275,7 @@ const dictionaries: Record<Lang, Dict> = {
     "cta.help.subtitle": "شارەزایانمان بەناو کاتالۆگەکەدا ڕێنوێنیت دەکەن و باشترین مۆدێل بۆ ماڵەکەت پێشنیار دەکەن.",
     "home.hero.eyebrow": "ئامێری ماڵەوەی پرێمیۆم",
     "home.hero.title": "دیزاینکراو بۆ ماڵی نوێ",
-    "home.hero.subtitle": "کۆکراوەی چرانى بدۆزەرەوە — دیزاینی جوان، کارایی بەردەوام، و باشی بێدەنگ لە هەموو ئامێرێکدا.",
+    "home.hero.subtitle": "کۆکراوەی بەحری ئەلوان بدۆزەرەوە — دیزاینی جوان، کارایی بەردەوام، و باشی بێدەنگ لە هەموو ئامێرێکدا.",
     "home.featured": "بەرهەمە تایبەتەکان",
     "home.featured.eyebrow": "03 — هەڵبژێردراو",
     "home.new": "نوێ گەیشتوو",
@@ -323,11 +323,11 @@ const dictionaries: Record<Lang, Dict> = {
     "support.show_more": "زیاتر ببینە",
     "support.back_to_support": "گەڕانەوە بۆ پاڵپشتی",
     "support.centers.title": "هەموو ناوەندەکانی خزمەتگوزاری",
-    "support.centers.subtitle": "نزیکترین ناوەندی خزمەتگوزاری بۆ ئامێرەکانی چرانى بدۆزەرەوە.",
+    "support.centers.subtitle": "نزیکترین ناوەندی خزمەتگوزاری بۆ ئامێرەکانی بەحری ئەلوان بدۆزەرەوە.",
     "support.downloads.title": "هەموو ڕێبەرەکانی بەکارهێنان",
-    "support.downloads.subtitle": "ڕێبەری بەکارهێنان بۆ هەموو بەرهەمەکانی چرانى دابگرە.",
+    "support.downloads.subtitle": "ڕێبەری بەکارهێنان بۆ هەموو بەرهەمەکانی بەحری ئەلوان دابگرە.",
     "support.videos.title": "هەموو ڤیدیۆکان",
-    "support.videos.subtitle": "ڤیدیۆی فێرکاری و ڕێنمایی بۆ ئامێرەکانی چرانى تەماشا بکە.",
+    "support.videos.subtitle": "ڤیدیۆی فێرکاری و ڕێنمایی بۆ ئامێرەکانی بەحری ئەلوان تەماشا بکە.",
     "support.filter.city": "شار",
     "support.filter.all": "هەمووی",
     "support.no_results": "هیچ ئەنجامێک نەدۆزرایەوە.",
@@ -338,7 +338,7 @@ const dictionaries: Record<Lang, Dict> = {
     "about.vision": "بینینمان",
     "about.mission": "ئامانجمان",
     "about.history.title": "دەربارەی ئێمە",
-    "about.history.body": "کۆمپانیای چرانى لە نیسانی ساڵی ٢٠٠٢ لە شاری دهۆک لە عێراق دامەزراوە. ئەمڕۆ، شانازی دەکەین کە یەکێکن لە ناوە هەرە دیار و پێشەنگەکان لە بواری ئامێرەکانی ناوماڵ لەسەر ئاستی عێراق، بە سەرکردایەتی خاوەن و سەرۆکی کۆمپانیا بەڕێز سعید چرانى .لە سەرەتای دەستپێکردنمانەوە لە ساڵی ٢٠٠٢، هەوڵمانداوە باشترین تەکنەلۆژیای جیهانی بگەیەنینە ناو ماڵە عێراقییەکان. لە ڕێگەی تۆڕێکی بەرفراوان لە پێشانگا و هاوبەشەکانمان لە سەرتاسەری وڵات، دڵنیایی دەدەین کە بەرهەمەکانمان دەگەنە دەستی کڕیاران لە هەر شوێنێک بن. ئێمە تەنها ئامێر نافرۆشین، بەڵکو براندە تایبەتەکانی خۆمان بە کوالێتییەکی بەرز داهێناوە کە ئەوانیش iLK و iNOXـن. ئێمە لەگەڵ باشترین کارگەکانی جیهان کاردەکەین بۆ دەستەبەرکردنی ناوازەیی و کوالێتی هەر بەرهەمێک کە پێشکەشی دەکەین. لەبەر ئەوەی متمانەی تەواومان بە کوالێتی بەرهەمەکانمان هەیە، گەرەنتییەکی بەهێز پێشکەش دەکەین کە دەگاتە ٥ ساڵ. لە کۆمپانیای چرانى، ئامانجمان سادە و ڕوونە: دابینکردنی باشترین ئامێرەکانی ناوماڵ بۆ کڕیارانمان لەگەڵ خزمەتگوزارییەکی ناوازە.",
+    "about.history.body": "کۆمپانیای بەحری ئەلوان لە نیسانی ساڵی ٢٠٠٢ لە شاری دهۆک لە عێراق دامەزراوە. ئەمڕۆ، شانازی دەکەین کە یەکێکن لە ناوە هەرە دیار و پێشەنگەکان لە بواری ئامێرەکانی ناوماڵ لەسەر ئاستی عێراق. لە سەرەتای دەستپێکردنمانەوە لە ساڵی ٢٠٠٢، هەوڵمانداوە باشترین تەکنەلۆژیای جیهانی بگەیەنینە ناو ماڵە عێراقییەکان. لە ڕێگەی تۆڕێکی بەرفراوان لە پێشانگا و هاوبەشەکانمان لە سەرتاسەری وڵات، دڵنیایی دەدەین کە بەرهەمەکانمان دەگەنە دەستی کڕیاران لە هەر شوێنێک بن. ئێمە لەگەڵ باشترین کارگەکانی جیهان کاردەکەین بۆ دەستەبەرکردنی ناوازەیی و کوالێتی هەر بەرهەمێک کە پێشکەشی دەکەین. لەبەر ئەوەی متمانەی تەواومان بە کوالێتی بەرهەمەکانمان هەیە، گەرەنتییەکی بەهێز پێشکەش دەکەین کە دەگاتە ٥ ساڵ. لە کۆمپانیای بەحری ئەلوان، ئامانجمان سادە و ڕوونە: دابینکردنی باشترین ئامێرەکانی ناوماڵ بۆ کڕیارانمان لەگەڵ خزمەتگوزارییەکی ناوازە.",
     "about.vision.body": "بۆ ئەوەی ببینە کارەکتەری سەرەکی لە پیشەسازی ئامێرە کارەباییەکان لەسەر ئاستی عێراق، لە ڕێگەی فراوانکردنی تۆڕی بریکارەکانمان، بە پشتبەستن بەو متمانە قووڵەی کە لە کڕیارەکانمانەوە بەدەستمان هێناوە لەوەتەی دامەزراندنمان لە ساڵی ٢٠٠٢.",
     "about.mission.body": "دابینکردنی ئامێری ناوماڵ بە کوالێتییەکی بەرز و بە نرخێکی گونجاو، بۆ دەستەبەرکردنی ئەوەی کە تەکنەلۆژیای پێشکەوتوو بۆ هەموو چین و توێژەکانی کۆمەڵگە بێتەدی، ئەمەش بە پاڵپشتی خزمەتگوزارییەکی باوەڕپێکراوی دوای فرۆشتن.",
     "about.certificates.title": "بڕوانامەکانمان",
@@ -369,7 +369,7 @@ const dictionaries: Record<Lang, Dict> = {
     "footer.tagline": "ئامێری ماڵەوەی پرێمیۆم، بۆ ژیانی نوێ.",
     "footer.quickLinks": "بەستەرەکان",
     "footer.contact": "پەیوەندی",
-    "footer.rights": "٢٠٢٦ کۆمپانیای چرانى. هەموو مافەکان پارێزراون.",
+    "footer.rights": "٢٠٢٦ کۆمپانیای بەحری ئەلوان. هەموو مافەکان پارێزراون.",
     "newslitter.title": "خۆت تۆمار بکە بۆ نامەی هەواڵ",
     "newslitter.subtitle": "نوێکارییەکان و ئۆفەرەکان وەرگرە",
     "newslitter.placeholder": "ئیمەیڵەکەت بنووسە",
@@ -396,7 +396,7 @@ export const I18nProvider = ({ children, initialLang = "en" }: { children: React
   // This prevents the flash where useEffect fires *after* first render with a stale 'en' value.
   const [lang, setLangState] = useState<Lang>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("chrani-lang") as Lang | null;
+      const saved = localStorage.getItem("bahr-lang") as Lang | null;
       if (saved && ["en", "ar", "ku"].includes(saved)) return saved;
     }
     return initialLang;
@@ -410,8 +410,8 @@ export const I18nProvider = ({ children, initialLang = "en" }: { children: React
   }, [lang, dir]);
 
   const setLang = (l: Lang) => {
-    localStorage.setItem("chrani-lang", l);
-    document.cookie = `chrani-lang=${l}; path=/; max-age=31536000`; // حفظ في الكوكيز ليتعرف عليها السيرفر
+    localStorage.setItem("bahr-lang", l);
+    document.cookie = `bahr-lang=${l}; path=/; max-age=31536000`; // حفظ في الكوكيز ليتعرف عليها السيرفر
     setLangState(l);
     if (typeof window !== "undefined") {
       window.location.reload();

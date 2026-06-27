@@ -13,27 +13,27 @@ export async function generateMetadata(): Promise<Metadata> {
   const lang = await getLang();
 
   const companyNames: Record<string, string> = {
-    en: "CHRANI COMPANY FOR GENERAL TRADING IMP. & EXP. LTD",
-    ar: "شركة چراني للتجارة العامة استيراد و تصدير المحدودة",
-    ku: "کۆمپانیای چراني بۆ بازرگانی گشتی و ھاوردە و ھەناردە / سنوردار",
+    en: "Bahr Alalwan for General Trading",
+    ar: "شركة بحر الألوان للتجارة العامة",
+    ku: "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی",
   };
 
   const defaultTitles: Record<string, string> = {
-    en: "Chrani Company | Premium Home Appliances Iraq",
-    ar: "شركة چراني (چرانى) | Chrani | الأجهزة المنزلية الممتازة في العراق",
-    ku: "کۆمپانیای چرانی (چرانى) | Chrani | ئامێرەکانی ناوماڵ لە عێراق",
+    en: "Bahr Alalwan | Premium Home Appliances",
+    ar: "بحر الألوان | الأجهزة المنزلية والمطبخية",
+    ku: "بەحری ئەلوان | ئامێرەکانی ناوماڵ",
   };
 
   const description: Record<string, string> = {
-    en: "Premium home appliances in Iraq. Explore our collection of refrigerators, washing machines, and air conditioners from Chrani (چراني / چرانى), iLK, and iNOX.",
-    ar: "أفضل الأجهزة المنزلية في العراق من شركة چراني (چرانى / Chrani). اكتشف مجموعة الثلاجات، الغسالات، والمكيفات من علامات iLK و iNOX.",
-    ku: "باشترین ئامێرەکانی ناوماڵ لە عێراق لە کۆمپانیای چرانی (چرانى / Chrani). کۆمەڵەی سەلاجە، غەسالە، و سپلیت لە براندەکانی iLK و iNOX.",
+    en: "Premium home appliances and kitchenware. Explore our collection of high-quality products from Bahr Alalwan.",
+    ar: "أفضل الأجهزة المنزلية والمطبخية من شركة بحر الألوان. اكتشف مجموعة منتجاتنا عالية الجودة لتجهيز منزلك.",
+    ku: "باشترین ئامێرەکانی ناوماڵ و چێشتخانە لە کۆمپانیای بەحری ئەلوان. کۆمەڵەی بەرهەمە کوالێتی بەرزەکانمان بدۆزەرەوە.",
   };
 
   const keywords: Record<string, string> = {
-    en: "Chrani, Chrani Company, چراني, چرانى, home appliances Iraq, refrigerators, washing machines, air conditioners, iLK appliances, iNOX brands",
-    ar: "چراني, چرانى, Chrani, شركة چراني, شركة چرانى, اجهزة منزلية العراق، ثلاجات، غسالات، مكيفات، ماركة iLK، علامة iNOX، اجهزة كهربائية دهوك",
-    ku: "چراني, چرانى, چرانی, Chrani, کۆمپانیای چراني, کۆمپانیای چرانی, ئامێرەکانی ناوماڵ، سەلاجە، غەسالە، سپلیت، براندی iLK, براندی iNOX",
+    en: "Bahr Alalwan, home appliances, kitchenware, premium appliances",
+    ar: "بحر الألوان, اجهزة منزلية, ادوات مطبخ, اجهزة كهربائية",
+    ku: "بەحری ئەلوان, ئامێرەکانی ناوماڵ, پێداویستی چێشتخانە",
   };
 
   return {
@@ -56,12 +56,12 @@ export async function generateMetadata(): Promise<Metadata> {
       title: defaultTitles[lang] ?? defaultTitles.en,
       description: description[lang] ?? description.en,
       url: SITE_URL,
-      siteName: "Chrani Catalog",
+      siteName: "Bahr Alalwan",
       locale: lang === "ar" ? "ar_IQ" : lang === "ku" ? "ku_IQ" : "en_US",
       type: "website",
       images: [
         {
-          url: `${SITE_URL}/chrani-logo.png`,
+          url: `${SITE_URL}/bhr.jpeg`,
           width: 800,
           height: 800,
           alt: companyNames[lang] ?? companyNames.en,
@@ -72,7 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary",
       title: defaultTitles[lang] ?? defaultTitles.en,
       description: description[lang] ?? description.en,
-      images: [`${SITE_URL}/chrani-logo.png`],
+      images: [`${SITE_URL}/bhr.jpeg`],
     },
     robots: {
       index: true,
@@ -112,13 +112,11 @@ export default async function RootLayout({
     "@type": "Organization",
     name: COMPANY_DETAILS.name,
     alternateName: [
-      "شركة چراني",
-      "شركة چرانى",
-      "کۆمپانیای چرانی",
-      "Chrani",
-      "چراني",
-      "چرانى",
-      "Chrani Company",
+      "شركة بحر الألوان",
+      "بحر الألوان",
+      "Bahr Alalwan",
+      "Bahr Alalwan Company",
+      "بەحری ئەلوان",
     ],
     url: SITE_URL,
     logo: `${SITE_URL}${COMPANY_DETAILS.logo}`,

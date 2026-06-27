@@ -4,207 +4,194 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { NavLink } from "@/components/NavLink";
-import { Menu, X, Globe, Check } from "lucide-react";
-import { useI18n, Lang } from "@/i18n/I18nProvider";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
+import { Menu, X, Globe, Check, ChevronDown } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
+import Image from "next/image";
 
-const logo = "/chrani-logo.png";
-
-const langOptions: { code: Lang; label: string; native: string }[] = [
-  { code: "en", label: "English", native: "English" },
-  { code: "ar", label: "Arabic", native: "العربية" },
-  { code: "ku", label: "Kurdish", native: "کوردی" },
-];
-
-export const Navbar = () => {
-  const { t, lang, setLang } = useI18n();
-  const [open, setOpen] = useState(false);
+export function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { lang, setLang, t, dir } = useI18n();
 
-  // Close mobile menu on route change
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    setIsOpen(false);
+    setLangMenuOpen(false);
+  }, [pathname, lang]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const links = [
+  const navLinks = [
     { to: "/", label: t("nav.home") },
     { to: "/products", label: t("nav.products") },
-    { to: "/about", label: t("nav.about") },
     { to: "/support", label: t("nav.support") },
+    { to: "/about", label: t("nav.about") },
     { to: "/contact", label: t("nav.contact") },
   ];
 
-  const currentLang = langOptions.find((l) => l.code === lang) ?? langOptions[0];
+  const langs = [
+    { code: "en", label: "English", dir: "ltr", flag: "🇬🇧" },
+    { code: "ar", label: "العربية", dir: "rtl", flag: "🇮🇶" },
+    { code: "ku", label: "کوردی", dir: "rtl", flag: "☀️" },
+  ] as const;
+
+  const currentLangObj = langs.find((l) => l.code === lang) || langs[0];
 
   return (
-    <header
-      className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/85 backdrop-blur-lg"
-      role="banner"
-    >
-      {/* Skip to main content (accessibility) */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+    <>
+      <div className="fixed top-0 left-0 right-0 h-1 bg-gradient-brand z-[60]" />
+      <header
+        className={`fixed top-1 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/80 backdrop-blur-md shadow-sm py-2"
+            : "bg-background/50 backdrop-blur-sm py-4"
+        }`}
       >
-        Skip to main content
-      </a>
-
-      <div className="container-wide flex h-16 items-center justify-between lg:h-20 lg:gap-4">
-        {/* Logo */}
-        <div className="flex items-center">
+        <div className="container-wide flex items-center justify-between">
+          {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2.5"
-            aria-label="Chrani Company — Home"
+            aria-label={t("logo.name")}
+            className="flex items-center gap-3 group relative"
           >
-            <img
-              src={logo}
-              alt="Chrani"
-              className="h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10"
-              width={40}
-              height={40}
-            />
-            <div className="flex flex-col text-start leading-none">
-              {/* Desktop */}
-              <span className="hidden lg:block font-display text-base font-bold tracking-tight xl:text-lg">
-                {t("logo.full_name")}
+            <div className="relative w-12 h-12 overflow-hidden rounded-full ring-2 ring-primary/20 group-hover:ring-primary transition-all duration-300">
+              <Image
+                src="/bhr.jpeg"
+                alt={t("logo.name")}
+                fill
+                className="object-cover"
+                sizes="48px"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-display font-bold text-lg leading-tight text-primary">
+                {t("logo.name")}
               </span>
-              {/* Mobile */}
-              <div className="lg:hidden flex flex-col">
-                <span className="font-display text-[14px] font-bold tracking-tight text-foreground sm:text-[16px]">
-                  {t("logo.name")}
-                </span>
-                <span className="mt-1 text-[10px] font-medium text-muted-foreground leading-tight max-w-[200px] sm:max-w-[240px] whitespace-normal">
-                  {t("logo.subtitle")}
-                </span>
-              </div>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider hidden sm:block">
+                {t("logo.subtitle")}
+              </span>
             </div>
           </Link>
-        </div>
 
-        {/* Desktop Navigation */}
-        <nav
-          className="hidden flex-1 items-center justify-center gap-1 lg:flex"
-          aria-label="Main navigation"
-        >
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.to === "/"}
-              className={({ isActive }) =>
-                cn(
-                  "relative px-4 py-2 text-sm font-medium transition-colors hover:text-primary",
-                  isActive ? "text-primary" : "text-foreground/70"
-                )
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  {link.label}
-                  {isActive && (
-                    <span
-                      className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-primary"
-                      aria-hidden="true"
-                    />
-                  )}
-                </>
-              )}
-            </NavLink>
-          ))}
-        </nav>
-
-        {/* Right side: Language + Hamburger */}
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              className="flex items-center gap-1.5 rounded-full border border-border/60 px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium hover:border-primary/40 hover:text-primary transition-colors"
-              aria-label="Select language"
-            >
-              <Globe className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">{currentLang.native}</span>
-              <span className="sm:hidden">{currentLang.code.toUpperCase()}</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {langOptions.map((opt) => (
-                <DropdownMenuItem
-                  key={opt.code}
-                  onClick={() => setLang(opt.code)}
-                  className="cursor-pointer"
-                  role="menuitemradio"
-                  aria-checked={lang === opt.code}
-                >
-                  <span className="flex-1 text-start">{opt.native}</span>
-                  {lang === opt.code && (
-                    <Check className="ms-4 h-4 w-4 text-primary" aria-hidden="true" />
-                  )}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <button
-            type="button"
-            className="rounded-md p-2 -me-2 lg:hidden"
-            onClick={() => setOpen((o) => !o)}
-            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-          >
-            {open ? (
-              <X className="h-6 w-6" aria-hidden="true" />
-            ) : (
-              <Menu className="h-6 w-6" aria-hidden="true" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      {open && (
-        <div
-          id="mobile-nav"
-          className="border-t border-border/60 bg-background lg:hidden"
-        >
-          <nav
-            className="container-wide flex flex-col py-3"
-            aria-label="Mobile navigation"
-          >
-            {links.map((link) => (
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1 bg-muted/50 rounded-full px-2 py-1">
+            {navLinks.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
-                end={link.to === "/"}
-                onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  cn(
-                    "rounded-md px-3 py-3 text-base font-medium transition-colors",
-                    isActive
-                      ? "bg-primary/5 text-primary"
-                      : "text-foreground/80 hover:bg-muted"
-                  )
+                  `px-4 py-2 text-sm font-medium rounded-full transition-colors hover:text-primary hover:bg-background ${
+                    isActive ? "bg-background text-primary shadow-sm" : ""
+                  }`
                 }
               >
                 {link.label}
               </NavLink>
             ))}
           </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            {/* Lang Selector Desktop */}
+            <div className="relative hidden sm:block">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-full hover:bg-muted transition-colors"
+                aria-expanded={langMenuOpen}
+              >
+                <Globe className="w-4 h-4 text-primary" />
+                <span className="hidden xl:inline">{currentLangObj.label}</span>
+                <span className="xl:hidden uppercase">{lang}</span>
+                <ChevronDown className="w-3 h-3 opacity-50" />
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute top-full mt-2 w-40 bg-background border border-border rounded-xl shadow-lg overflow-hidden py-1 rtl:left-0 ltr:right-0">
+                  {langs.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => setLang(l.code as any)}
+                      className={`w-full text-start flex items-center justify-between px-4 py-2 text-sm hover:bg-muted transition-colors ${
+                        lang === l.code ? "text-primary font-medium" : "text-foreground"
+                      }`}
+                      dir={l.dir}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>{l.flag}</span>
+                        {l.label}
+                      </span>
+                      {lang === l.code && <Check className="w-4 h-4 text-primary" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 lg:hidden text-foreground hover:text-primary transition-colors rounded-full hover:bg-muted"
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl lg:hidden pt-24 pb-6 px-4 flex flex-col h-[100dvh]">
+          <nav className="flex flex-col gap-2 flex-1 overflow-y-auto">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                onClick={() => setIsOpen(false)}
+                className={({ isActive }) =>
+                  `px-4 py-4 text-lg font-medium border-b border-border/50 transition-colors hover:text-primary ${
+                    isActive ? "text-primary border-primary/50" : ""
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+
+            {/* Lang Selector Mobile */}
+            <div className="mt-6">
+              <p className="text-sm text-muted-foreground font-medium mb-3 px-4">
+                Language / اللغة
+              </p>
+              <div className="grid grid-cols-3 gap-2 px-2">
+                {langs.map((l) => (
+                  <button
+                    key={l.code}
+                    onClick={() => {
+                      setLang(l.code as any);
+                      setIsOpen(false);
+                    }}
+                    className={`flex flex-col items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
+                      lang === l.code
+                        ? "border-primary bg-primary/5 text-primary"
+                        : "border-border bg-card text-foreground"
+                    }`}
+                  >
+                    <span className="text-xl">{l.flag}</span>
+                    <span className="text-sm font-medium">{l.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </nav>
         </div>
       )}
-    </header>
+    </>
   );
-};
+}
+

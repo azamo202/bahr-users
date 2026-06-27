@@ -1,88 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Chrani Catalog — Modern Showroom Design System
-   Deep red + black + white. All colors HSL.
+/* Bahr Alalwan — Modern Appliances Design System
+   Deep Blue + Light Blue + Orange. All colors HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 8%;
+    --foreground: 220 73% 21%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
+    --card-foreground: 220 73% 21%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover-foreground: 220 73% 21%;
 
-    /* Brand red — deep, premium */
-    --primary: 354 78% 46%;
+    /* Brand colors */
+    --primary: 220 70% 37%; /* #1B4FA0 */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 354 82% 58%;
+    --primary-glow: 197 88% 48%; /* #0DB8E8 */
 
-    --secondary: 0 0% 8%;
+    --secondary: 21 88% 48%; /* #E85C10 */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 40%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 8%;
+    --accent: 197 88% 48%; /* #0DB8E8 */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 354 78% 46%;
+    --ring: 220 70% 37%;
 
     --radius: 0.625rem;
 
     /* Brand specifics */
-    --brand-red: 354 78% 46%;
+    --brand-blue: 220 70% 37%;
+    --brand-orange: 21 88% 48%;
+    --brand-accent: 197 88% 48%;
     --brand-black: 0 0% 8%;
     --surface: 0 0% 98%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 0% 12%) 60%, hsl(354 78% 30%) 100%);
-    --gradient-red: linear-gradient(135deg, hsl(354 78% 46%), hsl(354 82% 58%));
-    --shadow-elegant: 0 20px 60px -20px hsl(0 0% 0% / 0.18);
-    --shadow-card: 0 4px 24px -8px hsl(0 0% 0% / 0.08);
-    --shadow-red: 0 12px 32px -12px hsl(354 78% 46% / 0.4);
+    --gradient-hero: linear-gradient(135deg, hsl(220 73% 21%) 0%, hsl(220 70% 37%) 100%);
+    --gradient-brand: linear-gradient(135deg, hsl(220 70% 37%), hsl(197 88% 48%));
+    --shadow-elegant: 0 20px 60px -20px hsl(220 73% 21% / 0.18);
+    --shadow-card: 0 4px 24px -8px hsl(220 73% 21% / 0.08);
+    --shadow-brand: 0 12px 32px -12px hsl(220 70% 37% / 0.4);
 
     --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 26%;
-    --sidebar-primary: 354 78% 46%;
+    --sidebar-primary: 220 70% 37%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 95%;
     --sidebar-accent-foreground: 0 0% 8%;
     --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 354 78% 46%;
+    --sidebar-ring: 220 70% 37%;
   }
 
   .dark {
-    --background: 0 0% 6%;
+    --background: 220 73% 21%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 8%;
+    --card: 220 70% 15%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 8%;
+    --popover: 220 70% 15%;
     --popover-foreground: 0 0% 98%;
-    --primary: 354 82% 58%;
+    --primary: 197 88% 48%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 14%;
+    --secondary: 21 88% 48%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 0 0% 14%;
+    --muted: 220 50% 30%;
+    --muted-foreground: 220 30% 70%;
+    --accent: 197 88% 48%;
     --accent-foreground: 0 0% 98%;
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 354 82% 58%;
+    --border: 220 50% 30%;
+    --input: 220 50% 30%;
+    --ring: 197 88% 48%;
   }
 }
 

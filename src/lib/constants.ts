@@ -15,10 +15,10 @@ export const API_BASE_URL = "https://api.chranico.com";
 
 /** Shared company details referenced in structured data and UI. */
 export const COMPANY_DETAILS = {
-  name: "Chrani Company",
-  logo: "/chrani-logo.png",
-  facebook: "https://facebook.com/chranicompany",
-  instagram: "https://instagram.com/chranicompany",
+  name: "بحر الألوان",
+  logo: "/bhr.jpeg",
+  facebook: "https://facebook.com/bahralalwan",
+  instagram: "https://instagram.com/bahralalwan",
 } as const;
 
 /** Cache revalidation intervals (seconds). */
