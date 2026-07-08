@@ -50,21 +50,22 @@ export default function ContactPage() {
       titleAr: 'الهاتف',
       titleEn: 'Phone',
       titleKu: 'تەلەفۆن',
-      valueAr: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '+966 50 000 0000',
-      valueEn: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '+966 50 000 0000',
-      valueKu: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '+966 50 000 0000',
-      href: settings?.phone ? `tel:${Array.isArray(settings.phone) ? settings.phone[0] : settings.phone}` : 'tel:+966500000000',
+      valueAr: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '---',
+      valueEn: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '---',
+      valueKu: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '---',
+      href: settings?.phone ? `tel:${Array.isArray(settings.phone) ? settings.phone[0] : settings.phone}` : null,
       color: '#1B4F9B',
+      forceLtr: true,
     },
     {
       icon: Mail,
       titleAr: 'البريد الإلكتروني',
       titleEn: 'Email',
       titleKu: 'ئیمەیڵ',
-      valueAr: settings?.email || 'info@bahralalwan.com',
-      valueEn: settings?.email || 'info@bahralalwan.com',
-      valueKu: settings?.email || 'info@bahralalwan.com',
-      href: `mailto:${settings?.email || 'info@bahralalwan.com'}`,
+      valueAr: settings?.email || '---',
+      valueEn: settings?.email || '---',
+      valueKu: settings?.email || '---',
+      href: settings?.email ? `mailto:${settings.email}` : null,
       color: '#29ABE2',
     },
     {
@@ -72,26 +73,15 @@ export default function ContactPage() {
       titleAr: 'العنوان',
       titleEn: 'Address',
       titleKu: 'ناونیشان',
-      valueAr: settings?.address?.ar || 'الرياض، المملكة العربية السعودية',
-      valueEn: settings?.address?.en || 'Riyadh, Saudi Arabia',
-      valueKu: (settings?.address as any)?.ku || settings?.address?.en || 'ڕیاز، شانشینی عەرەبستانی سعودی',
-      href: 'https://maps.google.com',
+      valueAr: settings?.address?.ar || 'شارع التل، الدركزلية، حي الجزائر',
+      valueEn: settings?.address?.en || 'Al-Tal Street, Al-Darkazliya, Al-Jazaer District',
+      valueKu: (settings?.address as any)?.ku || settings?.address?.en || 'شەقامی تەل، دەرکەزلیە، گەڕەکی جەزائیر',
+      href: settings?.address ? 'https://maps.google.com' : null,
       color: '#F7941D',
-    },
-    {
-      icon: Clock,
-      titleAr: 'ساعات العمل',
-      titleEn: 'Working Hours',
-      titleKu: 'کاتەکانی کارکردن',
-      valueAr: 'الأحد – الخميس: 8ص – 8م',
-      valueEn: 'Sun – Thu: 8AM – 8PM',
-      valueKu: 'یەکشەممە – پێنجشەممە: ٨ بەیانی – ٨ ئێوارە',
-      href: null,
-      color: '#1B4F9B',
     },
   ];
 
-  const whatsappNumber = settings?.whatsapp?.replace(/[^0-9]/g, "") || "966500000000";
+  const whatsappNumber = settings?.whatsapp?.replace(/[^0-9]/g, "") || "";
 
   return (
     <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
@@ -134,7 +124,7 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Info */}
           <div className="space-y-4">
-            {contactInfo.map(({ icon: Icon, titleAr, titleEn, titleKu, valueAr, valueEn, valueKu, href, color }, i) => (
+            {contactInfo.map(({ icon: Icon, titleAr, titleEn, titleKu, valueAr, valueEn, valueKu, href, color, forceLtr }, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
@@ -146,48 +136,55 @@ export default function ContactPage() {
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${color}12` }}>
                   <Icon size={20} style={{ color }} />
                 </div>
-                <div>
+                <div className="flex-1">
                   <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] mb-1">{t(titleAr, titleEn, titleKu)}</div>
                   {href ? (
-                    <a href={href} className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors">
+                    <a href={href} dir={forceLtr ? "ltr" : undefined} className={`inline-block text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors`}>
                       {t(valueAr, valueEn, valueKu)}
                     </a>
                   ) : (
-                    <span className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">{t(valueAr, valueEn, valueKu)}</span>
+                    <span dir={forceLtr ? "ltr" : undefined} className={`inline-block text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]`}>{t(valueAr, valueEn, valueKu)}</span>
                   )}
                 </div>
               </motion.div>
             ))}
 
             {/* Social */}
-            <div className="bg-white dark:bg-[#0E1A33] rounded-2xl p-5 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10">
-              <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] mb-3">{t('تابعنا على', 'Follow Us On', 'فۆڵۆمان بکە لە')}</div>
-              <div className="flex gap-3">
-                {settings?.facebook && (
-                  <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="flex-1 py-2 text-center text-xs font-600 bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] rounded-xl hover:bg-[#1B4F9B] hover:text-white transition-all">FB</a>
-                )}
-                {settings?.instagram && (
-                  <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="flex-1 py-2 text-center text-xs font-600 bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] rounded-xl hover:bg-[#1B4F9B] hover:text-white transition-all">IG</a>
-                )}
-                {settings?.tiktok && (
-                  <a href={settings.tiktok} target="_blank" rel="noopener noreferrer" className="flex-1 py-2 text-center text-xs font-600 bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] rounded-xl hover:bg-[#1B4F9B] hover:text-white transition-all">TK</a>
-                )}
-                {settings?.youtube && (
-                  <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="flex-1 py-2 text-center text-xs font-600 bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] rounded-xl hover:bg-[#1B4F9B] hover:text-white transition-all">YT</a>
-                )}
-                {!settings?.facebook && !settings?.instagram && !settings?.tiktok && !settings?.youtube && (
-                  ['Facebook', 'Instagram', 'Twitter', 'YouTube'].map(platform => (
-                    <a
-                      key={platform}
-                      href="#"
-                      className="flex-1 py-2 text-center text-xs font-600 bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] rounded-xl hover:bg-[#1B4F9B] hover:text-white transition-all"
-                    >
-                      {platform.slice(0, 2)}
+            {(settings?.facebook || settings?.instagram || settings?.tiktok || settings?.youtube) && (
+              <div className="bg-white dark:bg-[#0E1A33] rounded-2xl p-5 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10">
+                <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] mb-3">{t('تابعنا على', 'Follow Us On', 'فۆڵۆمان بکە لە')}</div>
+                <div className="flex gap-3">
+                  {settings?.facebook && (
+                    <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] hover:bg-[#1B4F9B] hover:text-white transition-all flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105">
+                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                      </svg>
                     </a>
-                  ))
-                )}
+                  )}
+                  {settings?.instagram && (
+                    <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] hover:bg-[#1B4F9B] hover:text-white transition-all flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105">
+                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                      </svg>
+                    </a>
+                  )}
+                  {settings?.tiktok && (
+                    <a href={settings.tiktok} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] hover:bg-[#1B4F9B] hover:text-white transition-all flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105">
+                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.99-1.72-.08-.07-.17-.14-.24-.22v6.52c.03 2.32-.82 4.67-2.52 6.22-1.76 1.61-4.29 2.31-6.61 1.88-2.61-.43-4.99-2.31-5.74-4.88-.86-2.88-.16-6.25 1.84-8.49 1.7-1.95 4.31-2.92 6.89-2.5v4.09c-1.57-.42-3.32.06-4.43 1.22-1.07 1.09-1.41 2.8-1.01 4.29.41 1.6 1.94 2.8 3.59 2.89 1.7.12 3.42-.91 3.92-2.55.15-.46.17-.95.17-1.42V.02z"/>
+                      </svg>
+                    </a>
+                  )}
+                  {settings?.youtube && (
+                    <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] hover:bg-[#1B4F9B] hover:text-white transition-all flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105">
+                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.516 0-9.387.507a3.003 3.003 0 00-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 002.11 2.11c1.871.507 9.387.507 9.387.507s7.517 0 9.387-.507a3.003 3.003 0 002.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      </svg>
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Contact Form */}
@@ -279,7 +276,7 @@ export default function ContactPage() {
         <div className="mt-10 rounded-3xl overflow-hidden border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 h-64 bg-[#EBF0FA] dark:bg-[#122040] flex items-center justify-center">
           <iframe
             title="Bahr Alalwan location"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3191.993692548742!2d43.00353909999999!3d36.8665698!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40088db18ae1c0f1%3A0x900b9ea00b75579c!2sChrani%20Company!5e0!3m2!1sen!2s!4v1778252192920!5m2!1sen!2s"
+            src="https://maps.google.com/maps?q=36.360253,43.172726&t=&z=16&ie=UTF8&iwloc=&output=embed"
             className="h-full w-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

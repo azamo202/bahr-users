@@ -46,6 +46,13 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const megaRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState<ApiCategory | null>(null);
+
+  useEffect(() => {
+    if (categories.length > 0 && !activeCategory) {
+      setActiveCategory(categories[0]);
+    }
+  }, [categories, activeCategory]);
 
   const isHome = pathname === '/';
 
@@ -74,7 +81,6 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
     : 'bg-white/95 dark:bg-[#0E1A33]/95 backdrop-blur-md shadow-lg shadow-[#1B4F9B]/8';
 
   const textColor = isTransparent ? 'text-white' : 'text-[#0A1628] dark:text-[#E8F0FF]';
-  const logoFilter = isTransparent ? 'brightness-0 invert' : '';
 
   return (
     <header
@@ -87,7 +93,7 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
             <img
               src={logoImg.src}
               alt={t(COMPANY_NAME_AR, COMPANY_NAME_EN, COMPANY_NAME_KU)}
-              className={`h-12 w-12 object-contain rounded-full transition-all duration-300 ${logoFilter}`}
+              className="h-12 w-12 object-contain rounded-full transition-all duration-300"
             />
             <div className="hidden sm:block">
               <div className={`text-sm font-700 leading-tight transition-colors ${textColor}`}>
@@ -130,31 +136,84 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full mt-2 bg-white dark:bg-[#0E1A33] rounded-2xl shadow-2xl shadow-[#1B4F9B]/15 border border-[#1B4F9B]/10 p-6 w-[580px] grid grid-cols-3 gap-3"
-                        style={{ [lang === 'ar' ? 'right' : 'left']: 0 }}
+                        className="absolute top-full mt-2 bg-white dark:bg-[#0E1A33] rounded-2xl shadow-2xl shadow-[#1B4F9B]/15 border border-[#1B4F9B]/10 p-4 w-[640px] flex gap-4 min-h-[300px]"
+                        style={{ [lang === 'ar' || lang === 'ku' ? 'right' : 'left']: 0 }}
                       >
-                        {categories.map((cat) => {
-                          const Icon = categoryIcons[cat.slug] || Home;
-                          return (
-                            <Link
-                              key={cat.id}
-                              href={`/products?category=${cat.slug}`}
-                              className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#1B4F9B]/8 dark:hover:bg-[#4B8FE2]/10 transition-all group"
-                            >
-                              <div className="w-9 h-9 rounded-lg bg-[#E8F4FD] dark:bg-[#122040] flex items-center justify-center group-hover:bg-[#1B4F9B] transition-colors flex-shrink-0">
-                                <Icon size={16} className="text-[#1B4F9B] dark:text-[#4B8FE2] group-hover:text-white" />
+                        {/* Main Categories List */}
+                        <div className="w-[230px] flex-shrink-0 flex flex-col gap-1 pr-3 border-r border-gray-100 dark:border-gray-800 rtl:pr-0 rtl:pl-3 rtl:border-r-0 rtl:border-l">
+                          <div className="text-[11px] font-800 text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
+                            {t('الفئات الرئيسية', 'Categories', 'پۆلە سەرەکییەکان')}
+                          </div>
+                          {categories.map((cat) => {
+                            const Icon = categoryIcons[cat.slug] || Home;
+                            const isActive = activeCategory?.id === cat.id;
+                            return (
+                              <div
+                                key={cat.id}
+                                onMouseEnter={() => setActiveCategory(cat)}
+                                className={`flex items-center justify-between p-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                                  isActive
+                                    ? 'bg-[#1B4F9B]/10 dark:bg-[#4B8FE2]/15 text-[#1B4F9B] dark:text-[#4B8FE2]'
+                                    : 'text-[#0A1628] dark:text-[#E8F0FF] hover:bg-gray-50 dark:hover:bg-white/5'
+                                }`}
+                              >
+                                <Link
+                                  href={`/products?category=${cat.slug}`}
+                                  className="flex items-center gap-3 flex-1"
+                                >
+                                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                                    isActive ? 'bg-[#1B4F9B] text-white' : 'bg-[#E8F4FD] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2]'
+                                  }`}>
+                                    <Icon size={14} />
+                                  </div>
+                                  <span className="text-xs font-700 leading-tight">
+                                    {cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
+                                  </span>
+                                </Link>
+                                <ChevronDown
+                                  size={12}
+                                  className={`opacity-50 transition-transform -rotate-90 rtl:rotate-90`}
+                                />
                               </div>
-                              <div>
-                                <div className="text-xs font-600 text-[#0A1628] dark:text-[#E8F0FF] line-clamp-1">
-                                  {cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
+                            );
+                          })}
+                        </div>
+
+                        {/* Subcategories Grid */}
+                        <div className="flex-1 flex flex-col pl-2 rtl:pl-0 rtl:pr-2">
+                          <div className="text-[11px] font-800 text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3 px-2">
+                            {t('التصنيفات الفرعية', 'Subcategories', 'پۆلە لاوەکییەکان')}
+                          </div>
+
+                          <div className="flex-1 grid grid-cols-2 gap-2 overflow-y-auto max-h-[280px]">
+                            {activeCategory && activeCategory.children && activeCategory.children.length > 0 ? (
+                              activeCategory.children.map((sub) => (
+                                <Link
+                                  key={sub.id}
+                                  href={`/products?category=${sub.slug}`}
+                                  className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-[#1B4F9B]/5 dark:hover:bg-[#4B8FE2]/8 transition-all group"
+                                >
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#1B4F9B] dark:bg-[#4B8FE2] opacity-40 group-hover:opacity-100 transition-opacity" />
+                                  <div className="text-xs font-600 text-[#0A1628] dark:text-[#E8F0FF]">
+                                    {sub.name[lang as 'ar' | 'en' | 'ku'] ?? sub.name.en}
+                                  </div>
+                                </Link>
+                              ))
+                            ) : (
+                              <div className="col-span-2 flex flex-col items-center justify-center text-center p-8 text-gray-400">
+                                <div className="text-xs font-600 mb-1 text-gray-400 dark:text-gray-500">
+                                  {t('لا توجد تصنيفات فرعية', 'No subcategories found', 'هیچ پۆلێکی لاوەکی نەدۆزرایەوە')}
                                 </div>
-                                <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0]">
-                                  {t('منتج', 'items', 'بەرهەم')}
-                                </div>
+                                <Link
+                                  href={`/products?category=${activeCategory?.slug}`}
+                                  className="text-[11px] text-[#1B4F9B] dark:text-[#4B8FE2] hover:underline font-700"
+                                >
+                                  {t('عرض جميع المنتجات في هذا القسم', 'View all products in this category', 'بینینی هەموو بەرهەمەکانی ئەم پۆلە')}
+                                </Link>
                               </div>
-                            </Link>
-                          );
-                        })}
+                            )}
+                          </div>
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>

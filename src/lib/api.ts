@@ -10,14 +10,14 @@
  *  │              │ → routed through the Next.js rewrite proxy               │
  *  │              │ → avoids ECONNRESET / firewall issues on local machines  │
  *  ├──────────────┼──────────────────────────────────────────────────────────┤
- *  │ Production   │ https://api.chranico.com (direct — fastest path)        │
+ *  │ Production   │ https://backend.bahralalwan.com (direct — fastest path)        │
  *  └──────────────┴──────────────────────────────────────────────────────────┘
  *
  *  Client-side (browser) always uses "" (relative URL) so requests go through
  *  the /api/site/* rewrite proxy regardless of environment.
  */
 
-export const API_BASE_URL: string = "https://api.chranico.com";
+export const API_BASE_URL: string = "https://backend.bahralalwan.com";
 
 export interface StoreSettings {
   phone: string;

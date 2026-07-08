@@ -9,9 +9,9 @@
 
 /** Canonical public URL of this site — used in metadata and Open Graph tags. */
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://chranico.com";
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://bahralalwan.com";
 
-export const API_BASE_URL = "https://api.chranico.com";
+export const API_BASE_URL = "https://backend.bahralalwan.com";
 
 /** Shared company details referenced in structured data and UI. */
 export const COMPANY_DETAILS = {

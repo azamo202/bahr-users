@@ -1,14 +1,38 @@
 "use client";
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, Youtube, MessageCircle } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { fetchApi } from '@/lib/api';
+import { ApiCategory } from '@/types/api';
 const COMPANY_NAME_AR = "بحر الألوان للتجارة العامة";
 const COMPANY_NAME_EN = "Bahr Alalwan General Trading";
 const COMPANY_NAME_KU = "بەحری ئەلوان بۆ بازرگانی گشتی";
 import logoImg from '../../imports/WhatsApp_Image_2026-06-22_at_3.23.33_PM.jpeg';
 
 export function Footer() {
-  const { t } = useApp();
+  const { t, lang } = useApp();
+  const [settings, setSettings] = useState<any>(null);
+  const [categories, setCategories] = useState<ApiCategory[]>([]);
+
+  useEffect(() => {
+    fetchApi<any>("/api/site/store-settings")
+      .then((res) => {
+        if (res && res.settings) {
+          setSettings(res.settings);
+        } else {
+          setSettings(res);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch settings in Footer", err));
+
+    fetchApi<ApiCategory[]>("/api/site/categories")
+      .then((res) => {
+        const main = (res || []).filter(cat => !cat.parent_id);
+        setCategories(main);
+      })
+      .catch((err) => console.error("Failed to fetch categories in Footer", err));
+  }, []);
 
   const quickLinks = [
     { ar: 'الرئيسية', en: 'Home', ku: 'سەرەکی', href: '/' },
@@ -16,15 +40,6 @@ export function Footer() {
     { ar: 'منتجاتنا', en: 'Our Products', ku: 'بەرهەمەکانمان', href: '/products' },
     { ar: 'مركز الدعم', en: 'Support', ku: 'سەنتەری پشتگیری', href: '/support' },
     { ar: 'اتصل بنا', en: 'Contact Us', ku: 'پەیوەندیمان پێوە بکە', href: '/contact' },
-  ];
-
-  const productCategories = [
-    { ar: 'ثلاجات', en: 'Refrigerators', ku: 'سەلاجەکان', id: 'refrigerators' },
-    { ar: 'غسالات', en: 'Washing Machines', ku: 'جلشۆرەکان', id: 'washing-machines' },
-    { ar: 'مكيفات', en: 'Air Conditioners', ku: 'سپلیتەکان', id: 'air-conditioners' },
-    { ar: 'أفران وطباخات', en: 'Ovens & Cooktops', ku: 'فڕن و تەباخەکان', id: 'ovens' },
-    { ar: 'غسالات صحون', en: 'Dishwashers', ku: 'قاپشۆرەکان', id: 'dishwashers' },
-    { ar: 'أجهزة صغيرة', en: 'Small Appliances', ku: 'ئامێرە بچووکەکان', id: 'small-appliances' },
   ];
 
   const support = [
@@ -54,21 +69,33 @@ export function Footer() {
             </p>
             {/* Social */}
             <div className="flex gap-3">
-              {[
-                { Icon: Facebook, href: '#', label: 'Facebook' },
-                { Icon: Instagram, href: '#', label: 'Instagram' },
-                { Icon: Twitter, href: '#', label: 'Twitter' },
-                { Icon: Youtube, href: '#', label: 'YouTube' },
-              ].map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-9 h-9 rounded-lg bg-white/8 hover:bg-[#29ABE2] flex items-center justify-center transition-all hover:scale-110"
-                >
-                  <Icon size={16} className="text-[#A8C4E8]" />
+              {settings?.facebook && (
+                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/8 hover:bg-[#29ABE2] flex items-center justify-center transition-all hover:scale-110">
+                  <Facebook size={16} className="text-[#A8C4E8]" />
                 </a>
-              ))}
+              )}
+              {settings?.instagram && (
+                <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/8 hover:bg-[#29ABE2] flex items-center justify-center transition-all hover:scale-110">
+                  <Instagram size={16} className="text-[#A8C4E8]" />
+                </a>
+              )}
+              {settings?.twitter && (
+                <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/8 hover:bg-[#29ABE2] flex items-center justify-center transition-all hover:scale-110">
+                  <Twitter size={16} className="text-[#A8C4E8]" />
+                </a>
+              )}
+              {settings?.youtube && (
+                <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/8 hover:bg-[#29ABE2] flex items-center justify-center transition-all hover:scale-110">
+                  <Youtube size={16} className="text-[#A8C4E8]" />
+                </a>
+              )}
+              {settings?.tiktok && (
+                <a href={settings.tiktok} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-white/8 hover:bg-[#29ABE2] flex items-center justify-center transition-all hover:scale-110">
+                  <svg className="w-4 h-4 fill-current text-[#A8C4E8]" viewBox="0 0 24 24">
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.99-1.72-.08-.07-.17-.14-.24-.22v6.52c.03 2.32-.82 4.67-2.52 6.22-1.76 1.61-4.29 2.31-6.61 1.88-2.61-.43-4.99-2.31-5.74-4.88-.86-2.88-.16-6.25 1.84-8.49 1.7-1.95 4.31-2.92 6.89-2.5v4.09c-1.57-.42-3.32.06-4.43 1.22-1.07 1.09-1.41 2.8-1.01 4.29.41 1.6 1.94 2.8 3.59 2.89 1.7.12 3.42-.91 3.92-2.55.15-.46.17-.95.17-1.42V.02z"/>
+                  </svg>
+                </a>
+              )}
             </div>
           </div>
 
@@ -94,14 +121,14 @@ export function Footer() {
           <div>
             <h4 className="text-white font-700 text-base mb-5">{t('الفئات', 'Categories', 'پۆلەکان')}</h4>
             <ul className="space-y-3">
-              {productCategories.map((cat) => (
+              {categories.map((cat) => (
                 <li key={cat.id}>
                   <Link
-                    href={`/products?category=${cat.id}`}
+                    href={`/products?category=${cat.slug}`}
                     className="text-sm text-[#7A9BC0] hover:text-[#29ABE2] transition-colors flex items-center gap-2 group"
                   >
                     <span className="w-1 h-1 rounded-full bg-[#29ABE2] group-hover:w-3 transition-all duration-300" />
-                    {t(cat.ar, cat.en, cat.ku)}
+                    {cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
                   </Link>
                 </li>
               ))}
@@ -117,23 +144,23 @@ export function Footer() {
                   <MapPin size={14} className="text-[#29ABE2]" />
                 </div>
                 <span className="text-sm text-[#7A9BC0]">
-                  {t('المملكة العربية السعودية، الرياض', 'Riyadh, Saudi Arabia', 'شانشینی عەرەبستانی سعودی، ڕیاز')}
+                  {t('شارع التل، الدركزلية، حي الجزائر', 'Al-Tal Street, Al-Darkazliya, Al-Jazaer District', 'شەقامی تەل، دەرکەزلیە، گەڕەکی جەزائیر')}
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[#1B4F9B]/30 flex items-center justify-center flex-shrink-0">
                   <Phone size={14} className="text-[#29ABE2]" />
                 </div>
-                <a href="tel:+966500000000" className="text-sm text-[#7A9BC0] hover:text-[#29ABE2] transition-colors">
-                  +966 50 000 0000
+                <a href={settings?.phone ? `tel:${Array.isArray(settings.phone) ? settings.phone[0] : settings.phone}` : "#"} className="text-sm text-[#7A9BC0] hover:text-[#29ABE2] transition-colors" dir="ltr">
+                  {settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : "---"}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[#1B4F9B]/30 flex items-center justify-center flex-shrink-0">
                   <Mail size={14} className="text-[#29ABE2]" />
                 </div>
-                <a href="mailto:info@bahralalwan.com" className="text-sm text-[#7A9BC0] hover:text-[#29ABE2] transition-colors">
-                  info@bahralalwan.com
+                <a href={settings?.email ? `mailto:${settings.email}` : "#"} className="text-sm text-[#7A9BC0] hover:text-[#29ABE2] transition-colors">
+                  {settings?.email || "---"}
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -141,7 +168,7 @@ export function Footer() {
                   <MessageCircle size={14} className="text-[#25D366]" />
                 </div>
                 <a
-                  href="https://wa.me/966500000000"
+                  href={`https://wa.me/${settings?.whatsapp?.replace(/[^0-9]/g, "") || ""}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-[#25D366] hover:text-[#20BA58] transition-colors"
