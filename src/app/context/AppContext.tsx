@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export type Language = 'ar' | 'en';
+export type Language = 'ar' | 'en' | 'ku';
 
 interface AppContextType {
   lang: Language;
@@ -9,7 +9,7 @@ interface AppContextType {
   dir: 'rtl' | 'ltr';
   isDark: boolean;
   toggleDark: () => void;
-  t: (ar: string, en: string) => string;
+  t: (ar: string, en: string, ku?: string) => string;
 }
 
 const AppContext = createContext<AppContextType>({
@@ -25,7 +25,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>('ar');
   const [isDark, setIsDark] = useState(false);
 
-  const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const dir = lang === 'ar' || lang === 'ku' ? 'rtl' : 'ltr';
 
   useEffect(() => {
     document.documentElement.dir = dir;
@@ -42,7 +42,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const setLang = (newLang: Language) => setLangState(newLang);
   const toggleDark = () => setIsDark(prev => !prev);
-  const t = (ar: string, en: string) => lang === 'ar' ? ar : en;
+  const t = (ar: string, en: string, ku?: string) => {
+    if (lang === 'ar') return ar;
+    if (lang === 'en') return en;
+    return ku ?? ar;
+  };
 
   return (
     <AppContext.Provider value={{ lang, setLang, dir, isDark, toggleDark, t }}>

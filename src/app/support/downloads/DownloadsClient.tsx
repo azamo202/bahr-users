@@ -18,21 +18,21 @@ export default function DownloadsClient({ downloads }: { downloads: ApiDownload[
   const ArrowIcon = dir === "rtl" ? ArrowRight : ArrowLeft;
 
   return (
-    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]" style={{ fontFamily: 'Cairo, sans-serif' }}>
+    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
       <div className="bg-gradient-to-r from-[#1B4F9B] to-[#29ABE2] pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center text-white relative">
           <Link href="/support" className="absolute top-0 right-0 p-2 hover:bg-white/10 rounded-xl transition-colors">
             <ArrowIcon size={24} />
           </Link>
-          <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('مركز التحميلات', 'Downloads Center')}</h1>
+          <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('مركز التحميلات', 'Downloads Center', 'سەنتەری دابەزاندنەکان')}</h1>
           <p className="text-white/80 text-sm mb-8">
-            {t('تصفح وحمل جميع الملفات المتاحة', 'Browse and download all available files')}
+            {t('تصفح وحمل جميع الملفات المتاحة', 'Browse and download all available files', 'سەیربکە و هەموو فایلە بەردەستەکان دابەزێنە')}
           </p>
           <div className="relative max-w-lg mx-auto">
             <Search size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-white/60" />
             <input
               type="text"
-              placeholder={t('ابحث في التحميلات...', 'Search downloads...')}
+              placeholder={t('ابحث في التحميلات...', 'Search downloads...', 'گەڕان لە ناو دابەزاندنەکان...')}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full ps-12 pe-4 py-4 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/25 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40 text-sm"
@@ -56,7 +56,7 @@ export default function DownloadsClient({ downloads }: { downloads: ApiDownload[
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-1 truncate">
-                  {file.title[lang as 'ar' | 'en'] ?? file.title.en}
+                  {file.title[lang as 'ar' | 'en' | 'ku'] ?? file.title.en}
                 </h4>
                 <div className="flex items-center gap-2">
                   <span className="text-xs bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] px-2 py-0.5 rounded-full font-600">
@@ -80,7 +80,7 @@ export default function DownloadsClient({ downloads }: { downloads: ApiDownload[
         </div>
         {filteredDownloads.length === 0 && (
           <div className="text-center py-12 text-[#5A6A85] dark:text-[#7A9BC0]">
-            {t('لا توجد ملفات بهذا الاسم', 'No downloads found with this name')}
+            {t('لا توجد ملفات بهذا الاسم', 'No downloads found with this name', 'هیچ فایلێک بەم ناوە نییە')}
           </div>
         )}
       </div>

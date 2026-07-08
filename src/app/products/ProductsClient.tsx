@@ -27,7 +27,7 @@ function WhatsAppButton({ productName, productNameEn, small = false }: { product
       <svg viewBox="0 0 24 24" className={`fill-current flex-shrink-0 ${small ? 'w-3 h-3' : 'w-4 h-4'}`}>
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
       </svg>
-      {t('اسأل عبر واتساب', 'Ask on WhatsApp')}
+      {t('اسأل عبر واتساب', 'Ask on WhatsApp', 'پرسیار بکە لە ڕێگەی واتسئەپ')}
     </a>
   );
 }
@@ -87,12 +87,12 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
   const activeFiltersCount = [selectedCategory, selectedBrand, searchQuery].filter(Boolean).length;
 
   return (
-    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]" style={{ fontFamily: 'Cairo, sans-serif' }}>
+    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#1B4F9B] to-[#29ABE2] pt-28 pb-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto text-center text-white">
-          <h1 className="text-3xl md:text-5xl font-900 mb-3">{t('كتالوج المنتجات', 'Product Catalog')}</h1>
-          <p className="text-white/80 text-sm">{t('اكتشف مجموعتنا الواسعة من الأجهزة المنزلية', 'Discover our wide range of home appliances')}</p>
+          <h1 className="text-3xl md:text-5xl font-900 mb-3">{t('كتالوج المنتجات', 'Product Catalog', 'کەتەلۆگی بەرهەمەکان')}</h1>
+          <p className="text-white/80 text-sm">{t('اكتشف مجموعتنا الواسعة من الأجهزة المنزلية', 'Discover our wide range of home appliances', 'کۆمەڵە بەرفراوانەکەمان لە ئامێرەکانی ناوماڵ بدۆزەرەوە')}</p>
         </div>
       </div>
 
@@ -105,7 +105,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
               <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 text-[#5A6A85]" />
               <input
                 type="text"
-                placeholder={t('ابحث عن منتج أو ماركة...', 'Search product or brand...')}
+                placeholder={t('ابحث عن منتج أو ماركة...', 'Search product or brand...', 'بەدوای بەرهەمێک یان براندێکدا بگەڕێ...')}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full ps-9 pe-3 py-2.5 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30"
@@ -124,9 +124,9 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 onChange={e => setSelectedCategory(e.target.value)}
                 className="appearance-none ps-3 pe-8 py-2.5 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 text-[#0A1628] dark:text-[#E8F0FF] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30"
               >
-                <option value="">{t('كل الفئات', 'All Categories')}</option>
+                <option value="">{t('كل الفئات', 'All Categories', 'هەموو پۆلەکان')}</option>
                 {categories.map(cat => (
-                  <option key={cat.id} value={cat.slug}>{cat.name[lang as 'ar' | 'en'] ?? cat.name.en}</option>
+                  <option key={cat.id} value={cat.slug}>{cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}</option>
                 ))}
               </select>
               <ChevronDown size={14} className="absolute end-2.5 top-1/2 -translate-y-1/2 text-[#5A6A85] pointer-events-none" />
@@ -139,7 +139,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 onChange={e => setSelectedBrand(e.target.value)}
                 className="appearance-none ps-3 pe-8 py-2.5 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 text-[#0A1628] dark:text-[#E8F0FF] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30"
               >
-                <option value="">{t('كل الماركات', 'All Brands')}</option>
+                <option value="">{t('كل الماركات', 'All Brands', 'هەموو براندەکان')}</option>
                 {allBrands.map(brand => (
                   <option key={brand.id} value={brand.id.toString()}>{brand.name}</option>
                 ))}
@@ -153,7 +153,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 className="flex items-center gap-1.5 px-3 py-2.5 text-sm text-[#1B4F9B] dark:text-[#4B8FE2] bg-[#1B4F9B]/8 hover:bg-[#1B4F9B]/15 rounded-xl transition-colors"
               >
                 <X size={14} />
-                {t('مسح الفلاتر', 'Clear Filters')}
+                {t('مسح الفلاتر', 'Clear Filters', 'سڕینەوەی فلتەرەکان')}
               </button>
             )}
 
@@ -178,12 +178,12 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
         {/* Results Count */}
         <div className="flex items-center justify-between mb-5">
           <p className="text-sm text-[#5A6A85] dark:text-[#7A9BC0]">
-            {t(`${filtered.length} منتج`, `${filtered.length} products`)}
+            {t(`${filtered.length} منتج`, `${filtered.length} products`, `${filtered.length} بەرهەم`)}
           </p>
           {selectedCategory && (
             <div className="flex items-center gap-2 text-sm text-[#1B4F9B] dark:text-[#4B8FE2] font-600">
               <Filter size={14} />
-              {categories.find(c => c.slug === selectedCategory)?.name[lang as 'ar' | 'en'] ?? categories.find(c => c.slug === selectedCategory)?.name.en}
+              {categories.find(c => c.slug === selectedCategory)?.name[lang as 'ar' | 'en' | 'ku'] ?? categories.find(c => c.slug === selectedCategory)?.name.en}
             </div>
           )}
         </div>
@@ -191,15 +191,15 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
         {/* Products Grid */}
         {loading ? (
           <div className="text-center py-20">
-            <h3 className="text-lg font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">{t('جاري التحميل...', 'Loading...')}</h3>
+            <h3 className="text-lg font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">{t('جاري التحميل...', 'Loading...', 'خەریکی بارکردنە...')}</h3>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-5xl mb-4">🔍</div>
-            <h3 className="text-lg font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">{t('لا توجد نتائج', 'No Results Found')}</h3>
-            <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-sm mb-6">{t('جرب كلمات بحث مختلفة أو أزل الفلاتر', 'Try different search terms or remove filters')}</p>
+            <h3 className="text-lg font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">{t('لا توجد نتائج', 'No Results Found', 'هیچ ئەنجامێک نەدۆزرایەوە')}</h3>
+            <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-sm mb-6">{t('جرب كلمات بحث مختلفة أو أزل الفلاتر', 'Try different search terms or remove filters', 'وشەی گەڕانی جیاواز تاقی بکەرەوە یان فلتەرەکان لاببە')}</p>
             <button onClick={clearFilters} className="px-6 py-3 bg-[#1B4F9B] text-white rounded-xl text-sm font-600">
-              {t('مسح الفلاتر', 'Clear Filters')}
+              {t('مسح الفلاتر', 'Clear Filters', 'سڕینەوەی فلتەرەکان')}
             </button>
           </div>
         ) : view === 'grid' ? (
@@ -215,14 +215,14 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 <div className="relative h-52 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
                   <img
                     src={product.images?.[0]?.url || ''}
-                    alt={product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                    alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-xs text-[#29ABE2] font-700 mb-1">{product.brand?.name || '---'}</div>
                   <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2 line-clamp-2 min-h-[40px]">
-                    {product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                    {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                   </h3>
                   <div className="flex flex-wrap gap-1 mb-3 mt-auto h-[48px] overflow-hidden">
                     {(product.features || []).slice(0, 2).map((spec, si) => (
@@ -235,7 +235,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                     <Link href={`/products/${product.id}`}
                       className="flex-1 text-center py-2 text-xs font-600 text-[#1B4F9B] dark:text-[#4B8FE2] bg-[#1B4F9B]/8 hover:bg-[#1B4F9B]/15 rounded-xl transition-colors"
                     >
-                      {t('التفاصيل', 'Details')}
+                      {t('التفاصيل', 'Details', 'وردەکارییەکان')}
                     </Link>
                     <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} small />
                   </div>
@@ -257,7 +257,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                   <div className="relative h-40 sm:h-auto sm:w-48 flex-shrink-0 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
                     <img
                       src={product.images?.[0]?.url || ''}
-                      alt={product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                      alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
@@ -266,11 +266,11 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm text-[#29ABE2] font-700">{product.brand?.name || '---'}</span>
                         <span className="text-xs text-[#5A6A85] dark:text-[#7A9BC0]">
-                          · {product.category?.name[lang as 'ar' | 'en'] ?? product.category?.name.en}
+                          · {product.category?.name[lang as 'ar' | 'en' | 'ku'] ?? product.category?.name.en}
                         </span>
                       </div>
                       <h3 className="text-base font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">
-                        {product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                        {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                       </h3>
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         {(product.features || []).map((spec, si) => (
@@ -284,7 +284,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                       <Link href={`/products/${product.id}`}
                         className="px-5 py-2 text-sm font-600 text-[#1B4F9B] dark:text-[#4B8FE2] bg-[#1B4F9B]/8 hover:bg-[#1B4F9B]/15 rounded-xl transition-colors"
                       >
-                        {t('عرض التفاصيل', 'View Details')}
+                        {t('عرض التفاصيل', 'View Details', 'نیشاندانی وردەکارییەکان')}
                       </Link>
                       <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} />
                     </div>

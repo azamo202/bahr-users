@@ -18,21 +18,21 @@ export default function VideosClient({ videos }: { videos: ApiVideo[] }) {
   const ArrowIcon = dir === "rtl" ? ArrowRight : ArrowLeft;
 
   return (
-    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]" style={{ fontFamily: 'Cairo, sans-serif' }}>
+    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
       <div className="bg-gradient-to-r from-[#1B4F9B] to-[#29ABE2] pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center text-white relative">
           <Link href="/support" className="absolute top-0 right-0 p-2 hover:bg-white/10 rounded-xl transition-colors">
             <ArrowIcon size={24} />
           </Link>
-          <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('الفيديوهات', 'Videos')}</h1>
+          <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('الفيديوهات', 'Videos', 'ڤیدیۆکان')}</h1>
           <p className="text-white/80 text-sm mb-8">
-            {t('تصفح وشاهد جميع الفيديوهات التعليمية', 'Browse and watch all tutorial videos')}
+            {t('تصفح وشاهد جميع الفيديوهات التعليمية', 'Browse and watch all tutorial videos', 'سەیربکە و تەماشای هەموو ڤیدیۆ فێرکارییەکان بکە')}
           </p>
           <div className="relative max-w-lg mx-auto">
             <Search size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-white/60" />
             <input
               type="text"
-              placeholder={t('ابحث في الفيديوهات...', 'Search videos...')}
+              placeholder={t('ابحث في الفيديوهات...', 'Search videos...', 'گەڕان لە ناو ڤیدیۆکان...')}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full ps-12 pe-4 py-4 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/25 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/40 text-sm"
@@ -54,7 +54,7 @@ export default function VideosClient({ videos }: { videos: ApiVideo[] }) {
               <div className="aspect-video w-full bg-black/5 relative">
                 <iframe
                   src={`https://www.youtube.com/embed/${video.youtube_id}`}
-                  title={video.title[lang as 'ar' | 'en'] ?? video.title.en}
+                  title={video.title[lang as 'ar' | 'en' | 'ku'] ?? video.title.en}
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -65,7 +65,7 @@ export default function VideosClient({ videos }: { videos: ApiVideo[] }) {
                   <Play size={18} className="text-[#F7941D]" />
                 </div>
                 <h4 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] line-clamp-2 mt-1">
-                  {video.title[lang as 'ar' | 'en'] ?? video.title.en}
+                  {video.title[lang as 'ar' | 'en' | 'ku'] ?? video.title.en}
                 </h4>
               </div>
             </motion.div>
@@ -73,7 +73,7 @@ export default function VideosClient({ videos }: { videos: ApiVideo[] }) {
         </div>
         {filteredVideos.length === 0 && (
           <div className="text-center py-12 text-[#5A6A85] dark:text-[#7A9BC0]">
-            {t('لا توجد فيديوهات بهذا الاسم', 'No videos found with this name')}
+            {t('لا توجد فيديوهات بهذا الاسم', 'No videos found with this name', 'هیچ ڤیدیۆیەک بەم ناوە نییە')}
           </div>
         )}
       </div>

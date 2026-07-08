@@ -15,12 +15,12 @@ export default function ProductDetailClient({ product, related, categories }: { 
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A] flex items-center justify-center pt-20" style={{ fontFamily: 'Cairo, sans-serif' }}>
+      <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A] flex items-center justify-center pt-20">
         <div className="text-center">
           <div className="text-6xl mb-4">🔍</div>
-          <h2 className="text-xl font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-4">{t('المنتج غير موجود', 'Product Not Found')}</h2>
+          <h2 className="text-xl font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-4">{t('المنتج غير موجود', 'Product Not Found', 'بەرهەمەکە بوونی نییە')}</h2>
           <Link href="/products" className="px-6 py-3 bg-[#1B4F9B] text-white rounded-xl text-sm font-600">
-            {t('العودة للمنتجات', 'Back to Products')}
+            {t('العودة للمنتجات', 'Back to Products', 'گەڕانەوە بۆ بەرهەمەکان')}
           </Link>
         </div>
       </div>
@@ -50,17 +50,17 @@ export default function ProductDetailClient({ product, related, categories }: { 
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]" style={{ fontFamily: 'Cairo, sans-serif' }}>
+    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
       <div className="pt-24 pb-8 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-[#5A6A85] dark:text-[#7A9BC0] mb-6">
-            <Link href="/" className="hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors">{t('الرئيسية', 'Home')}</Link>
+            <Link href="/" className="hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors">{t('الرئيسية', 'Home', 'سەرەکی')}</Link>
             <ChevronRight size={14} className={dir === 'rtl' ? 'rotate-180' : ''} />
-            <Link href="/products" className="hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors">{t('المنتجات', 'Products')}</Link>
+            <Link href="/products" className="hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors">{t('المنتجات', 'Products', 'بەرهەمەکان')}</Link>
             <ChevronRight size={14} className={dir === 'rtl' ? 'rotate-180' : ''} />
             <span className="text-[#0A1628] dark:text-[#E8F0FF] font-600 line-clamp-1">
-              {product.name[lang as 'ar' | 'en'] ?? product.name.en}
+              {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
             </span>
           </div>
 
@@ -75,7 +75,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4 }}
                   src={allImages[selectedImage]}
-                  alt={product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                  alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                   className="w-full h-full object-cover"
                 />
                 <button className="absolute bottom-4 end-4 w-8 h-8 rounded-lg bg-white/80 dark:bg-[#0E1A33]/80 backdrop-blur-sm flex items-center justify-center shadow hover:bg-white transition-colors">
@@ -103,11 +103,11 @@ export default function ProductDetailClient({ product, related, categories }: { 
                 <span className="text-sm font-700 text-[#29ABE2]">{product.brand?.name || '---'}</span>
                 <span className="w-1 h-1 rounded-full bg-[#5A6A85]" />
                 <span className="text-xs text-[#5A6A85] dark:text-[#7A9BC0]">
-                  {categoryName?.name[lang as 'ar' | 'en'] ?? categoryName?.name.en}
+                  {categoryName?.name[lang as 'ar' | 'en' | 'ku'] ?? categoryName?.name.en}
                 </span>
               </div>
               <h1 className="text-2xl md:text-3xl font-900 text-[#0A1628] dark:text-[#E8F0FF] mb-5 leading-snug">
-                {product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
               </h1>
 
               {/* Quick specs */}
@@ -123,10 +123,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
               {/* No Price Notice */}
               <div className="bg-gradient-to-r from-[#EBF0FA] to-[#E8F4FD] dark:from-[#122040] dark:to-[#0E1A33] rounded-2xl p-5 mb-6 border border-[#1B4F9B]/10">
                 <p className="text-sm text-[#5A6A85] dark:text-[#7A9BC0] mb-4">
-                  {t(
-                    'للاستفسار عن السعر والتوافر وخيارات التسليم، تواصل مع فريق المبيعات مباشرة.',
-                    'For price, availability, and delivery options, contact our sales team directly.'
-                  )}
+                  {t('للاستفسار عن السعر والتوافر وخيارات التسليم، تواصل مع فريق المبيعات مباشرة.', 'For price, availability, and delivery options, contact our sales team directly.', 'بۆ پرسیارکردن دەربارەی نرخ و بەردەستبوون، پەیوەندی بکە بە تیمی فرۆشتنەوە.')}
                 </p>
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`}
@@ -137,7 +134,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
                   <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                   </svg>
-                  {t('اسأل عبر واتساب', 'Ask on WhatsApp')}
+                  {t('اسأل عبر واتساب', 'Ask on WhatsApp', 'پرسیار بکە لە ڕێگەی واتسئەپ')}
                 </a>
               </div>
 
@@ -148,7 +145,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
                   className="flex items-center gap-2 px-4 py-2 text-sm text-[#5A6A85] dark:text-[#7A9BC0] bg-[#EBF0FA] dark:bg-[#122040] rounded-xl hover:bg-[#1B4F9B]/10 transition-colors"
                 >
                   <Share2 size={14} />
-                  {t('مشاركة', 'Share')}
+                  {t('مشاركة', 'Share', 'هاوبەشکردن')}
                 </button>
               </div>
             </div>
@@ -176,7 +173,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
               {activeTab === 'description' && (
                 <div 
                   className="text-[#5A6A85] dark:text-[#7A9BC0] leading-relaxed text-sm prose dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: product.description[lang as 'ar' | 'en'] ?? product.description.en ?? '' }}
+                  dangerouslySetInnerHTML={{ __html: product.description[lang as 'ar' | 'en' | 'ku'] ?? product.description.en ?? '' }}
                 />
               )}
               {activeTab === 'specs' && (
@@ -208,7 +205,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
           {relatedProducts.length > 0 && (
             <div className="mt-16">
               <h2 className="text-xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-6">
-                {t('منتجات ذات صلة', 'Related Products')}
+                {t('منتجات ذات صلة', 'Related Products', 'بەرهەمە پەیوەندیدارەکان')}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {relatedProducts.map((related) => (
@@ -220,14 +217,14 @@ export default function ProductDetailClient({ product, related, categories }: { 
                     <div className="h-36 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
                       <img
                         src={related.images?.[0]?.url || ''}
-                        alt={related.name[lang as 'ar' | 'en'] ?? related.name.en}
+                        alt={related.name[lang as 'ar' | 'en' | 'ku'] ?? related.name.en}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                     <div className="p-3 flex-1 flex flex-col">
                       <div className="text-xs text-[#29ABE2] font-700 mb-1">{related.brand?.name || '---'}</div>
                       <p className="text-xs font-700 text-[#0A1628] dark:text-[#E8F0FF] line-clamp-2">
-                        {related.name[lang as 'ar' | 'en'] ?? related.name.en}
+                        {related.name[lang as 'ar' | 'en' | 'ku'] ?? related.name.en}
                       </p>
                     </div>
                   </Link>

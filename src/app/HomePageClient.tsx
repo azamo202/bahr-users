@@ -27,10 +27,13 @@ const testimonials = [
     id: 1,
     nameAr: 'أحمد محمد الزهراني',
     nameEn: 'Ahmed Mohammed Al-Zahrani',
+    nameKu: 'ئەحمەد محەممەد ئەلزەهرانی',
     roleAr: 'عميل دائم',
     roleEn: 'Regular Customer',
+    roleKu: 'کڕیاری هەمیشەیی',
     textAr: 'تعاملت مع بحر الألوان عدة مرات وفي كل مرة أجد خدمة ممتازة ومنتجات أصلية بضمان معتمد. فريق المبيعات محترف جداً ويساعدك في اختيار المنتج المناسب.',
     textEn: 'I\'ve dealt with Bahr Alalwan several times and every time I find excellent service and genuine products with certified warranty. The sales team is very professional and helps you choose the right product.',
+    textKu: 'چەندین جار مامەڵەم لەگەڵ بەحری ئەلوان کردووە و هەموو جارێک خزمەتگوزاری نایاب و بەرهەمی ڕەسەن بە زەمانەتی باوەڕپێکراو دەبینم. تیمی فرۆشتن زۆر پیشەگەرن و یارمەتیت دەدەن لە هەڵبژاردنی بەرهەمی گونجاو.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&auto=format',
   },
@@ -38,10 +41,13 @@ const testimonials = [
     id: 2,
     nameAr: 'عمر عبدالله العمري',
     nameEn: 'Omar Abdullah Al-Omari',
+    nameKu: 'عومەر عەبدوڵڵا ئەلعومەری',
     roleAr: 'مدير مشتريات',
     roleEn: 'Procurement Manager',
+    roleKu: 'بەڕێوەبەری کڕین',
     textAr: 'نعتمد على بحر الألوان لتوريد أجهزة منزلية لمجمعاتنا السكنية. الجودة ممتازة والتسليم في الموعد دائماً. أنصح به بشدة لأي مشروع.',
     textEn: 'We rely on Bahr Alalwan to supply home appliances for our residential complexes. The quality is excellent and delivery is always on time. Highly recommended for any project.',
+    textKu: 'پشت بە بەحری ئەلوان دەبەستین بۆ دابینکردنی ئامێری ناوماڵ بۆ کۆمەڵگە نیشتەجێبوونەکانمان. کوالێتی زۆر نایابە و گەیاندن هەمیشە لە کاتی خۆیدایە. زۆر پێشنیاری دەکەم بۆ هەر پڕۆژەیەک.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&auto=format',
   },
@@ -49,20 +55,23 @@ const testimonials = [
     id: 3,
     nameAr: 'خالد سعد الشمري',
     nameEn: 'Khaled Saad Al-Shammari',
+    nameKu: 'خالید سەعد ئەلشەممەری',
     roleAr: 'مقاول بناء',
     roleEn: 'Building Contractor',
+    roleKu: 'بەڵێندەری بیناسازی',
     textAr: 'اشتريت أجهزة مطبخ كاملة من بحر الألوان لمشروع سكني كبير. الأسعار تنافسية والمنتجات أصلية 100% مع خدمة تركيب احترافية.',
     textEn: 'I purchased complete kitchen appliances from Bahr Alalwan for a large residential project. Competitive prices, 100% genuine products with professional installation service.',
+    textKu: 'ئامێری چێشتخانەی تەواوم لە بەحری ئەلوان کڕی بۆ پڕۆژەیەکی نیشتەجێبوونی گەورە. نرخەکان کێبڕکێکارن و بەرهەمەکان ١٠٠٪ ڕەسەنن لەگەڵ خزمەتگوزاری دانانی پیشەگەرانە.',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&auto=format',
   },
 ];
 
 const stats = [
-  { valueAr: '+500', valueEn: '500+', labelAr: 'منتج متاح', labelEn: 'Products Available' },
-  { valueAr: '+50', valueEn: '50+', labelAr: 'علامة تجارية', labelEn: 'Brands' },
-  { valueAr: '+10,000', valueEn: '10,000+', labelAr: 'عميل راضٍ', labelEn: 'Satisfied Customers' },
-  { valueAr: '+15', valueEn: '15+', labelAr: 'سنة خبرة', labelEn: 'Years Experience' },
+  { valueAr: '+500', valueEn: '500+', labelAr: 'منتج متاح', labelEn: 'Products Available', labelKu: 'بەرهەمی بەردەست' },
+  { valueAr: '+50', valueEn: '50+', labelAr: 'علامة تجارية', labelEn: 'Brands', labelKu: 'براند' },
+  { valueAr: '+10,000', valueEn: '10,000+', labelAr: 'عميل راضٍ', labelEn: 'Satisfied Customers', labelKu: 'کڕیاری ڕازی' },
+  { valueAr: '+15', valueEn: '15+', labelAr: 'سنة خبرة', labelEn: 'Years Experience', labelKu: 'ساڵ ئەزموون' },
 ];
 import { ApiHomeSection, ApiCategory, ApiProduct } from "@/types/api";
 
@@ -84,7 +93,7 @@ function WhatsAppButton({ productName, productNameEn, className = '' }: { produc
       <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current flex-shrink-0">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
       </svg>
-      {t('اسأل عبر واتساب', 'Ask on WhatsApp')}
+      {t('اسأل عبر واتساب', 'Ask on WhatsApp', 'پرسیار بکە لە ڕێگەی واتسئەپ')}
     </a>
   );
 }
@@ -114,7 +123,7 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
-function SectionTitle({ ar, en, subtitleAr, subtitleEn }: { ar: string; en: string; subtitleAr?: string; subtitleEn?: string }) {
+function SectionTitle({ ar, en, ku, subtitleAr, subtitleEn, subtitleKu }: { ar: string; en: string; ku?: string; subtitleAr?: string; subtitleEn?: string; subtitleKu?: string }) {
   const { t } = useApp();
   return (
     <div className="text-center mb-12">
@@ -127,16 +136,16 @@ function SectionTitle({ ar, en, subtitleAr, subtitleEn }: { ar: string; en: stri
         <div className="inline-flex items-center gap-2 mb-3">
           <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
           <span className="text-[#F7941D] text-xs font-600 uppercase tracking-widest">
-            {t('بحر الألوان', 'Bahr Alalwan')}
+            {t('بحر الألوان', 'Bahr Alalwan', 'بەحری ئەلوان')}
           </span>
           <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
         </div>
         <h2 className="text-3xl md:text-4xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-3">
-          {t(ar, en)}
+          {t(ar, en, ku)}
         </h2>
         {subtitleAr && subtitleEn && (
           <p className="text-[#5A6A85] dark:text-[#7A9BC0] max-w-xl mx-auto text-sm leading-relaxed">
-            {t(subtitleAr, subtitleEn)}
+            {t(subtitleAr, subtitleEn, subtitleKu)}
           </p>
         )}
       </motion.div>
@@ -164,22 +173,28 @@ const heroSlides = [
     image: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=1920&h=1080&fit=crop&auto=format',
     headlineAr: 'أجهزة منزلية\nبمعايير عالمية',
     headlineEn: 'Home Appliances\nWith World-Class Standards',
+    headlineKu: 'ئامێری ناوماڵ\nبە پێوەری جیهانی',
     subAr: 'نوفر أفضل الأجهزة المنزلية من أشهر العلامات التجارية العالمية بضمان رسمي وخدمة احترافية',
     subEn: 'We provide the best home appliances from the world\'s most renowned brands with official warranty and professional service',
+    subKu: 'باشترین ئامێرەکانی ناوماڵ لە بەناوبانگترین براندە جیهانییەکان بە زەمانەتی فەرمی و خزمەتگوزاری پیشەگەرانە دەستەبەر دەکەین',
   },
   {
     image: 'https://images.unsplash.com/photo-1778731525496-3e7bd4807e55?w=1920&h=1080&fit=crop&auto=format',
     headlineAr: 'جودة لا تُضاهى\nفي كل منتج',
     headlineEn: 'Unmatched Quality\nIn Every Product',
+    headlineKu: 'کوالێتی بێهاوتا\nلە هەموو بەرهەمێکدا',
     subAr: 'شريكك الموثوق في اختيار أجهزة المطبخ والمنزل بأفضل الأسعار وأعلى معايير الجودة',
     subEn: 'Your trusted partner in choosing kitchen and home appliances at the best prices with the highest quality standards',
+    subKu: 'هاوبەشی متمانەپێکراوت لە هەڵبژاردنی ئامێری چێشتخانە و ناوماڵ بە باشترین نرخ و بەرزترین پێوەری کوالێتی',
   },
   {
     image: 'https://images.unsplash.com/photo-1758448755927-e5c5ae14790c?w=1920&h=1080&fit=crop&auto=format',
     headlineAr: 'اكتشف عالم\nالأجهزة المتطورة',
     headlineEn: 'Discover the World\nof Advanced Appliances',
+    headlineKu: 'جیهانی\nئامێرە پێشکەوتووەکان بدۆزەرەوە',
     subAr: 'مجموعة واسعة من أحدث الأجهزة المنزلية الذكية لحياة أكثر راحة وأناقة',
     subEn: 'A wide range of the latest smart home appliances for a more comfortable and elegant life',
+    subKu: 'کۆمەڵەیەکی بەرفراوان لە نوێترین ئامێرە زیرەکەکانی ناوماڵ بۆ ژیانێکی ئاسوودەتر و کەشخەتر',
   },
 ];
 
@@ -197,17 +212,17 @@ export default function HomePageClient({ sections, categories }: { sections: Api
   const featuredProducts: ApiProduct[] = sections.flatMap(s => s.products || []).slice(0, 8);
 
   const whyChooseUs = [
-    { icon: CheckCircle, ar: 'منتجات أصلية 100%', en: '100% Genuine Products', color: '#1B4F9B' },
-    { icon: Shield, ar: 'ضمان رسمي معتمد', en: 'Official Certified Warranty', color: '#29ABE2' },
-    { icon: Wrench, ar: 'خدمة تركيب متخصصة', en: 'Specialized Installation', color: '#F7941D' },
-    { icon: Truck, ar: 'توصيل سريع وآمن', en: 'Fast & Safe Delivery', color: '#1B4F9B' },
-    { icon: Headphones, ar: 'دعم عملاء 24/7', en: '24/7 Customer Support', color: '#29ABE2' },
-    { icon: Award, ar: 'جودة عالية مضمونة', en: 'Guaranteed High Quality', color: '#F7941D' },
-    { icon: Users, ar: 'حلول تنافسية للمشاريع', en: 'Competitive Project Solutions', color: '#1B4F9B' },
+    { icon: CheckCircle, ar: 'منتجات أصلية 100%', en: '100% Genuine Products', ku: '١٠٠٪ بەرهەمی ڕەسەن', color: '#1B4F9B' },
+    { icon: Shield, ar: 'ضمان رسمي معتمد', en: 'Official Certified Warranty', ku: 'زەمانەتی فەرمی باوەڕپێکراو', color: '#29ABE2' },
+    { icon: Wrench, ar: 'خدمة تركيب متخصصة', en: 'Specialized Installation', ku: 'خزمەتگوزاری دانانی تایبەتمەند', color: '#F7941D' },
+    { icon: Truck, ar: 'توصيل سريع وآمن', en: 'Fast & Safe Delivery', ku: 'گەیاندنی خێرا و پارێزراو', color: '#1B4F9B' },
+    { icon: Headphones, ar: 'دعم عملاء 24/7', en: '24/7 Customer Support', ku: 'پشتگیری کڕیار ٢٤/٧', color: '#29ABE2' },
+    { icon: Award, ar: 'جودة عالية مضمونة', en: 'Guaranteed High Quality', ku: 'کوالێتی بەرزی زەمانەتکراو', color: '#F7941D' },
+    { icon: Users, ar: 'حلول تنافسية للمشاريع', en: 'Competitive Project Solutions', ku: 'چارەسەری کێبڕکێکار بۆ پڕۆژەکان', color: '#1B4F9B' },
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]" style={{ fontFamily: 'Cairo, sans-serif' }}>
+    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
 
       {/* ─── HERO ─── */}
       <section className="relative h-screen min-h-[600px] overflow-hidden">
@@ -221,7 +236,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
           >
             <img
               src={slide.image}
-              alt={t(slide.headlineAr, slide.headlineEn)}
+              alt={t(slide.headlineAr, slide.headlineEn, slide.headlineKu)}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/85 via-[#1B4F9B]/50 to-transparent dark:from-[#060D1A]/90 dark:via-[#1B4F9B]/40" />
@@ -240,19 +255,19 @@ export default function HomePageClient({ sections, categories }: { sections: Api
               >
                 <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
                   <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
-                  <span className="text-white text-xs font-500">{t('وكيل معتمد للعلامات العالمية', 'Authorized Dealer for Global Brands')}</span>
+                  <span className="text-white text-xs font-500">{t('وكيل معتمد للعلامات العالمية', 'Authorized Dealer for Global Brands', 'بریکاری ڕێگەپێدراوی براندە جیهانییەکان')}</span>
                 </div>
                 <h1 className="text-4xl md:text-6xl font-900 text-white leading-tight mb-6 whitespace-pre-line">
-                  {t(heroSlides[heroIndex].headlineAr, heroSlides[heroIndex].headlineEn)}
+                  {t(heroSlides[heroIndex].headlineAr, heroSlides[heroIndex].headlineEn, heroSlides[heroIndex].headlineKu)}
                 </h1>
-                <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-lg">
-                  {t(heroSlides[heroIndex].subAr, heroSlides[heroIndex].subEn)}
+                <p className="text-lg md:text-xl text-white/90 mb-10 max-w-xl leading-relaxed">
+                  {t(heroSlides[heroIndex].subAr, heroSlides[heroIndex].subEn, heroSlides[heroIndex].subKu)}
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link href="/products"
                     className="flex items-center gap-2 px-8 py-4 bg-[#1B4F9B] hover:bg-[#163d7a] text-white rounded-2xl font-700 text-sm transition-all shadow-xl shadow-[#1B4F9B]/40 hover:shadow-[#1B4F9B]/60 hover:scale-105"
                   >
-                    {t('تصفح المنتجات', 'Browse Products')}
+                    {t('تصفح المنتجات', 'Browse Products', 'سەیرکردنی بەرهەمەکان')}
                     {dir === 'rtl' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
                   </Link>
                   <a
@@ -264,7 +279,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                     <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                     </svg>
-                    {t('تواصل معنا', 'Contact Us')}
+                    {t('تواصل معنا', 'Contact Us', 'پەیوەندیمان پێوە بکە')}
                   </a>
                 </div>
               </motion.div>
@@ -287,7 +302,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
         <div className="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2">
           <div className="w-px h-12 bg-gradient-to-b from-white/60 to-transparent animate-pulse" />
           <span className="text-white/60 text-xs" style={{ writingMode: 'vertical-rl' }}>
-            {t('اسحب للأسفل', 'Scroll down')}
+            {t('اسحب للأسفل', 'Scroll down', 'ڕابکێشە بۆ خوارەوە')}
           </span>
         </div>
       </section>
@@ -310,9 +325,9 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                 className="text-center"
               >
                 <div className="text-4xl font-900 text-white mb-1">
-                  {t(stat.valueAr, stat.valueEn)}
+                  {t(stat.valueAr, stat.valueEn, stat.valueAr)}
                 </div>
-                <div className="text-[#A8D4F0] text-sm font-500">{t(stat.labelAr, stat.labelEn)}</div>
+                <div className="text-[#A8D4F0] text-sm font-500">{t(stat.labelAr, stat.labelEn, stat.labelKu)}</div>
               </motion.div>
             ))}
           </div>
@@ -325,8 +340,10 @@ export default function HomePageClient({ sections, categories }: { sections: Api
           <SectionTitle
             ar="فئات المنتجات"
             en="Product Categories"
+            ku="پۆلەکانی بەرهەم"
             subtitleAr="اكتشف مجموعتنا الواسعة من الأجهزة المنزلية لكل احتياجات منزلك"
             subtitleEn="Discover our wide range of home appliances for all your home needs"
+            subtitleKu="کۆمەڵە فراوانەکەمان لە ئامێری ناوماڵ بۆ هەموو پێداویستییەکانی ماڵەکەت بدۆزەرەوە"
           />
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             {categories.map((cat, i) => {
@@ -346,7 +363,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                     <div className="relative h-28 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
                       <img
                         src={cat.image || undefined}
-                        alt={cat.name[lang as 'ar' | 'en'] ?? cat.name.en}
+                        alt={cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-70 group-hover:opacity-90"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1B4F9B]/50 to-transparent" />
@@ -358,10 +375,10 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                     </div>
                     <div className="p-3 text-center">
                       <div className="text-xs font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-0.5 line-clamp-1">
-                        {cat.name[lang as 'ar' | 'en'] ?? cat.name.en}
+                        {cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
                       </div>
                       <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0]">
-                        {t('منتج', 'products')}
+                        {t('منتج', 'products', 'بەرهەم')}
                       </div>
                     </div>
                   </Link>
@@ -378,8 +395,10 @@ export default function HomePageClient({ sections, categories }: { sections: Api
           <SectionTitle
             ar="المنتجات المميزة"
             en="Featured Products"
+            ku="بەرهەمە تایبەتەکان"
             subtitleAr="اختيارات مميزة من أفضل الأجهزة المنزلية بمعايير جودة عالمية"
             subtitleEn="Premium selections from the best home appliances with world-class quality standards"
+            subtitleKu="هەڵبژاردەی تایبەت لە باشترین ئامێرەکانی ناوماڵ بە پێوەری کوالێتی جیهانی"
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {featuredProducts.map((product, i) => (
@@ -394,7 +413,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                 <div className="relative h-56 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
                   <img
                     src={product.images?.[0]?.url || undefined}
-                    alt={product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                    alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -402,14 +421,14 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                     <Link href={`/products/${product.id}`}
                       className="block text-center py-2 bg-white/90 dark:bg-[#0E1A33]/90 backdrop-blur-sm rounded-xl text-[#1B4F9B] dark:text-[#4B8FE2] text-xs font-700 hover:bg-white transition-colors"
                     >
-                      {t('عرض التفاصيل', 'View Details')}
+                      {t('عرض التفاصيل', 'View Details', 'نیشاندانی وردەکارییەکان')}
                     </Link>
                   </div>
                 </div>
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-xs text-[#29ABE2] font-700 mb-1">{product.brand?.name || '---'}</div>
                   <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2 line-clamp-2 leading-snug min-h-[40px]">
-                    {product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                    {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                   </h3>
                   <div className="flex flex-wrap gap-1 mb-4 mt-auto">
                     {(product.features || []).slice(0, 3).map((spec, si) => (
@@ -432,7 +451,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
             <Link href="/products"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B4F9B] hover:bg-[#163d7a] text-white rounded-2xl font-700 text-sm transition-all shadow-lg shadow-[#1B4F9B]/25 hover:shadow-[#1B4F9B]/40 hover:scale-105"
             >
-              {t('عرض جميع المنتجات', 'View All Products')}
+              {t('عرض جميع المنتجات', 'View All Products', 'نیشاندانی هەموو بەرهەمەکان')}
               {dir === 'rtl' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
             </Link>
           </div>
@@ -445,8 +464,10 @@ export default function HomePageClient({ sections, categories }: { sections: Api
           <SectionTitle
             ar="لماذا تختارنا؟"
             en="Why Choose Us?"
+            ku="بۆچی ئێمە هەڵدەبژێریت؟"
             subtitleAr="نقدم أكثر من مجرد منتجات — نقدم تجربة شراء متكاملة ومريحة"
             subtitleEn="We offer more than just products — we offer a complete and comfortable buying experience"
+            subtitleKu="زیاتر لە تەنها بەرهەم پێشکەش دەکەین — ئەزموونێکی کڕینی گشتگیر و ئاسوودەت پێشکەش دەکەین"
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {whyChooseUs.map((item, i) => {
@@ -466,7 +487,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                   >
                     <Icon size={26} style={{ color: item.color }} />
                   </div>
-                  <p className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">{t(item.ar, item.en)}</p>
+                  <p className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">{t(item.ar, item.en, item.ku)}</p>
                 </motion.div>
               );
             })}
@@ -477,7 +498,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
       {/* ─── BRANDS ─── */}
       <section className="py-16 px-4 sm:px-6 bg-white dark:bg-[#0E1A33] overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <SectionTitle ar="علاماتنا التجارية" en="Our Brands" />
+          <SectionTitle ar="علاماتنا التجارية" en="Our Brands" ku="براندەکانمان" />
           <div className="relative">
             <div className="flex gap-8 items-center overflow-x-auto pb-4 scrollbar-none">
               {['Samsung', 'LG', 'Bosch', 'Siemens', 'Whirlpool', 'Electrolux', 'Midea', 'Haier', 'Teka', 'Arçelik'].map((brand) => (
@@ -509,18 +530,18 @@ export default function HomePageClient({ sections, categories }: { sections: Api
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
                 <div className="text-white/70 text-sm font-600 mb-2">
-                  {t('عرض خاص للمشاريع', 'Special Offer for Projects')}
+                  {t('عرض خاص للمشاريع', 'Special Offer for Projects', 'ئۆفەری تایبەت بۆ پڕۆژەکان')}
                 </div>
                 <h3 className="text-2xl md:text-4xl font-900 text-white mb-3">
-                  {t('حلول متكاملة للمشاريع السكنية', 'Complete Solutions for Residential Projects')}
+                  {t('حلول متكاملة للمشاريع السكنية', 'Complete Solutions for Residential Projects', 'چارەسەری گشتگیر بۆ پڕۆژە نیشتەجێبوونەکان')}
                 </h3>
                 <p className="text-white/80 text-sm max-w-lg">
-                  {t('نوفر أسعاراً تنافسية خاصة للمقاولين والمطورين العقاريين مع خدمة تركيب شاملة', 'We offer special competitive prices for contractors and real estate developers with comprehensive installation service')}
+                  {t('نوفر أسعاراً تنافسية خاصة للمقاولين والمطورين العقاريين مع خدمة تركيب شاملة', 'We offer special competitive prices for contractors and real estate developers with comprehensive installation service', 'نرخی کێبڕکێکاری تایبەت بۆ بەڵێندەران دەستەبەر دەکەین بە خزمەتگوزاری دانانی تەواوەتی')}
                 </p>
               </div>
               <div className="flex-shrink-0">
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t('أريد الاستفسار عن حلول المشاريع', 'I want to inquire about project solutions'))}`}
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t('أريد الاستفسار عن حلول المشاريع', 'I want to inquire about project solutions', 'دەمەوێت پرسیار بکەم دەربارەی چارەسەری پڕۆژەکان'))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 px-8 py-4 bg-white text-[#1B4F9B] rounded-2xl font-800 text-sm hover:bg-[#F5F8FF] transition-all shadow-xl hover:scale-105"
@@ -528,7 +549,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                   <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#25D366]">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                   </svg>
-                  {t('تواصل الآن', 'Contact Now')}
+                  {t('تواصل الآن', 'Contact Now', 'ئێستا پەیوەندی بکە')}
                 </a>
               </div>
             </div>
@@ -542,8 +563,10 @@ export default function HomePageClient({ sections, categories }: { sections: Api
           <SectionTitle
             ar="آراء عملائنا"
             en="What Our Clients Say"
+            ku="بۆچوونی کڕیارەکانمان"
             subtitleAr="نفخر بثقة آلاف العملاء الراضين بخدماتنا ومنتجاتنا"
             subtitleEn="We are proud of the trust of thousands of satisfied customers with our services and products"
+            subtitleKu="شانازی بە متمانەی هەزاران کڕیاری ڕازی دەکەین بە خزمەتگوزاری و بەرهەمەکانمان"
           />
           <div className="relative">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -562,19 +585,19 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                     ))}
                   </div>
                   <p className="text-sm text-[#5A6A85] dark:text-[#7A9BC0] leading-relaxed mb-6">
-                    "{t(testimonial.textAr, testimonial.textEn)}"
+                    "{t(testimonial.textAr, testimonial.textEn, testimonial.textKu)}"
                   </p>
                   <div className="flex items-center gap-3">
                     <img
                       src={testimonial.avatar}
-                      alt={t(testimonial.nameAr, testimonial.nameEn)}
+                      alt={t(testimonial.nameAr, testimonial.nameEn, testimonial.nameKu)}
                       className="w-10 h-10 rounded-full object-cover"
                     />
                     <div>
                       <div className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">
-                        {t(testimonial.nameAr, testimonial.nameEn)}
+                        {t(testimonial.nameAr, testimonial.nameEn, testimonial.nameKu)}
                       </div>
-                      <div className="text-xs text-[#29ABE2]">{t(testimonial.roleAr, testimonial.roleEn)}</div>
+                      <div className="text-xs text-[#29ABE2]">{t(testimonial.roleAr, testimonial.roleEn, testimonial.roleKu)}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -599,13 +622,10 @@ export default function HomePageClient({ sections, categories }: { sections: Api
         >
           <Package size={48} className="mx-auto mb-6 text-[#1B4F9B] dark:text-[#4B8FE2]" />
           <h2 className="text-3xl md:text-4xl font-900 text-[#0A1628] dark:text-[#E8F0FF] mb-4">
-            {t('هل تحتاج إلى مساعدة في الاختيار؟', 'Need Help Choosing?')}
+            {t('هل تحتاج إلى مساعدة في الاختيار؟', 'Need Help Choosing?', 'پێویستت بە یارمەتییە لە هەڵبژاردندا؟')}
           </h2>
           <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-base mb-8 leading-relaxed">
-            {t(
-              'فريقنا المتخصص جاهز للمساعدة في اختيار الجهاز المناسب لاحتياجاتك. تواصل معنا عبر واتساب الآن.',
-              'Our specialized team is ready to help you choose the right appliance for your needs. Contact us via WhatsApp now.'
-            )}
+            {t('فريقنا المتخصص جاهز للمساعدة في اختيار الجهاز المناسب لاحتياجاتك. تواصل معنا عبر واتساب الآن.', 'Our specialized team is ready to help you choose the right appliance for your needs. Contact us via WhatsApp now.', 'تیمی تایبەتمەندمان ئامادەیە بۆ یارمەتیدان لە هەڵبژاردنی ئامێری گونجاو. پەیوەندیمان پێوە بکە لە ڕێگەی واتسئەپەوە.')}
           </p>
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
@@ -616,7 +636,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
             <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
             </svg>
-            {t('ابدأ المحادثة الآن', 'Start Conversation Now')}
+            {t('ابدأ المحادثة الآن', 'Start Conversation Now', 'ئێستا دەست بکە بە گفتوگۆ')}
           </a>
         </motion.div>
       </section>

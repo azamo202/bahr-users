@@ -38,7 +38,7 @@ export default function ContactPage() {
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     } catch (error) {
       console.error("Failed to send message", error);
-      alert(t('حدث خطأ أثناء الإرسال', 'An error occurred while sending'));
+      alert(t('حدث خطأ أثناء الإرسال', 'An error occurred while sending', 'هەڵەیەک ڕوویدا لە کاتی ناردندا'));
     } finally {
       setIsSubmitting(false);
     }
@@ -49,8 +49,10 @@ export default function ContactPage() {
       icon: Phone,
       titleAr: 'الهاتف',
       titleEn: 'Phone',
+      titleKu: 'تەلەفۆن',
       valueAr: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '+966 50 000 0000',
       valueEn: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '+966 50 000 0000',
+      valueKu: settings?.phone ? (Array.isArray(settings.phone) ? settings.phone[0] : settings.phone) : '+966 50 000 0000',
       href: settings?.phone ? `tel:${Array.isArray(settings.phone) ? settings.phone[0] : settings.phone}` : 'tel:+966500000000',
       color: '#1B4F9B',
     },
@@ -58,8 +60,10 @@ export default function ContactPage() {
       icon: Mail,
       titleAr: 'البريد الإلكتروني',
       titleEn: 'Email',
+      titleKu: 'ئیمەیڵ',
       valueAr: settings?.email || 'info@bahralalwan.com',
       valueEn: settings?.email || 'info@bahralalwan.com',
+      valueKu: settings?.email || 'info@bahralalwan.com',
       href: `mailto:${settings?.email || 'info@bahralalwan.com'}`,
       color: '#29ABE2',
     },
@@ -67,8 +71,10 @@ export default function ContactPage() {
       icon: MapPin,
       titleAr: 'العنوان',
       titleEn: 'Address',
+      titleKu: 'ناونیشان',
       valueAr: settings?.address?.ar || 'الرياض، المملكة العربية السعودية',
       valueEn: settings?.address?.en || 'Riyadh, Saudi Arabia',
+      valueKu: (settings?.address as any)?.ku || settings?.address?.en || 'ڕیاز، شانشینی عەرەبستانی سعودی',
       href: 'https://maps.google.com',
       color: '#F7941D',
     },
@@ -76,8 +82,10 @@ export default function ContactPage() {
       icon: Clock,
       titleAr: 'ساعات العمل',
       titleEn: 'Working Hours',
+      titleKu: 'کاتەکانی کارکردن',
       valueAr: 'الأحد – الخميس: 8ص – 8م',
       valueEn: 'Sun – Thu: 8AM – 8PM',
+      valueKu: 'یەکشەممە – پێنجشەممە: ٨ بەیانی – ٨ ئێوارە',
       href: null,
       color: '#1B4F9B',
     },
@@ -86,12 +94,12 @@ export default function ContactPage() {
   const whatsappNumber = settings?.whatsapp?.replace(/[^0-9]/g, "") || "966500000000";
 
   return (
-    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]" style={{ fontFamily: 'Cairo, sans-serif' }}>
+    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#1B4F9B] to-[#29ABE2] pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center text-white">
-          <h1 className="text-4xl md:text-5xl font-900 mb-3">{t('اتصل بنا', 'Contact Us')}</h1>
-          <p className="text-white/80 text-sm">{t('نحن هنا لخدمتك — تواصل معنا عبر أي وسيلة', 'We\'re here to serve you — contact us through any channel')}</p>
+          <h1 className="text-4xl md:text-5xl font-900 mb-3">{t('اتصل بنا', 'Contact Us', 'پەیوەندیمان پێوە بکە')}</h1>
+          <p className="text-white/80 text-sm">{t('نحن هنا لخدمتك — تواصل معنا عبر أي وسيلة', 'We\'re here to serve you — contact us through any channel', 'نحن هنا لخدمتك — تواصل معنا عبر أي وسيلة')}</p>
         </div>
       </div>
 
@@ -109,8 +117,8 @@ export default function ContactPage() {
               </svg>
             </div>
             <div>
-              <h3 className="text-lg font-800">{t('تواصل فوري عبر واتساب', 'Instant Contact via WhatsApp')}</h3>
-              <p className="text-white/85 text-sm">{t('الطريقة الأسرع للرد — فريقنا جاهز', 'The fastest response method — our team is ready')}</p>
+              <h3 className="text-lg font-800">{t('تواصل فوري عبر واتساب', 'Instant Contact via WhatsApp', 'پەیوەندی خێرا لە ڕێگەی واتسئەپ')}</h3>
+              <p className="text-white/85 text-sm">{t('الطريقة الأسرع للرد — فريقنا جاهز', 'The fastest response method — our team is ready', 'خێراترین ڕێگا بۆ وەڵامدانەوە — تیمەکەمان ئامادەیە')}</p>
             </div>
           </div>
           <a
@@ -119,14 +127,14 @@ export default function ContactPage() {
             rel="noopener noreferrer"
             className="flex-shrink-0 px-8 py-3 bg-white text-[#25D366] rounded-2xl font-800 text-sm hover:bg-[#F5F8FF] transition-all hover:scale-105 shadow-lg"
           >
-            {t('ابدأ المحادثة', 'Start Chat')}
+            {t('ابدأ المحادثة', 'Start Chat', 'دەست بکە بە گفتوگۆ')}
           </a>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Info */}
           <div className="space-y-4">
-            {contactInfo.map(({ icon: Icon, titleAr, titleEn, valueAr, valueEn, href, color }, i) => (
+            {contactInfo.map(({ icon: Icon, titleAr, titleEn, titleKu, valueAr, valueEn, valueKu, href, color }, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
@@ -139,13 +147,13 @@ export default function ContactPage() {
                   <Icon size={20} style={{ color }} />
                 </div>
                 <div>
-                  <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] mb-1">{t(titleAr, titleEn)}</div>
+                  <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] mb-1">{t(titleAr, titleEn, titleKu)}</div>
                   {href ? (
                     <a href={href} className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors">
-                      {t(valueAr, valueEn)}
+                      {t(valueAr, valueEn, valueKu)}
                     </a>
                   ) : (
-                    <span className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">{t(valueAr, valueEn)}</span>
+                    <span className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">{t(valueAr, valueEn, valueKu)}</span>
                   )}
                 </div>
               </motion.div>
@@ -153,7 +161,7 @@ export default function ContactPage() {
 
             {/* Social */}
             <div className="bg-white dark:bg-[#0E1A33] rounded-2xl p-5 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10">
-              <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] mb-3">{t('تابعنا على', 'Follow Us On')}</div>
+              <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] mb-3">{t('تابعنا على', 'Follow Us On', 'فۆڵۆمان بکە لە')}</div>
               <div className="flex gap-3">
                 {settings?.facebook && (
                   <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="flex-1 py-2 text-center text-xs font-600 bg-[#EBF0FA] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2] rounded-xl hover:bg-[#1B4F9B] hover:text-white transition-all">FB</a>
@@ -185,32 +193,32 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <div className="bg-white dark:bg-[#0E1A33] rounded-2xl p-8 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 shadow-sm">
-              <h2 className="text-xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-6">{t('أرسل لنا رسالة', 'Send Us a Message')}</h2>
+              <h2 className="text-xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-6">{t('أرسل لنا رسالة', 'Send Us a Message', 'نامەیەکمان بۆ بنێرە')}</h2>
 
               {submitted ? (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 rounded-full bg-[#25D366]/10 flex items-center justify-center mx-auto mb-4">
                     <CheckCircle size={32} className="text-[#25D366]" />
                   </div>
-                  <h3 className="text-lg font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">{t('تم الإرسال بنجاح!', 'Sent Successfully!')}</h3>
-                  <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-sm">{t('سنتواصل معك قريباً', 'We\'ll get back to you soon')}</p>
+                  <h3 className="text-lg font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">{t('تم الإرسال بنجاح!', 'Sent Successfully!', 'بە سەرکەوتوویی نێردرا!')}</h3>
+                  <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-sm">{t('سنتواصل معك قريباً', 'We\'ll get back to you soon', 'سنتواصل معك قريباً')}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('الاسم الكامل', 'Full Name')} *</label>
+                      <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('الاسم الكامل', 'Full Name', 'ناوی تەواو')} *</label>
                       <input
                         required
                         type="text"
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
                         className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all"
-                        placeholder={t('محمد عبدالله', 'Mohammed Abdullah')}
+                        placeholder={t('محمد عبدالله', 'Mohammed Abdullah', 'محەمەد عەبدوڵڵا')}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('رقم الجوال', 'Phone Number')}</label>
+                      <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('رقم الجوال', 'Phone Number', 'ژمارەی مۆبایل')}</label>
                       <input
                         type="tel"
                         value={formData.phone}
@@ -221,7 +229,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('البريد الإلكتروني', 'Email Address')} *</label>
+                    <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('البريد الإلكتروني', 'Email Address', 'ئیمەیڵ')} *</label>
                     <input
                       required
                       type="email"
@@ -232,25 +240,25 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('الموضوع', 'Subject')} *</label>
+                    <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('الموضوع', 'Subject', 'بابەت')} *</label>
                     <input
                       required
                       type="text"
                       value={formData.subject}
                       onChange={e => setFormData({ ...formData, subject: e.target.value })}
                       className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all"
-                      placeholder={t('الاستفسار عن منتج', 'Inquiry about a product')}
+                      placeholder={t('الاستفسار عن منتج', 'Inquiry about a product', 'پرسیارکردن دەربارەی بەرهەمێک')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('الرسالة', 'Message')} *</label>
+                    <label className="block text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] mb-1.5">{t('الرسالة', 'Message', 'نامە')} *</label>
                     <textarea
                       required
                       rows={4}
                       value={formData.message}
                       onChange={e => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all resize-none"
-                      placeholder={t('اكتب رسالتك هنا...', 'Write your message here...')}
+                      placeholder={t('اكتب رسالتك هنا...', 'Write your message here...', 'لێرە نامەکەت بنووسە...')}
                     />
                   </div>
                   <button
@@ -259,7 +267,7 @@ export default function ContactPage() {
                     className="w-full flex items-center justify-center gap-3 py-4 bg-[#1B4F9B] hover:bg-[#163d7a] disabled:bg-[#1B4F9B]/70 disabled:cursor-not-allowed text-white rounded-2xl font-700 text-sm transition-all shadow-lg shadow-[#1B4F9B]/25 hover:shadow-[#1B4F9B]/40 hover:scale-[1.01]"
                   >
                     <Send size={18} className={isSubmitting ? 'animate-pulse' : ''} />
-                    {isSubmitting ? t('جاري الإرسال...', 'Sending...') : t('إرسال الرسالة', 'Send Message')}
+                    {isSubmitting ? t('جاري الإرسال...', 'Sending...', 'خەریکی ناردنە...') : t('إرسال الرسالة', 'Send Message', 'ناردنی نامە')}
                   </button>
                 </form>
               )}

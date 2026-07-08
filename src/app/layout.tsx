@@ -5,8 +5,8 @@ import { Footer } from './components/Footer'
 import '../styles/index.css'
 
 export const metadata: Metadata = {
-  title: 'User dashboard',
-  description: 'Provides Arabic language users with a simple, efficient tool to input, display, or analyze the Arabic character ا for linguistic or educational purposes.',
+  title: 'بحر الألوان | Bahr Alalwan | بەحری ئەلوان',
+  description: 'أجهزة منزلية حديثة (أفران، مكيفات، غسالات، ثلاجات، شفاطات). Modern home appliances (ovens, ACs, washing machines, refrigerators, hoods). ئامێرە مۆدێرنەکانی ناوماڵ (فڕن، سپلیت، جلشۆر، سەلاجە، هەواکێش).',
 }
 
 function WhatsAppFloat() {
