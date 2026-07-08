@@ -1,0 +1,625 @@
+"use client";
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { motion, useInView } from 'motion/react';
+import {
+  ArrowRight, ArrowLeft, CheckCircle, Star, Shield, Truck, Wrench,
+  Headphones, Award, Users, Package,
+  Refrigerator, Wind, Flame, Waves, Home, Snowflake, Radio, Thermometer,
+  ChefHat, Droplets, Airplay,
+} from 'lucide-react';
+import { useApp } from './context/AppContext';
+const brands = [
+  { id: 'samsung', name: 'Samsung', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg' },
+  { id: 'lg', name: 'LG', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/bf/LG_logo_%282015%29.svg' },
+  { id: 'bosch', name: 'Bosch', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Bosch-logo.svg' },
+  { id: 'siemens', name: 'Siemens', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Siemens-logo.svg' },
+  { id: 'whirlpool', name: 'Whirlpool', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Whirlpool_logo.svg' },
+  { id: 'electrolux', name: 'Electrolux', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Electrolux_logo.svg' },
+  { id: 'midea', name: 'Midea', logo: '' },
+  { id: 'haier', name: 'Haier', logo: '' },
+  { id: 'teka', name: 'Teka', logo: '' },
+  { id: 'arcelik', name: 'Arçelik', logo: '' },
+];
+
+const testimonials = [
+  {
+    id: 1,
+    nameAr: 'أحمد محمد الزهراني',
+    nameEn: 'Ahmed Mohammed Al-Zahrani',
+    roleAr: 'عميل دائم',
+    roleEn: 'Regular Customer',
+    textAr: 'تعاملت مع بحر الألوان عدة مرات وفي كل مرة أجد خدمة ممتازة ومنتجات أصلية بضمان معتمد. فريق المبيعات محترف جداً ويساعدك في اختيار المنتج المناسب.',
+    textEn: 'I\'ve dealt with Bahr Alalwan several times and every time I find excellent service and genuine products with certified warranty. The sales team is very professional and helps you choose the right product.',
+    rating: 5,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&auto=format',
+  },
+  {
+    id: 2,
+    nameAr: 'عمر عبدالله العمري',
+    nameEn: 'Omar Abdullah Al-Omari',
+    roleAr: 'مدير مشتريات',
+    roleEn: 'Procurement Manager',
+    textAr: 'نعتمد على بحر الألوان لتوريد أجهزة منزلية لمجمعاتنا السكنية. الجودة ممتازة والتسليم في الموعد دائماً. أنصح به بشدة لأي مشروع.',
+    textEn: 'We rely on Bahr Alalwan to supply home appliances for our residential complexes. The quality is excellent and delivery is always on time. Highly recommended for any project.',
+    rating: 5,
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&auto=format',
+  },
+  {
+    id: 3,
+    nameAr: 'خالد سعد الشمري',
+    nameEn: 'Khaled Saad Al-Shammari',
+    roleAr: 'مقاول بناء',
+    roleEn: 'Building Contractor',
+    textAr: 'اشتريت أجهزة مطبخ كاملة من بحر الألوان لمشروع سكني كبير. الأسعار تنافسية والمنتجات أصلية 100% مع خدمة تركيب احترافية.',
+    textEn: 'I purchased complete kitchen appliances from Bahr Alalwan for a large residential project. Competitive prices, 100% genuine products with professional installation service.',
+    rating: 5,
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&auto=format',
+  },
+];
+
+const stats = [
+  { valueAr: '+500', valueEn: '500+', labelAr: 'منتج متاح', labelEn: 'Products Available' },
+  { valueAr: '+50', valueEn: '50+', labelAr: 'علامة تجارية', labelEn: 'Brands' },
+  { valueAr: '+10,000', valueEn: '10,000+', labelAr: 'عميل راضٍ', labelEn: 'Satisfied Customers' },
+  { valueAr: '+15', valueEn: '15+', labelAr: 'سنة خبرة', labelEn: 'Years Experience' },
+];
+import { ApiHomeSection, ApiCategory, ApiProduct } from "@/types/api";
+
+const WHATSAPP_NUMBER = '966500000000';
+
+function WhatsAppButton({ productName, productNameEn, className = '' }: { productName: string; productNameEn: string; className?: string }) {
+  const { t } = useApp();
+  const message = encodeURIComponent(t(
+    `مرحباً، أريد الاستفسار عن: ${productName}`,
+    `Hello, I'd like to inquire about: ${productNameEn}`
+  ));
+  return (
+    <a
+      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-xl font-600 text-sm transition-all shadow-lg shadow-[#25D366]/25 hover:shadow-[#25D366]/45 hover:scale-105 active:scale-95 ${className}`}
+    >
+      <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current flex-shrink-0">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+      </svg>
+      {t('اسأل عبر واتساب', 'Ask on WhatsApp')}
+    </a>
+  );
+}
+
+function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 2000;
+    const step = Math.ceil(target / (duration / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(start);
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target]);
+
+  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
+}
+
+function SectionTitle({ ar, en, subtitleAr, subtitleEn }: { ar: string; en: string; subtitleAr?: string; subtitleEn?: string }) {
+  const { t } = useApp();
+  return (
+    <div className="text-center mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="inline-flex items-center gap-2 mb-3">
+          <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
+          <span className="text-[#F7941D] text-xs font-600 uppercase tracking-widest">
+            {t('بحر الألوان', 'Bahr Alalwan')}
+          </span>
+          <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
+        </div>
+        <h2 className="text-3xl md:text-4xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-3">
+          {t(ar, en)}
+        </h2>
+        {subtitleAr && subtitleEn && (
+          <p className="text-[#5A6A85] dark:text-[#7A9BC0] max-w-xl mx-auto text-sm leading-relaxed">
+            {t(subtitleAr, subtitleEn)}
+          </p>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
+const categoryIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  refrigerators: Refrigerator,
+  'washing-machines': Waves,
+  'air-conditioners': Wind,
+  ovens: Flame,
+  cooktops: ChefHat,
+  hoods: Airplay,
+  dishwashers: Droplets,
+  microwaves: Radio,
+  'water-heaters': Thermometer,
+  freezers: Snowflake,
+  'small-appliances': Home,
+  other: Home,
+};
+
+const heroSlides = [
+  {
+    image: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=1920&h=1080&fit=crop&auto=format',
+    headlineAr: 'أجهزة منزلية\nبمعايير عالمية',
+    headlineEn: 'Home Appliances\nWith World-Class Standards',
+    subAr: 'نوفر أفضل الأجهزة المنزلية من أشهر العلامات التجارية العالمية بضمان رسمي وخدمة احترافية',
+    subEn: 'We provide the best home appliances from the world\'s most renowned brands with official warranty and professional service',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1778731525496-3e7bd4807e55?w=1920&h=1080&fit=crop&auto=format',
+    headlineAr: 'جودة لا تُضاهى\nفي كل منتج',
+    headlineEn: 'Unmatched Quality\nIn Every Product',
+    subAr: 'شريكك الموثوق في اختيار أجهزة المطبخ والمنزل بأفضل الأسعار وأعلى معايير الجودة',
+    subEn: 'Your trusted partner in choosing kitchen and home appliances at the best prices with the highest quality standards',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1758448755927-e5c5ae14790c?w=1920&h=1080&fit=crop&auto=format',
+    headlineAr: 'اكتشف عالم\nالأجهزة المتطورة',
+    headlineEn: 'Discover the World\nof Advanced Appliances',
+    subAr: 'مجموعة واسعة من أحدث الأجهزة المنزلية الذكية لحياة أكثر راحة وأناقة',
+    subEn: 'A wide range of the latest smart home appliances for a more comfortable and elegant life',
+  },
+];
+
+export default function HomePageClient({ sections, categories }: { sections: ApiHomeSection[]; categories: ApiCategory[] }) {
+  const { t, lang, dir } = useApp();
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroIndex(i => (i + 1) % heroSlides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const featuredProducts: ApiProduct[] = sections.flatMap(s => s.products || []).slice(0, 8);
+
+  const whyChooseUs = [
+    { icon: CheckCircle, ar: 'منتجات أصلية 100%', en: '100% Genuine Products', color: '#1B4F9B' },
+    { icon: Shield, ar: 'ضمان رسمي معتمد', en: 'Official Certified Warranty', color: '#29ABE2' },
+    { icon: Wrench, ar: 'خدمة تركيب متخصصة', en: 'Specialized Installation', color: '#F7941D' },
+    { icon: Truck, ar: 'توصيل سريع وآمن', en: 'Fast & Safe Delivery', color: '#1B4F9B' },
+    { icon: Headphones, ar: 'دعم عملاء 24/7', en: '24/7 Customer Support', color: '#29ABE2' },
+    { icon: Award, ar: 'جودة عالية مضمونة', en: 'Guaranteed High Quality', color: '#F7941D' },
+    { icon: Users, ar: 'حلول تنافسية للمشاريع', en: 'Competitive Project Solutions', color: '#1B4F9B' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]" style={{ fontFamily: 'Cairo, sans-serif' }}>
+
+      {/* ─── HERO ─── */}
+      <section className="relative h-screen min-h-[600px] overflow-hidden">
+        {heroSlides.map((slide, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: i === heroIndex ? 1 : 0 }}
+            transition={{ duration: 1.2 }}
+            className="absolute inset-0"
+          >
+            <img
+              src={slide.image}
+              alt={t(slide.headlineAr, slide.headlineEn)}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/85 via-[#1B4F9B]/50 to-transparent dark:from-[#060D1A]/90 dark:via-[#1B4F9B]/40" />
+          </motion.div>
+        ))}
+
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
+            <div className="max-w-2xl">
+              <motion.div
+                key={heroIndex}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+                  <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                  <span className="text-white text-xs font-500">{t('وكيل معتمد للعلامات العالمية', 'Authorized Dealer for Global Brands')}</span>
+                </div>
+                <h1 className="text-4xl md:text-6xl font-900 text-white leading-tight mb-6 whitespace-pre-line">
+                  {t(heroSlides[heroIndex].headlineAr, heroSlides[heroIndex].headlineEn)}
+                </h1>
+                <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-lg">
+                  {t(heroSlides[heroIndex].subAr, heroSlides[heroIndex].subEn)}
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/products"
+                    className="flex items-center gap-2 px-8 py-4 bg-[#1B4F9B] hover:bg-[#163d7a] text-white rounded-2xl font-700 text-sm transition-all shadow-xl shadow-[#1B4F9B]/40 hover:shadow-[#1B4F9B]/60 hover:scale-105"
+                  >
+                    {t('تصفح المنتجات', 'Browse Products')}
+                    {dir === 'rtl' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+                  </Link>
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-2xl font-700 text-sm transition-all shadow-xl shadow-[#25D366]/30 hover:shadow-[#25D366]/50 hover:scale-105"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                    {t('تواصل معنا', 'Contact Us')}
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+
+        {/* Hero dots */}
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-10">
+          {heroSlides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setHeroIndex(i)}
+              className={`h-1 rounded-full transition-all duration-500 ${i === heroIndex ? 'w-8 bg-[#F7941D]' : 'w-2 bg-white/40'}`}
+            />
+          ))}
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2">
+          <div className="w-px h-12 bg-gradient-to-b from-white/60 to-transparent animate-pulse" />
+          <span className="text-white/60 text-xs" style={{ writingMode: 'vertical-rl' }}>
+            {t('اسحب للأسفل', 'Scroll down')}
+          </span>
+        </div>
+      </section>
+
+      {/* ─── STATS ─── */}
+      <section className="bg-[#1B4F9B] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#29ABE2] blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#F7941D] blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+                className="text-center"
+              >
+                <div className="text-4xl font-900 text-white mb-1">
+                  {t(stat.valueAr, stat.valueEn)}
+                </div>
+                <div className="text-[#A8D4F0] text-sm font-500">{t(stat.labelAr, stat.labelEn)}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CATEGORIES ─── */}
+      <section className="py-20 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle
+            ar="فئات المنتجات"
+            en="Product Categories"
+            subtitleAr="اكتشف مجموعتنا الواسعة من الأجهزة المنزلية لكل احتياجات منزلك"
+            subtitleEn="Discover our wide range of home appliances for all your home needs"
+          />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {categories.map((cat, i) => {
+              const catSlug = cat.slug;
+              const Icon = categoryIcons[catSlug] || Home;
+              return (
+                <motion.div
+                  key={`${cat.id}-${i}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05, duration: 0.5 }}
+                >
+                  <Link href={`/products?category=${catSlug}`}
+                    className="group block bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-2 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10"
+                  >
+                    <div className="relative h-28 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
+                      <img
+                        src={cat.image || undefined}
+                        alt={cat.name[lang as 'ar' | 'en'] ?? cat.name.en}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-70 group-hover:opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1B4F9B]/50 to-transparent" />
+                      <div className="absolute bottom-2 right-2 left-2 flex justify-center">
+                        <div className="w-10 h-10 rounded-xl bg-white/90 dark:bg-[#0E1A33]/90 flex items-center justify-center shadow-md group-hover:bg-[#1B4F9B] group-hover:shadow-[#1B4F9B]/30 transition-all">
+                          <Icon size={18} className="text-[#1B4F9B] dark:text-[#4B8FE2] group-hover:text-white transition-colors" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-3 text-center">
+                      <div className="text-xs font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-0.5 line-clamp-1">
+                        {cat.name[lang as 'ar' | 'en'] ?? cat.name.en}
+                      </div>
+                      <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0]">
+                        {t('منتج', 'products')}
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FEATURED PRODUCTS ─── */}
+      <section className="py-20 px-4 sm:px-6 bg-white dark:bg-[#0E1A33]">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle
+            ar="المنتجات المميزة"
+            en="Featured Products"
+            subtitleAr="اختيارات مميزة من أفضل الأجهزة المنزلية بمعايير جودة عالمية"
+            subtitleEn="Premium selections from the best home appliances with world-class quality standards"
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {featuredProducts.map((product, i) => (
+              <motion.div
+                key={`${product.id}-${i}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="group bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-2 flex flex-col"
+              >
+                <div className="relative h-56 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
+                  <img
+                    src={product.images?.[0]?.url || undefined}
+                    alt={product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute bottom-3 start-3 end-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
+                    <Link href={`/products/${product.id}`}
+                      className="block text-center py-2 bg-white/90 dark:bg-[#0E1A33]/90 backdrop-blur-sm rounded-xl text-[#1B4F9B] dark:text-[#4B8FE2] text-xs font-700 hover:bg-white transition-colors"
+                    >
+                      {t('عرض التفاصيل', 'View Details')}
+                    </Link>
+                  </div>
+                </div>
+                <div className="p-4 flex flex-col flex-1">
+                  <div className="text-xs text-[#29ABE2] font-700 mb-1">{product.brand?.name || '---'}</div>
+                  <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2 line-clamp-2 leading-snug min-h-[40px]">
+                    {product.name[lang as 'ar' | 'en'] ?? product.name.en}
+                  </h3>
+                  <div className="flex flex-wrap gap-1 mb-4 mt-auto">
+                    {(product.features || []).slice(0, 3).map((spec, si) => (
+                      <span key={si} className="text-xs bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full line-clamp-1 max-w-full">
+                        {spec}
+                      </span>
+                    ))}
+                  </div>
+                  <WhatsAppButton
+                    productName={product.name?.ar ?? ''}
+                    productNameEn={product.name?.en ?? ''}
+                    className="w-full py-2.5 mt-auto"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/products"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B4F9B] hover:bg-[#163d7a] text-white rounded-2xl font-700 text-sm transition-all shadow-lg shadow-[#1B4F9B]/25 hover:shadow-[#1B4F9B]/40 hover:scale-105"
+            >
+              {t('عرض جميع المنتجات', 'View All Products')}
+              {dir === 'rtl' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── WHY CHOOSE US ─── */}
+      <section className="py-20 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle
+            ar="لماذا تختارنا؟"
+            en="Why Choose Us?"
+            subtitleAr="نقدم أكثر من مجرد منتجات — نقدم تجربة شراء متكاملة ومريحة"
+            subtitleEn="We offer more than just products — we offer a complete and comfortable buying experience"
+          />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {whyChooseUs.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08, duration: 0.5 }}
+                  className="group bg-white dark:bg-[#0E1A33] rounded-2xl p-6 text-center border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 hover:-translate-y-2 transition-all duration-300"
+                >
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform"
+                    style={{ backgroundColor: `${item.color}15` }}
+                  >
+                    <Icon size={26} style={{ color: item.color }} />
+                  </div>
+                  <p className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">{t(item.ar, item.en)}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── BRANDS ─── */}
+      <section className="py-16 px-4 sm:px-6 bg-white dark:bg-[#0E1A33] overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle ar="علاماتنا التجارية" en="Our Brands" />
+          <div className="relative">
+            <div className="flex gap-8 items-center overflow-x-auto pb-4 scrollbar-none">
+              {['Samsung', 'LG', 'Bosch', 'Siemens', 'Whirlpool', 'Electrolux', 'Midea', 'Haier', 'Teka', 'Arçelik'].map((brand) => (
+                <div
+                  key={brand}
+                  className="flex-shrink-0 px-8 py-5 bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:border-[#1B4F9B]/30 hover:shadow-lg transition-all group cursor-pointer min-w-[120px] text-center"
+                >
+                  <span className="font-800 text-[#5A6A85] dark:text-[#7A9BC0] group-hover:text-[#1B4F9B] dark:group-hover:text-[#4B8FE2] transition-colors text-sm">
+                    {brand}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── PROMOTIONAL BANNER ─── */}
+      <section className="py-8 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#1B4F9B] via-[#1a5fc7] to-[#29ABE2] p-8 md:p-12"
+          >
+            <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-white/8 -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-[#F7941D]/20 translate-y-1/2 -translate-x-1/2" />
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+              <div>
+                <div className="text-white/70 text-sm font-600 mb-2">
+                  {t('عرض خاص للمشاريع', 'Special Offer for Projects')}
+                </div>
+                <h3 className="text-2xl md:text-4xl font-900 text-white mb-3">
+                  {t('حلول متكاملة للمشاريع السكنية', 'Complete Solutions for Residential Projects')}
+                </h3>
+                <p className="text-white/80 text-sm max-w-lg">
+                  {t('نوفر أسعاراً تنافسية خاصة للمقاولين والمطورين العقاريين مع خدمة تركيب شاملة', 'We offer special competitive prices for contractors and real estate developers with comprehensive installation service')}
+                </p>
+              </div>
+              <div className="flex-shrink-0">
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t('أريد الاستفسار عن حلول المشاريع', 'I want to inquire about project solutions'))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 px-8 py-4 bg-white text-[#1B4F9B] rounded-2xl font-800 text-sm hover:bg-[#F5F8FF] transition-all shadow-xl hover:scale-105"
+                >
+                  <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#25D366]">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                  </svg>
+                  {t('تواصل الآن', 'Contact Now')}
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIALS ─── */}
+      <section className="py-20 px-4 sm:px-6 bg-white dark:bg-[#0E1A33]">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle
+            ar="آراء عملائنا"
+            en="What Our Clients Say"
+            subtitleAr="نفخر بثقة آلاف العملاء الراضين بخدماتنا ومنتجاتنا"
+            subtitleEn="We are proud of the trust of thousands of satisfied customers with our services and products"
+          />
+          <div className="relative">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {testimonials.map((testimonial, i) => (
+                <motion.div
+                  key={testimonial.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.6 }}
+                  className="bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl p-6 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/8 transition-all"
+                >
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: testimonial.rating }).map((_, si) => (
+                      <Star key={si} size={14} className="fill-[#F7941D] text-[#F7941D]" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-[#5A6A85] dark:text-[#7A9BC0] leading-relaxed mb-6">
+                    "{t(testimonial.textAr, testimonial.textEn)}"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={testimonial.avatar}
+                      alt={t(testimonial.nameAr, testimonial.nameEn)}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div>
+                      <div className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">
+                        {t(testimonial.nameAr, testimonial.nameEn)}
+                      </div>
+                      <div className="text-xs text-[#29ABE2]">{t(testimonial.roleAr, testimonial.roleEn)}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA SECTION ─── */}
+      <section className="py-24 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#F5F8FF] to-[#E8F4FD] dark:from-[#060D1A] dark:to-[#0E1A33]" />
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-10 start-10 w-40 h-40 rounded-full bg-[#1B4F9B] blur-3xl" />
+          <div className="absolute bottom-10 end-10 w-56 h-56 rounded-full bg-[#29ABE2] blur-3xl" />
+        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative z-10 max-w-2xl mx-auto text-center"
+        >
+          <Package size={48} className="mx-auto mb-6 text-[#1B4F9B] dark:text-[#4B8FE2]" />
+          <h2 className="text-3xl md:text-4xl font-900 text-[#0A1628] dark:text-[#E8F0FF] mb-4">
+            {t('هل تحتاج إلى مساعدة في الاختيار؟', 'Need Help Choosing?')}
+          </h2>
+          <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-base mb-8 leading-relaxed">
+            {t(
+              'فريقنا المتخصص جاهز للمساعدة في اختيار الجهاز المناسب لاحتياجاتك. تواصل معنا عبر واتساب الآن.',
+              'Our specialized team is ready to help you choose the right appliance for your needs. Contact us via WhatsApp now.'
+            )}
+          </p>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-10 py-5 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-2xl font-800 text-base transition-all shadow-2xl shadow-[#25D366]/30 hover:shadow-[#25D366]/50 hover:scale-105"
+          >
+            <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            {t('ابدأ المحادثة الآن', 'Start Conversation Now')}
+          </a>
+        </motion.div>
+      </section>
+    </div>
+  );
+}
