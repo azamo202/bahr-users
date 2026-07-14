@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Menu, X, Search, Sun, Moon, Globe, ChevronDown, Check,
@@ -17,9 +17,9 @@ import {
 import { useApp } from '../context/AppContext';
 import { ApiCategory } from "@/types/api";
 
-const COMPANY_NAME_AR = "بحر الألوان للتجارة العامة";
-const COMPANY_NAME_EN = "Bahr Alalwan General Trading";
-const COMPANY_NAME_KU = "بەحری ئەلوان بۆ بازرگانی گشتی";
+const COMPANY_NAME_AR = "شركة بحر الألوان للتجارة العامة";
+const COMPANY_NAME_EN = "Bahr Alalwan General Trading Company";
+const COMPANY_NAME_KU = "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی";
 import logoImg from '../../imports/WhatsApp_Image_2026-06-22_at_3.23.33_PM.jpeg';
 
 const categoryIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -40,6 +40,7 @@ const categoryIcons: Record<string, React.ComponentType<{ size?: number; classNa
 export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
   const { lang, setLang, isDark, toggleDark, t } = useApp();
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
@@ -47,6 +48,14 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const megaRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState<ApiCategory | null>(null);
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery('');
+    }
+  };
 
   useEffect(() => {
     if (categories.length > 0 && !activeCategory) {
@@ -97,7 +106,7 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
             />
             <div className="hidden sm:block">
               <div className={`text-sm font-700 leading-tight transition-colors ${textColor}`}>
-                {t('بحر الألوان', 'Bahr Alalwan', 'بەحری ئەلوان')}
+                {t('شركة بحر الألوان', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
               </div>
               <div className={`text-xs transition-colors ${isTransparent ? 'text-white/70' : 'text-[#5A6A85] dark:text-[#7A9BC0]'}`}>
                 {t('للتجارة العامة', 'General Trading', 'بۆ بازرگانی گشتی')}
@@ -127,92 +136,74 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
                   {link.hasMega && <ChevronDown size={14} className={`transition-transform ${megaMenuOpen ? 'rotate-180' : ''}`} />}
                 </Link>
 
-                {/* Mega Menu */}
+                {/* Mega Menu Grid */}
                 {link.hasMega && (
                   <AnimatePresence>
                     {megaMenuOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full mt-2 bg-white dark:bg-[#0E1A33] rounded-2xl shadow-2xl shadow-[#1B4F9B]/15 border border-[#1B4F9B]/10 p-4 w-[640px] flex gap-4 min-h-[300px]"
-                        style={{ [lang === 'ar' || lang === 'ku' ? 'right' : 'left']: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.18 }}
+                        className="absolute top-full mt-3 bg-[#E4E8F0] dark:bg-[#0E1A33] rounded-3xl shadow-xl shadow-[#1B4F9B]/15 border border-white/50 dark:border-[#4B8FE2]/15 p-6 z-50 w-[750px]"
+                        style={{
+                          [lang === 'ar' || lang === 'ku' ? 'right' : 'left']: 0,
+                        }}
                       >
-                        {/* Main Categories List */}
-                        <div className="w-[230px] flex-shrink-0 flex flex-col gap-1 pr-3 border-r border-gray-100 dark:border-gray-800 rtl:pr-0 rtl:pl-3 rtl:border-r-0 rtl:border-l">
-                          <div className="text-[11px] font-800 text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
-                            {t('الفئات الرئيسية', 'Categories', 'پۆلە سەرەکییەکان')}
-                          </div>
+                        <div className="grid grid-cols-3 gap-3">
                           {categories.map((cat) => {
                             const Icon = categoryIcons[cat.slug] || Home;
-                            const isActive = activeCategory?.id === cat.id;
                             return (
-                              <div
-                                key={cat.id}
-                                onMouseEnter={() => setActiveCategory(cat)}
-                                className={`flex items-center justify-between p-2 rounded-xl cursor-pointer transition-all duration-200 ${
-                                  isActive
-                                    ? 'bg-[#1B4F9B]/10 dark:bg-[#4B8FE2]/15 text-[#1B4F9B] dark:text-[#4B8FE2]'
-                                    : 'text-[#0A1628] dark:text-[#E8F0FF] hover:bg-gray-50 dark:hover:bg-white/5'
-                                }`}
-                              >
+                              <div key={cat.id} className="relative group/cat">
                                 <Link
                                   href={`/products?category=${cat.slug}`}
-                                  className="flex items-center gap-3 flex-1"
+                                  className="flex items-center justify-between p-3 rounded-2xl group-hover/cat:bg-[#D4D9E3] dark:group-hover/cat:bg-white/10 transition-colors relative z-10"
+                                  onClick={() => setMegaMenuOpen(false)}
                                 >
-                                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-                                    isActive ? 'bg-[#1B4F9B] text-white' : 'bg-[#E8F4FD] dark:bg-[#122040] text-[#1B4F9B] dark:text-[#4B8FE2]'
-                                  }`}>
-                                    <Icon size={14} />
+                                  <div>
+                                    <div className="font-800 text-[#0A1628] dark:text-[#E8F0FF] text-sm group-hover/cat:text-[#1B4F9B] dark:group-hover/cat:text-[#4B8FE2] transition-colors">
+                                      {cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
+                                    </div>
+                                    <div className="text-[11px] text-[#5A6A85] dark:text-[#7A9BC0] mt-0.5">
+                                      {cat.children?.length ? `${cat.children.length} ${t('تصنيفات فرعية', 'subcategories', 'پۆل')}` : t('تصفح المنتجات', 'Browse Products', 'بەرهەمەکان بگەڕێ')}
+                                    </div>
                                   </div>
-                                  <span className="text-xs font-700 leading-tight">
-                                    {cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
-                                  </span>
+                                  <div className="w-10 h-10 rounded-xl bg-[#D4D9E3] dark:bg-[#122040] flex items-center justify-center flex-shrink-0 text-[#1B4F9B] dark:text-[#4B8FE2] group-hover/cat:bg-[#1B4F9B] group-hover/cat:text-white transition-colors">
+                                    <Icon size={18} />
+                                  </div>
                                 </Link>
-                                <ChevronDown
-                                  size={12}
-                                  className={`opacity-50 transition-transform -rotate-90 rtl:rotate-90`}
-                                />
+                                
+                                {/* Subcategories Absolute Dropdown */}
+                                {cat.children && cat.children.length > 0 && (
+                                  <div className="absolute top-full pt-1 opacity-0 invisible group-hover/cat:opacity-100 group-hover/cat:visible transition-all duration-200 z-50 min-w-[200px]"
+                                       style={{ [lang === 'ar' || lang === 'ku' ? 'right' : 'left']: '12px' }}>
+                                    <div className="bg-white dark:bg-[#0E1A33] rounded-2xl shadow-xl border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/15 p-2 flex flex-col gap-1">
+                                      {cat.children.map((sub) => (
+                                        <Link
+                                          key={sub.id}
+                                          href={`/products?category=${sub.slug}`}
+                                          className="flex items-center gap-2 px-3 py-2 text-sm font-600 text-[#5A6A85] dark:text-[#7A9BC0] hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] hover:bg-[#F5F8FF] dark:hover:bg-white/5 rounded-xl transition-colors group/sub"
+                                          onClick={() => setMegaMenuOpen(false)}
+                                        >
+                                          <span className="w-1.5 h-1.5 rounded-full bg-[#1B4F9B]/30 dark:bg-[#4B8FE2]/30 transition-colors group-hover/sub:bg-[#1B4F9B] dark:group-hover/sub:bg-[#4B8FE2]" />
+                                          <span className="truncate">{sub.name[lang as 'ar' | 'en' | 'ku'] ?? sub.name.en}</span>
+                                        </Link>
+                                      ))}
+                                      <div className="mt-1 pt-1 border-t border-[#1B4F9B]/5 dark:border-[#4B8FE2]/10">
+                                        <Link
+                                          href={`/products?category=${cat.slug}`}
+                                          className="text-[11px] font-800 text-[#1B4F9B] dark:text-[#4B8FE2] hover:underline flex items-center justify-center py-1.5"
+                                          onClick={() => setMegaMenuOpen(false)}
+                                        >
+                                          {t('عرض الكل', 'View All', 'هەمووی ببینە')}
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             );
                           })}
-                        </div>
-
-                        {/* Subcategories Grid */}
-                        <div className="flex-1 flex flex-col pl-2 rtl:pl-0 rtl:pr-2">
-                          <div className="text-[11px] font-800 text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3 px-2">
-                            {t('التصنيفات الفرعية', 'Subcategories', 'پۆلە لاوەکییەکان')}
-                          </div>
-
-                          <div className="flex-1 grid grid-cols-2 gap-2 overflow-y-auto max-h-[280px]">
-                            {activeCategory && activeCategory.children && activeCategory.children.length > 0 ? (
-                              activeCategory.children.map((sub) => (
-                                <Link
-                                  key={sub.id}
-                                  href={`/products?category=${sub.slug}`}
-                                  className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-[#1B4F9B]/5 dark:hover:bg-[#4B8FE2]/8 transition-all group"
-                                >
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#1B4F9B] dark:bg-[#4B8FE2] opacity-40 group-hover:opacity-100 transition-opacity" />
-                                  <div className="text-xs font-600 text-[#0A1628] dark:text-[#E8F0FF]">
-                                    {sub.name[lang as 'ar' | 'en' | 'ku'] ?? sub.name.en}
-                                  </div>
-                                </Link>
-                              ))
-                            ) : (
-                              <div className="col-span-2 flex flex-col items-center justify-center text-center p-8 text-gray-400">
-                                <div className="text-xs font-600 mb-1 text-gray-400 dark:text-gray-500">
-                                  {t('لا توجد تصنيفات فرعية', 'No subcategories found', 'هیچ پۆلێکی لاوەکی نەدۆزرایەوە')}
-                                </div>
-                                <Link
-                                  href={`/products?category=${activeCategory?.slug}`}
-                                  className="text-[11px] text-[#1B4F9B] dark:text-[#4B8FE2] hover:underline font-700"
-                                >
-                                  {t('عرض جميع المنتجات في هذا القسم', 'View all products in this category', 'بینینی هەموو بەرهەمەکانی ئەم پۆلە')}
-                                </Link>
-                              </div>
-                            )}
-                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -225,35 +216,40 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
           {/* Right Side Controls */}
           <div className="flex items-center gap-2">
             {/* Search */}
-            <AnimatePresence mode="wait">
-              {searchOpen ? (
+            <AnimatePresence>
+              {searchOpen && (
                 <motion.div
-                  key="search-input"
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: 200, opacity: 1 }}
-                  exit={{ width: 0, opacity: 0 }}
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 200 }}
+                  exit={{ opacity: 0, width: 0 }}
                   className="overflow-hidden"
                 >
-                  <input
-                    autoFocus
-                    type="text"
-                    placeholder={t('ابحث...', 'Search...', 'گەڕان...')}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Escape') {
-                        setSearchOpen(false);
-                        setSearchQuery('');
-                      }
-                    }}
-                    className="w-full px-3 py-1.5 text-sm rounded-lg bg-white/20 dark:bg-[#122040] border border-white/30 dark:border-[#29ABE2]/20 text-[#0A1628] dark:text-[#E8F0FF] placeholder-white/60 dark:placeholder-[#7A9BC0] focus:outline-none focus:ring-2 focus:ring-[#29ABE2]"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                      placeholder={t('بحث...', 'Search...', 'گەڕان...')}
+                      className={`w-full py-1.5 px-3 rounded-lg text-sm bg-transparent border border-white/20 outline-none ${textColor} placeholder-white/50`}
+                    />
+                  </div>
                 </motion.div>
-              ) : null}
+              )}
             </AnimatePresence>
 
             <button
-              onClick={() => setSearchOpen(!searchOpen)}
+              onClick={() => {
+                if (searchOpen) {
+                  if (searchQuery.trim()) {
+                    handleSearch();
+                  } else {
+                    setSearchOpen(false);
+                  }
+                } else {
+                  setSearchOpen(true);
+                }
+              }}
               className={`p-2 rounded-lg transition-all ${textColor} hover:bg-white/15 dark:hover:bg-[#122040]`}
               aria-label="Search"
             >

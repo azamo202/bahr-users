@@ -59,6 +59,11 @@ export interface ApiStoreSettings {
   instagram?: string;
   youtube?: string;
   address?: TranslatableText;
+  working_hours?: Array<{
+    textAr: string;
+    textEn: string;
+    textKu: string;
+  }>;
 }
 
 export interface ApiMaintenanceCenter {

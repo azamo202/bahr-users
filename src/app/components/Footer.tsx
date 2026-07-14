@@ -5,9 +5,9 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, Youtube, MessageCirc
 import { useApp } from '../context/AppContext';
 import { fetchApi } from '@/lib/api';
 import { ApiCategory } from '@/types/api';
-const COMPANY_NAME_AR = "بحر الألوان للتجارة العامة";
-const COMPANY_NAME_EN = "Bahr Alalwan General Trading";
-const COMPANY_NAME_KU = "بەحری ئەلوان بۆ بازرگانی گشتی";
+const COMPANY_NAME_AR = "شركة بحر الألوان للتجارة العامة";
+const COMPANY_NAME_EN = "Bahr Alalwan General Trading Company";
+const COMPANY_NAME_KU = "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی";
 import logoImg from '../../imports/WhatsApp_Image_2026-06-22_at_3.23.33_PM.jpeg';
 
 export function Footer() {
@@ -60,7 +60,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3 mb-6">
               <img src={logoImg.src} alt={t(COMPANY_NAME_AR, COMPANY_NAME_EN, COMPANY_NAME_KU)} className="h-14 w-14 rounded-full object-contain" />
               <div>
-                <div className="text-white font-700 text-base">{t('بحر الألوان', 'Bahr Alalwan', 'بەحری ئەلوان')}</div>
+                <div className="text-white font-700 text-base">{t('شركة بحر الألوان', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}</div>
                 <div className="text-[#7A9BC0] text-xs">{t('للتجارة العامة', 'General Trading', 'بۆ بازرگانی گشتی')}</div>
               </div>
             </Link>
@@ -144,7 +144,7 @@ export function Footer() {
                   <MapPin size={14} className="text-[#29ABE2]" />
                 </div>
                 <span className="text-sm text-[#7A9BC0]">
-                  {t('شارع التل، الدركزلية، حي الجزائر', 'Al-Tal Street, Al-Darkazliya, Al-Jazaer District', 'شەقامی تەل، دەرکەزلیە، گەڕەکی جەزائیر')}
+                  {t('شارع التل، الدركزلية، حي الجزائر، الموصل، نينوى، العراق', 'Al-Tal Street, Al-Darkazliya, Al-Jazaer District, Mosul, Nineveh, Iraq', 'شەقامی تەل، دەرکەزلیە، گەڕەکی جەزائیر، موسڵ، نەینەوا، عێراق')}
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -179,13 +179,18 @@ export function Footer() {
             </ul>
 
             {/* Working Hours */}
-            <div className="mt-6 p-3 rounded-xl bg-white/5 border border-white/8">
-              <div className="text-xs font-600 text-white mb-2">{t('ساعات العمل', 'Working Hours', 'کاتەکانی کارکردن')}</div>
-              <div className="text-xs text-[#7A9BC0] space-y-1">
-                <div>{t('الأحد – الخميس: 8ص – 8م', 'Sun – Thu: 8AM – 8PM', 'یەکشەممە – پێنجشەممە: ٨ بەیانی – ٨ ئێوارە')}</div>
-                <div>{t('الجمعة – السبت: 10ص – 6م', 'Fri – Sat: 10AM – 6PM', 'هەینی – شەممە: ١٠ بەیانی – ٦ ئێوارە')}</div>
+            {settings?.working_hours && settings.working_hours.length > 0 && (
+              <div className="mt-6 p-3 rounded-xl bg-white/5 border border-white/8">
+                <div className="text-xs font-600 text-white mb-2">{t('ساعات العمل', 'Working Hours', 'کاتەکانی کارکردن')}</div>
+                <div className="text-xs text-[#7A9BC0] space-y-1">
+                  {settings.working_hours.map((hour, index) => (
+                    <div key={index}>
+                      {lang === 'ar' ? hour.textAr : lang === 'ku' ? hour.textKu : hour.textEn}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

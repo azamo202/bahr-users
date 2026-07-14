@@ -115,7 +115,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
                 {(product.features || []).slice(0, 3).map((spec, i) => (
                   <span key={i} className="flex items-center gap-1.5 text-sm bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-3 py-1.5 rounded-xl">
                     <Check size={12} className="text-[#1B4F9B] dark:text-[#4B8FE2]" />
-                    {spec}
+                    {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
                   </span>
                 ))}
               </div>
@@ -181,7 +181,9 @@ export default function ProductDetailClient({ product, related, categories }: { 
                   {(product.features || []).map((spec, i) => (
                     <div key={i} className="flex items-center gap-3 p-3 bg-[#F5F8FF] dark:bg-[#060D1A] rounded-xl">
                       <div className="w-2 h-2 rounded-full bg-[#1B4F9B] dark:bg-[#4B8FE2] flex-shrink-0" />
-                      <span className="text-sm text-[#0A1628] dark:text-[#E8F0FF]">{spec}</span>
+                      <span className="text-sm text-[#0A1628] dark:text-[#E8F0FF]">
+                        {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -193,7 +195,9 @@ export default function ProductDetailClient({ product, related, categories }: { 
                       <div className="w-6 h-6 rounded-full bg-[#1B4F9B]/10 flex items-center justify-center flex-shrink-0">
                         <Check size={12} className="text-[#1B4F9B] dark:text-[#4B8FE2]" />
                       </div>
-                      <span className="text-sm text-[#0A1628] dark:text-[#E8F0FF]">{feature}</span>
+                      <span className="text-sm text-[#0A1628] dark:text-[#E8F0FF]">
+                        {typeof feature === 'string' ? feature : (feature as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (feature as any)?.en ?? ''}
+                      </span>
                     </div>
                   ))}
                 </div>

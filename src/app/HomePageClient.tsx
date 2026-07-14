@@ -9,71 +9,8 @@ import {
   ChefHat, Droplets, Airplay,
 } from 'lucide-react';
 import { useApp } from './context/AppContext';
-const brands = [
-  { id: 'samsung', name: 'Samsung', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg' },
-  { id: 'lg', name: 'LG', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/bf/LG_logo_%282015%29.svg' },
-  { id: 'bosch', name: 'Bosch', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Bosch-logo.svg' },
-  { id: 'siemens', name: 'Siemens', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Siemens-logo.svg' },
-  { id: 'whirlpool', name: 'Whirlpool', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Whirlpool_logo.svg' },
-  { id: 'electrolux', name: 'Electrolux', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Electrolux_logo.svg' },
-  { id: 'midea', name: 'Midea', logo: '' },
-  { id: 'haier', name: 'Haier', logo: '' },
-  { id: 'teka', name: 'Teka', logo: '' },
-  { id: 'arcelik', name: 'Arçelik', logo: '' },
-];
 
-const testimonials = [
-  {
-    id: 1,
-    nameAr: 'أحمد محمد الزهراني',
-    nameEn: 'Ahmed Mohammed Al-Zahrani',
-    nameKu: 'ئەحمەد محەممەد ئەلزەهرانی',
-    roleAr: 'عميل دائم',
-    roleEn: 'Regular Customer',
-    roleKu: 'کڕیاری هەمیشەیی',
-    textAr: 'تعاملت مع بحر الألوان عدة مرات وفي كل مرة أجد خدمة ممتازة ومنتجات أصلية بضمان معتمد. فريق المبيعات محترف جداً ويساعدك في اختيار المنتج المناسب.',
-    textEn: 'I\'ve dealt with Bahr Alalwan several times and every time I find excellent service and genuine products with certified warranty. The sales team is very professional and helps you choose the right product.',
-    textKu: 'چەندین جار مامەڵەم لەگەڵ بەحری ئەلوان کردووە و هەموو جارێک خزمەتگوزاری نایاب و بەرهەمی ڕەسەن بە زەمانەتی باوەڕپێکراو دەبینم. تیمی فرۆشتن زۆر پیشەگەرن و یارمەتیت دەدەن لە هەڵبژاردنی بەرهەمی گونجاو.',
-    rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&auto=format',
-  },
-  {
-    id: 2,
-    nameAr: 'عمر عبدالله العمري',
-    nameEn: 'Omar Abdullah Al-Omari',
-    nameKu: 'عومەر عەبدوڵڵا ئەلعومەری',
-    roleAr: 'مدير مشتريات',
-    roleEn: 'Procurement Manager',
-    roleKu: 'بەڕێوەبەری کڕین',
-    textAr: 'نعتمد على بحر الألوان لتوريد أجهزة منزلية لمجمعاتنا السكنية. الجودة ممتازة والتسليم في الموعد دائماً. أنصح به بشدة لأي مشروع.',
-    textEn: 'We rely on Bahr Alalwan to supply home appliances for our residential complexes. The quality is excellent and delivery is always on time. Highly recommended for any project.',
-    textKu: 'پشت بە بەحری ئەلوان دەبەستین بۆ دابینکردنی ئامێری ناوماڵ بۆ کۆمەڵگە نیشتەجێبوونەکانمان. کوالێتی زۆر نایابە و گەیاندن هەمیشە لە کاتی خۆیدایە. زۆر پێشنیاری دەکەم بۆ هەر پڕۆژەیەک.',
-    rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&auto=format',
-  },
-  {
-    id: 3,
-    nameAr: 'خالد سعد الشمري',
-    nameEn: 'Khaled Saad Al-Shammari',
-    nameKu: 'خالید سەعد ئەلشەممەری',
-    roleAr: 'مقاول بناء',
-    roleEn: 'Building Contractor',
-    roleKu: 'بەڵێندەری بیناسازی',
-    textAr: 'اشتريت أجهزة مطبخ كاملة من بحر الألوان لمشروع سكني كبير. الأسعار تنافسية والمنتجات أصلية 100% مع خدمة تركيب احترافية.',
-    textEn: 'I purchased complete kitchen appliances from Bahr Alalwan for a large residential project. Competitive prices, 100% genuine products with professional installation service.',
-    textKu: 'ئامێری چێشتخانەی تەواوم لە بەحری ئەلوان کڕی بۆ پڕۆژەیەکی نیشتەجێبوونی گەورە. نرخەکان کێبڕکێکارن و بەرهەمەکان ١٠٠٪ ڕەسەنن لەگەڵ خزمەتگوزاری دانانی پیشەگەرانە.',
-    rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&auto=format',
-  },
-];
-
-const stats = [
-  { valueAr: '+500', valueEn: '500+', labelAr: 'منتج متاح', labelEn: 'Products Available', labelKu: 'بەرهەمی بەردەست' },
-  { valueAr: '+50', valueEn: '50+', labelAr: 'علامة تجارية', labelEn: 'Brands', labelKu: 'براند' },
-  { valueAr: '+10,000', valueEn: '10,000+', labelAr: 'عميل راضٍ', labelEn: 'Satisfied Customers', labelKu: 'کڕیاری ڕازی' },
-  { valueAr: '+15', valueEn: '15+', labelAr: 'سنة خبرة', labelEn: 'Years Experience', labelKu: 'ساڵ ئەزموون' },
-];
-import { ApiHomeSection, ApiCategory, ApiProduct } from "@/types/api";
+import { ApiHomeSection, ApiCategory, ApiProduct, ApiBrand } from "@/types/api";
 
 const WHATSAPP_NUMBER = '966500000000';
 
@@ -135,8 +72,8 @@ function SectionTitle({ ar, en, ku, subtitleAr, subtitleEn, subtitleKu }: { ar: 
       >
         <div className="inline-flex items-center gap-2 mb-3">
           <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
-          <span className="text-[#F7941D] text-xs font-600 uppercase tracking-widest">
-            {t('بحر الألوان', 'Bahr Alalwan', 'بەحری ئەلوان')}
+          <span className="text-[#F7941D] text-xs font-600 uppercase tracking-widest ltr:tracking-widest rtl:tracking-normal">
+            {t('شركة بحر الألوان', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
           </span>
           <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
         </div>
@@ -198,7 +135,7 @@ const heroSlides = [
   },
 ];
 
-export default function HomePageClient({ sections, categories }: { sections: ApiHomeSection[]; categories: ApiCategory[] }) {
+export default function HomePageClient({ sections, categories, initialStats, initialBrands = [] }: { sections: ApiHomeSection[]; categories: ApiCategory[]; initialStats?: any[]; initialBrands?: ApiBrand[] }) {
   const { t, lang, dir } = useApp();
   const [heroIndex, setHeroIndex] = useState(0);
 
@@ -220,6 +157,17 @@ export default function HomePageClient({ sections, categories }: { sections: Api
     { icon: Award, ar: 'جودة عالية مضمونة', en: 'Guaranteed High Quality', ku: 'کوالێتی بەرزی زەمانەتکراو', color: '#F7941D' },
     { icon: Users, ar: 'حلول تنافسية للمشاريع', en: 'Competitive Project Solutions', ku: 'چارەسەری کێبڕکێکار بۆ پڕۆژەکان', color: '#1B4F9B' },
   ];
+
+
+  const defaultStats = [
+    { valueAr: '+500', valueEn: '500+', labelAr: 'منتج متاح', labelEn: 'Products Available', labelKu: 'بەرهەمی بەردەست' },
+    { valueAr: '+50', valueEn: '50+', labelAr: 'علامة تجارية', labelEn: 'Brands', labelKu: 'براند' },
+    { valueAr: '+10,000', valueEn: '10,000+', labelAr: 'عميل راضٍ', labelEn: 'Satisfied Customers', labelKu: 'کڕیاری ڕازی' },
+    { valueAr: '+15', valueEn: '15+', labelAr: 'سنة خبرة', labelEn: 'Years Experience', labelKu: 'ساڵ ئەزموون' },
+  ];
+
+  const displayStats = initialStats && initialStats.length > 0 ? initialStats : defaultStats;
+
 
   return (
     <div className="min-h-screen bg-[#F5F8FF] dark:bg-[#060D1A]">
@@ -315,7 +263,7 @@ export default function HomePageClient({ sections, categories }: { sections: Api
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, i) => (
+            {displayStats.map((stat, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
@@ -345,10 +293,9 @@ export default function HomePageClient({ sections, categories }: { sections: Api
             subtitleEn="Discover our wide range of home appliances for all your home needs"
             subtitleKu="کۆمەڵە فراوانەکەمان لە ئامێری ناوماڵ بۆ هەموو پێداویستییەکانی ماڵەکەت بدۆزەرەوە"
           />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
             {categories.map((cat, i) => {
               const catSlug = cat.slug;
-              const Icon = categoryIcons[catSlug] || Home;
               return (
                 <motion.div
                   key={`${cat.id}-${i}`}
@@ -358,27 +305,22 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                   transition={{ delay: i * 0.05, duration: 0.5 }}
                 >
                   <Link href={`/products?category=${catSlug}`}
-                    className="group block bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-2 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10"
+                    className="group block bg-white dark:bg-[#0E1A33] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-[#1B4F9B]/15 transition-all duration-500 hover:-translate-y-2 border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10"
                   >
-                    <div className="relative h-28 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
+                    <div className="relative aspect-[4/3] sm:aspect-[3/2] overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
                       <img
                         src={cat.image || undefined}
                         alt={cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-70 group-hover:opacity-90"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1B4F9B]/50 to-transparent" />
-                      <div className="absolute bottom-2 right-2 left-2 flex justify-center">
-                        <div className="w-10 h-10 rounded-xl bg-white/90 dark:bg-[#0E1A33]/90 flex items-center justify-center shadow-md group-hover:bg-[#1B4F9B] group-hover:shadow-[#1B4F9B]/30 transition-all">
-                          <Icon size={18} className="text-[#1B4F9B] dark:text-[#4B8FE2] group-hover:text-white transition-colors" />
-                        </div>
-                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/40 via-[#0A1628]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
-                    <div className="p-3 text-center">
-                      <div className="text-xs font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-0.5 line-clamp-1">
+                    <div className="p-4 sm:p-5 text-center bg-white dark:bg-[#0E1A33] relative z-10">
+                      <div className="text-sm md:text-base font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-1 line-clamp-1 group-hover:text-[#1B4F9B] dark:group-hover:text-[#4B8FE2] transition-colors">
                         {cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
                       </div>
-                      <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0]">
-                        {t('منتج', 'products', 'بەرهەم')}
+                      <div className="text-xs md:text-sm text-[#5A6A85] dark:text-[#7A9BC0] group-hover:text-[#29ABE2] transition-colors">
+                        {t('عرض المنتجات', 'View Products', 'بینینی بەرهەمەکان')}
                       </div>
                     </div>
                   </Link>
@@ -432,8 +374,8 @@ export default function HomePageClient({ sections, categories }: { sections: Api
                   </h3>
                   <div className="flex flex-wrap gap-1 mb-4 mt-auto">
                     {(product.features || []).slice(0, 3).map((spec, si) => (
-                      <span key={si} className="text-xs bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full line-clamp-1 max-w-full">
-                        {spec}
+                      <span key={si} className="text-[11px] bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full truncate max-w-full block">
+                        {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
                       </span>
                     ))}
                   </div>
@@ -496,25 +438,31 @@ export default function HomePageClient({ sections, categories }: { sections: Api
       </section>
 
       {/* ─── BRANDS ─── */}
-      <section className="py-16 px-4 sm:px-6 bg-white dark:bg-[#0E1A33] overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <SectionTitle ar="علاماتنا التجارية" en="Our Brands" ku="براندەکانمان" />
-          <div className="relative">
-            <div className="flex gap-8 items-center overflow-x-auto pb-4 scrollbar-none">
-              {['Samsung', 'LG', 'Bosch', 'Siemens', 'Whirlpool', 'Electrolux', 'Midea', 'Haier', 'Teka', 'Arçelik'].map((brand) => (
-                <div
-                  key={brand}
-                  className="flex-shrink-0 px-8 py-5 bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:border-[#1B4F9B]/30 hover:shadow-lg transition-all group cursor-pointer min-w-[120px] text-center"
-                >
-                  <span className="font-800 text-[#5A6A85] dark:text-[#7A9BC0] group-hover:text-[#1B4F9B] dark:group-hover:text-[#4B8FE2] transition-colors text-sm">
-                    {brand}
-                  </span>
-                </div>
-              ))}
+      {initialBrands.length > 0 && (
+        <section className="py-16 px-4 sm:px-6 bg-white dark:bg-[#0E1A33] overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <SectionTitle ar="علاماتنا التجارية" en="Our Brands" ku="براندەکانمان" />
+            <div className="relative">
+              <div className="flex gap-8 items-center overflow-x-auto pb-4 scrollbar-none">
+                {initialBrands.map((brand) => (
+                  <div
+                    key={brand.id}
+                    className="flex-shrink-0 w-32 h-20 bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:border-[#1B4F9B]/30 hover:shadow-lg transition-all group cursor-pointer flex items-center justify-center p-4 overflow-hidden"
+                  >
+                    {brand.logo ? (
+                      <img src={brand.logo} alt={brand.name} className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300" />
+                    ) : (
+                      <span className="font-800 text-[#5A6A85] dark:text-[#7A9BC0] group-hover:text-[#1B4F9B] dark:group-hover:text-[#4B8FE2] transition-colors text-sm">
+                        {brand.name}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ─── PROMOTIONAL BANNER ─── */}
       <section className="py-8 px-4 sm:px-6">
@@ -557,55 +505,6 @@ export default function HomePageClient({ sections, categories }: { sections: Api
         </div>
       </section>
 
-      {/* ─── TESTIMONIALS ─── */}
-      <section className="py-20 px-4 sm:px-6 bg-white dark:bg-[#0E1A33]">
-        <div className="max-w-7xl mx-auto">
-          <SectionTitle
-            ar="آراء عملائنا"
-            en="What Our Clients Say"
-            ku="بۆچوونی کڕیارەکانمان"
-            subtitleAr="نفخر بثقة آلاف العملاء الراضين بخدماتنا ومنتجاتنا"
-            subtitleEn="We are proud of the trust of thousands of satisfied customers with our services and products"
-            subtitleKu="شانازی بە متمانەی هەزاران کڕیاری ڕازی دەکەین بە خزمەتگوزاری و بەرهەمەکانمان"
-          />
-          <div className="relative">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {testimonials.map((testimonial, i) => (
-                <motion.div
-                  key={testimonial.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.6 }}
-                  className="bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl p-6 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/8 transition-all"
-                >
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: testimonial.rating }).map((_, si) => (
-                      <Star key={si} size={14} className="fill-[#F7941D] text-[#F7941D]" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-[#5A6A85] dark:text-[#7A9BC0] leading-relaxed mb-6">
-                    "{t(testimonial.textAr, testimonial.textEn, testimonial.textKu)}"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={testimonial.avatar}
-                      alt={t(testimonial.nameAr, testimonial.nameEn, testimonial.nameKu)}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div>
-                      <div className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">
-                        {t(testimonial.nameAr, testimonial.nameEn, testimonial.nameKu)}
-                      </div>
-                      <div className="text-xs text-[#29ABE2]">{t(testimonial.roleAr, testimonial.roleEn, testimonial.roleKu)}</div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ─── CTA SECTION ─── */}
       <section className="py-24 px-4 sm:px-6 relative overflow-hidden">

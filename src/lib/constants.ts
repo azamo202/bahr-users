@@ -15,7 +15,7 @@ export const API_BASE_URL = "https://backend.bahralalwan.com";
 
 /** Shared company details referenced in structured data and UI. */
 export const COMPANY_DETAILS = {
-  name: "بحر الألوان",
+  name: "شركة بحر الألوان",
   logo: "/bhr.jpeg",
   facebook: "https://facebook.com/bahralalwan",
   instagram: "https://instagram.com/bahralalwan",

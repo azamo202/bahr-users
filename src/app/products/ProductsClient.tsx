@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
 import { Search, Filter, Grid3X3, List, X, ChevronDown } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -22,6 +22,7 @@ function WhatsAppButton({ productName, productNameEn, small = false }: { product
       href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
       className={`flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-xl font-600 transition-all shadow-md shadow-[#25D366]/20 hover:shadow-[#25D366]/40 hover:scale-105 ${small ? 'text-xs px-3 py-1.5' : 'text-sm px-4 py-2.5'}`}
     >
       <svg viewBox="0 0 24 24" className={`fill-current flex-shrink-0 ${small ? 'w-3 h-3' : 'w-4 h-4'}`}>
@@ -32,11 +33,167 @@ function WhatsAppButton({ productName, productNameEn, small = false }: { product
   );
 }
 
+function CategoryDropdown({ categories, selectedCategory, onChange, t, lang }: { categories: ApiCategory[], selectedCategory: string, onChange: (slug: string) => void, t: any, lang: string }) {
+  const [open, setOpen] = useState(false);
+  const [expandedCat, setExpandedCat] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const rootCategories = categories.filter((c: any) => !c.parent_id);
+
+  const getCategoryName = (slug: string) => {
+    if (!slug) return t('كل الفئات', 'All Categories', 'هەموو پۆلەکان');
+    const findCat = (cats: ApiCategory[]): ApiCategory | undefined => {
+      for (const cat of cats) {
+        if (cat.slug === slug) return cat;
+        if (cat.children && cat.children.length > 0) {
+          const found = findCat(cat.children);
+          if (found) return found;
+        }
+      }
+      return undefined;
+    };
+    const cat = findCat(rootCategories);
+    return cat ? (cat.name[lang as 'ar' | 'en' | 'ku'] || cat.name.en) : t('كل الفئات', 'All Categories', 'هەموو پۆلەکان');
+  };
+
+  const toggleExpand = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    setExpandedCat(expandedCat === id ? null : id);
+  };
+
+  return (
+    <div className="relative min-w-[200px]" ref={dropdownRef}>
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between w-full ps-3 pe-3 py-2.5 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 text-[#0A1628] dark:text-[#E8F0FF] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30"
+      >
+        <span className="truncate max-w-[150px]">{getCategoryName(selectedCategory)}</span>
+        <ChevronDown size={14} className={`text-[#5A6A85] transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div className="absolute z-50 mt-2 w-full min-w-[240px] bg-white dark:bg-[#0E1A33] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 rounded-xl shadow-xl max-h-96 overflow-y-auto py-2 top-full start-0">
+          <button
+            onClick={() => { onChange(''); setOpen(false); }}
+            className={`w-full text-start px-4 py-2 text-sm hover:bg-[#F5F8FF] dark:hover:bg-[#122040] transition-colors ${!selectedCategory ? 'text-[#1B4F9B] dark:text-[#4B8FE2] font-bold bg-[#F5F8FF] dark:bg-[#122040]' : 'text-[#5A6A85] dark:text-[#7A9BC0]'}`}
+          >
+            {t('كل الفئات', 'All Categories', 'هەموو پۆلەکان')}
+          </button>
+
+          {rootCategories.map((cat: any) => (
+            <div key={cat.id}>
+              <div className={`flex items-center justify-between w-full hover:bg-[#F5F8FF] dark:hover:bg-[#122040] transition-colors ${selectedCategory === cat.slug ? 'bg-[#F5F8FF] dark:bg-[#122040]' : ''}`}>
+                <button
+                  onClick={(e) => {
+                    if (cat.children && cat.children.length > 0 && expandedCat !== cat.id) {
+                      toggleExpand(e, cat.id);
+                    } else {
+                      onChange(cat.slug);
+                      setOpen(false);
+                    }
+                  }}
+                  className={`flex-1 text-start px-4 py-2 text-sm ${selectedCategory === cat.slug ? 'text-[#1B4F9B] dark:text-[#4B8FE2] font-bold' : 'text-[#0A1628] dark:text-[#E8F0FF]'}`}
+                >
+                  {cat.name[lang as 'ar' | 'en' | 'ku'] || cat.name.en}
+                </button>
+                {cat.children && cat.children.length > 0 && (
+                  <button onClick={(e) => toggleExpand(e, cat.id)} className="px-3 py-2 text-[#5A6A85] hover:text-[#1B4F9B] dark:hover:text-[#4B8FE2] transition-colors">
+                    <ChevronDown size={14} className={`transition-transform duration-300 ${expandedCat === cat.id ? 'rotate-180' : ''}`} />
+                  </button>
+                )}
+              </div>
+              {cat.children && cat.children.length > 0 && expandedCat === cat.id && (
+                <div className="bg-[#F5F8FF]/40 dark:bg-[#060D1A]/40 pb-1">
+                  {cat.children.map((subCat: any) => (
+                    <button
+                      key={subCat.id}
+                      onClick={() => { onChange(subCat.slug); setOpen(false); }}
+                      className={`w-full text-start px-8 py-2 text-sm hover:bg-[#1B4F9B]/5 dark:hover:bg-[#4B8FE2]/10 transition-colors flex items-center gap-2 ${selectedCategory === subCat.slug ? 'text-[#1B4F9B] dark:text-[#4B8FE2] font-bold' : 'text-[#5A6A85] dark:text-[#7A9BC0]'}`}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#1B4F9B]/30 dark:bg-[#4B8FE2]/30" />
+                      <span className="truncate">{subCat.name[lang as 'ar' | 'en' | 'ku'] || subCat.name.en}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BrandDropdown({ brands, selectedBrand, onChange, t }: { brands: ApiBrand[], selectedBrand: string, onChange: (id: string) => void, t: any }) {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const getBrandName = (id: string) => {
+    if (!id) return t('كل الماركات', 'All Brands', 'هەموو براندەکان');
+    const brand = brands.find(b => b.id.toString() === id);
+    return brand ? brand.name : t('كل الماركات', 'All Brands', 'هەموو براندەکان');
+  };
+
+  return (
+    <div className="relative min-w-[160px]" ref={dropdownRef}>
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between w-full ps-3 pe-3 py-2.5 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 text-[#0A1628] dark:text-[#E8F0FF] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30"
+      >
+        <span className="truncate max-w-[120px]">{getBrandName(selectedBrand)}</span>
+        <ChevronDown size={14} className={`text-[#5A6A85] transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div className="absolute z-50 mt-2 w-full min-w-[200px] bg-white dark:bg-[#0E1A33] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 rounded-xl shadow-xl max-h-96 overflow-y-auto py-2 top-full start-0">
+          <button
+            onClick={() => { onChange(''); setOpen(false); }}
+            className={`w-full text-start px-4 py-2 text-sm hover:bg-[#F5F8FF] dark:hover:bg-[#122040] transition-colors ${!selectedBrand ? 'text-[#1B4F9B] dark:text-[#4B8FE2] font-bold bg-[#F5F8FF] dark:bg-[#122040]' : 'text-[#5A6A85] dark:text-[#7A9BC0]'}`}
+          >
+            {t('كل الماركات', 'All Brands', 'هەموو براندەکان')}
+          </button>
+
+          {brands.map((brand) => (
+            <button
+              key={brand.id}
+              onClick={() => { onChange(brand.id.toString()); setOpen(false); }}
+              className={`w-full text-start px-4 py-2 text-sm hover:bg-[#F5F8FF] dark:hover:bg-[#122040] transition-colors ${selectedBrand === brand.id.toString() ? 'text-[#1B4F9B] dark:text-[#4B8FE2] font-bold bg-[#F5F8FF] dark:bg-[#122040]' : 'text-[#0A1628] dark:text-[#E8F0FF]'}`}
+            >
+              {brand.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ProductsPageContent({ initialCategories, initialBrands }: { initialCategories: ApiCategory[], initialBrands: ApiBrand[] }) {
   const { t, lang } = useApp();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [view, setView] = useState<'grid' | 'list'>('grid');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
   const [selectedBrand, setSelectedBrand] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -44,6 +201,8 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
   useEffect(() => {
     const cat = searchParams.get('category') || '';
     setSelectedCategory(cat);
+    const search = searchParams.get('search') || '';
+    setSearchQuery(search);
   }, [searchParams]);
 
   const allBrands = initialBrands;
@@ -51,6 +210,17 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
 
   const [filtered, setFiltered] = useState<ApiProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginationMeta, setPaginationMeta] = useState<{
+    current_page: number;
+    last_page: number;
+    total: number;
+    per_page: number;
+  } | null>(null);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedBrand, searchQuery]);
 
   useEffect(() => {
     const fetchFilteredProducts = async () => {
@@ -62,10 +232,22 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
         if (searchQuery) params.append("search", searchQuery);
         params.append("locale", lang);
         params.append("lang", lang);
-        params.append("per_page", "100");
+        params.append("page", currentPage.toString());
 
-        const res = await fetchApi<any>(`/api/site/products?${params.toString()}`);
-        setFiltered(normalizeProducts(res.data || []));
+        const res = await fetchApi<any>(`/api/site/products?${params.toString()}`, { unwrap: false });
+        const rawList = res?.data || [];
+        setFiltered(normalizeProducts(rawList));
+
+        if (res?.meta) {
+          setPaginationMeta({
+            current_page: res.meta.current_page || 1,
+            last_page: res.meta.last_page || 1,
+            total: res.meta.total || 0,
+            per_page: res.meta.per_page || 12,
+          });
+        } else {
+          setPaginationMeta(null);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -76,7 +258,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
       fetchFilteredProducts();
     }, 300);
     return () => clearTimeout(timer);
-  }, [selectedCategory, selectedBrand, searchQuery, lang]);
+  }, [selectedCategory, selectedBrand, searchQuery, lang, currentPage]);
 
   const clearFilters = () => {
     setSelectedCategory('');
@@ -118,34 +300,21 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
             </div>
 
             {/* Category Filter */}
-            <div className="relative">
-              <select
-                value={selectedCategory}
-                onChange={e => setSelectedCategory(e.target.value)}
-                className="appearance-none ps-3 pe-8 py-2.5 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 text-[#0A1628] dark:text-[#E8F0FF] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30"
-              >
-                <option value="">{t('كل الفئات', 'All Categories', 'هەموو پۆلەکان')}</option>
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.slug}>{cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}</option>
-                ))}
-              </select>
-              <ChevronDown size={14} className="absolute end-2.5 top-1/2 -translate-y-1/2 text-[#5A6A85] pointer-events-none" />
-            </div>
+            <CategoryDropdown
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onChange={setSelectedCategory}
+              t={t}
+              lang={lang}
+            />
 
             {/* Brand Filter */}
-            <div className="relative">
-              <select
-                value={selectedBrand}
-                onChange={e => setSelectedBrand(e.target.value)}
-                className="appearance-none ps-3 pe-8 py-2.5 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 text-[#0A1628] dark:text-[#E8F0FF] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30"
-              >
-                <option value="">{t('كل الماركات', 'All Brands', 'هەموو براندەکان')}</option>
-                {allBrands.map(brand => (
-                  <option key={brand.id} value={brand.id.toString()}>{brand.name}</option>
-                ))}
-              </select>
-              <ChevronDown size={14} className="absolute end-2.5 top-1/2 -translate-y-1/2 text-[#5A6A85] pointer-events-none" />
-            </div>
+            <BrandDropdown
+              brands={allBrands}
+              selectedBrand={selectedBrand}
+              onChange={setSelectedBrand}
+              t={t}
+            />
 
             {activeFiltersCount > 0 && (
               <button
@@ -178,7 +347,11 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
         {/* Results Count */}
         <div className="flex items-center justify-between mb-5">
           <p className="text-sm text-[#5A6A85] dark:text-[#7A9BC0]">
-            {t(`${filtered.length} منتج`, `${filtered.length} products`, `${filtered.length} بەرهەم`)}
+            {t(
+              `${paginationMeta?.total ?? filtered.length} منتج`,
+              `${paginationMeta?.total ?? filtered.length} products`,
+              `${paginationMeta?.total ?? filtered.length} بەرهەم`
+            )}
           </p>
           {selectedCategory && (
             <div className="flex items-center gap-2 text-sm text-[#1B4F9B] dark:text-[#4B8FE2] font-600">
@@ -197,10 +370,6 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
           <div className="text-center py-20">
             <div className="text-5xl mb-4">🔍</div>
             <h3 className="text-lg font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">{t('لا توجد نتائج', 'No Results Found', 'هیچ ئەنجامێک نەدۆزرایەوە')}</h3>
-            <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-sm mb-6">{t('جرب كلمات بحث مختلفة أو أزل الفلاتر', 'Try different search terms or remove filters', 'وشەی گەڕانی جیاواز تاقی بکەرەوە یان فلتەرەکان لاببە')}</p>
-            <button onClick={clearFilters} className="px-6 py-3 bg-[#1B4F9B] text-white rounded-xl text-sm font-600">
-              {t('مسح الفلاتر', 'Clear Filters', 'سڕینەوەی فلتەرەکان')}
-            </button>
           </div>
         ) : view === 'grid' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -210,7 +379,8 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.4 }}
-                className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-1 flex flex-col"
+                onClick={() => router.push(`/products/${product.id}`)}
+                className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
               >
                 <div className="relative h-52 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
                   <img
@@ -227,16 +397,16 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                   <div className="flex flex-wrap gap-1 mb-3 mt-auto h-[48px] overflow-hidden">
                     {(product.features || []).slice(0, 2).map((spec, si) => (
                       <span key={si} className="text-xs bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full truncate max-w-full block">
-                        {spec}
+                        {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
                       </span>
                     ))}
                   </div>
                   <div className="flex gap-2 mt-auto">
-                    <Link href={`/products/${product.id}`}
+                    <span
                       className="flex-1 text-center py-2 text-xs font-600 text-[#1B4F9B] dark:text-[#4B8FE2] bg-[#1B4F9B]/8 hover:bg-[#1B4F9B]/15 rounded-xl transition-colors"
                     >
                       {t('التفاصيل', 'Details', 'وردەکارییەکان')}
-                    </Link>
+                    </span>
                     <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} small />
                   </div>
                 </div>
@@ -251,7 +421,8 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.04, duration: 0.4 }}
-                className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-lg hover:shadow-[#1B4F9B]/8 transition-all"
+                onClick={() => router.push(`/products/${product.id}`)}
+                className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-lg hover:shadow-[#1B4F9B]/8 transition-all cursor-pointer"
               >
                 <div className="flex flex-col sm:flex-row">
                   <div className="relative h-40 sm:h-auto sm:w-48 flex-shrink-0 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
@@ -275,23 +446,66 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         {(product.features || []).map((spec, si) => (
                           <span key={si} className="text-xs bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2.5 py-1 rounded-full">
-                            {spec}
+                            {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
                           </span>
                         ))}
                       </div>
                     </div>
                     <div className="flex items-center gap-3 mt-auto">
-                      <Link href={`/products/${product.id}`}
+                      <span
                         className="px-5 py-2 text-sm font-600 text-[#1B4F9B] dark:text-[#4B8FE2] bg-[#1B4F9B]/8 hover:bg-[#1B4F9B]/15 rounded-xl transition-colors"
                       >
                         {t('عرض التفاصيل', 'View Details', 'نیشاندانی وردەکارییەکان')}
-                      </Link>
+                      </span>
                       <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} />
                     </div>
                   </div>
                 </div>
               </motion.div>
             ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {paginationMeta && paginationMeta.last_page > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-12 pb-6">
+            <button
+              onClick={() => {
+                setCurrentPage(prev => Math.max(prev - 1, 1));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              disabled={currentPage === 1}
+              className="px-4 py-2.5 rounded-xl border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 bg-white dark:bg-[#0E1A33] text-[#0A1628] dark:text-[#E8F0FF] text-sm font-600 hover:bg-[#F5F8FF] dark:hover:bg-[#122040] disabled:opacity-50 disabled:pointer-events-none transition-all"
+            >
+              {t('السابق', 'Previous', 'پێشوو')}
+            </button>
+
+            {Array.from({ length: paginationMeta.last_page }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => {
+                  setCurrentPage(page);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className={`w-10 h-10 rounded-xl text-sm font-700 transition-all ${currentPage === page
+                    ? 'bg-[#1B4F9B] text-white shadow-md shadow-[#1B4F9B]/20'
+                    : 'border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 bg-white dark:bg-[#0E1A33] text-[#0A1628] dark:text-[#E8F0FF] hover:bg-[#F5F8FF] dark:hover:bg-[#122040]'
+                  }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => {
+                setCurrentPage(prev => Math.min(prev + 1, paginationMeta.last_page));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              disabled={currentPage === paginationMeta.last_page}
+              className="px-4 py-2.5 rounded-xl border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10 bg-white dark:bg-[#0E1A33] text-[#0A1628] dark:text-[#E8F0FF] text-sm font-600 hover:bg-[#F5F8FF] dark:hover:bg-[#122040] disabled:opacity-50 disabled:pointer-events-none transition-all"
+            >
+              {t('التالي', 'Next', 'دواتر')}
+            </button>
           </div>
         )}
       </div>

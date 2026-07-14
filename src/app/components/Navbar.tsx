@@ -10,7 +10,7 @@ export async function Navbar() {
     const categoriesResult = await fetchApi<ApiCategory[]>("/api/site/categories", {
       next: { revalidate: CACHE_TTL.categories, tags: ["categories"] },
     });
-    categories = normalizeCategories(categoriesResult || []);
+    categories = normalizeCategories(categoriesResult || []).filter(cat => !cat.parent_id);
   } catch (error) {
     console.error("[Navbar] Failed to fetch categories:", error);
   }

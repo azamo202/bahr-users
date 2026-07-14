@@ -5,7 +5,7 @@ import { Footer } from './components/Footer'
 import '../styles/index.css'
 
 export const metadata: Metadata = {
-  title: 'بحر الألوان | Bahr Alalwan | بەحری ئەلوان',
+  title: 'شركة بحر الألوان | Bahr Alalwan Company | کۆمپانیای بەحری ئەلوان',
   description: 'أجهزة منزلية حديثة (أفران، مكيفات، غسالات، ثلاجات، شفاطات). Modern home appliances (ovens, ACs, washing machines, refrigerators, hoods). ئامێرە مۆدێرنەکانی ناوماڵ (فڕن، سپلیت، جلشۆر، سەلاجە، هەواکێش).',
 }
 

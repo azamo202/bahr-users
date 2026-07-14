@@ -22,6 +22,23 @@ export const API_BASE_URL: string = "https://backend.bahralalwan.com";
 export interface StoreSettings {
   phone: string;
   whatsapp: string;
+  email?: string;
+  tiktok?: string;
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+  stats?: Array<{
+    valueAr: string;
+    valueEn: string;
+    labelAr: string;
+    labelEn: string;
+    labelKu: string;
+  }>;
+  reviews?: Array<{
+    textAr: string;
+    textEn: string;
+    textKu: string;
+  }>;
 }
 
 /** Default request timeout in milliseconds */
@@ -38,9 +55,9 @@ const DEFAULT_TIMEOUT_MS = 10_000;
  */
 export async function fetchApi<T>(
   endpoint: string,
-  options?: RequestInit & { timeoutMs?: number }
+  options?: RequestInit & { timeoutMs?: number; unwrap?: boolean }
 ): Promise<T> {
-  const { timeoutMs = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options ?? {};
+  const { timeoutMs = DEFAULT_TIMEOUT_MS, unwrap = true, ...fetchOptions } = options ?? {};
   const url = `${API_BASE_URL}${endpoint}`;
 
   const controller = new AbortController();
@@ -52,6 +69,8 @@ export async function fetchApi<T>(
         "Content-Type": "application/json",
         Accept: "application/json",
       },
+      // Disable caching entirely to fetch fresh data on every request/refresh
+      cache: "no-store",
       ...fetchOptions,
       signal: controller.signal,
     });
@@ -91,7 +110,7 @@ export async function fetchApi<T>(
     // Unwrap common envelope shapes:
     //   { status: true, data: T } → return T
     //   T                         → return T as-is
-    if (json && typeof json === "object" && "data" in json) {
+    if (unwrap && json && typeof json === "object" && "data" in json) {
       return (json as { data: T }).data;
     }
 
@@ -112,5 +131,6 @@ export async function fetchApi<T>(
 
 /** Convenience helper for store settings — used in multiple pages. */
 export async function getStoreSettings(): Promise<StoreSettings> {
-  return fetchApi<StoreSettings>("/api/site/store-settings");
+  const data = await fetchApi<{ settings: StoreSettings }>("/api/site/store-settings");
+  return data.settings;
 }
