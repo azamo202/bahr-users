@@ -17,6 +17,8 @@
  *  the /api/site/* rewrite proxy regardless of environment.
  */
 
+import { CACHE_TTL } from "./constants";
+
 export const API_BASE_URL: string = "https://backend.bahralalwan.com";
 
 export interface StoreSettings {
@@ -69,8 +71,8 @@ export async function fetchApi<T>(
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      // Disable caching entirely to fetch fresh data on every request/refresh
-      cache: "no-store",
+      // Disable caching entirely unless revalidation config is provided
+      ...(fetchOptions && 'next' in fetchOptions ? {} : { cache: "no-store" }),
       ...fetchOptions,
       signal: controller.signal,
     });
@@ -131,6 +133,8 @@ export async function fetchApi<T>(
 
 /** Convenience helper for store settings — used in multiple pages. */
 export async function getStoreSettings(): Promise<StoreSettings> {
-  const data = await fetchApi<{ settings: StoreSettings }>("/api/site/store-settings");
+  const data = await fetchApi<{ settings: StoreSettings }>("/api/site/store-settings", {
+    next: { revalidate: CACHE_TTL.storeSettings, tags: ["store-settings"] },
+  });
   return data.settings;
 }
