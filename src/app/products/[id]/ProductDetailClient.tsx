@@ -6,12 +6,21 @@ import { ArrowLeft, ArrowRight, Check, Share2, ChevronRight, ZoomIn } from 'luci
 import { useApp } from '../../context/AppContext';
 import { ApiProduct, ApiCategory } from "@/types/api";
 
-const WHATSAPP_NUMBER = '966500000000';
+const WHATSAPP_NUMBER = '9647504454864';
 
 export default function ProductDetailClient({ product, related, categories }: { product: ApiProduct, related: ApiProduct[], categories: ApiCategory[] }) {
   const { t, lang, dir } = useApp();
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'description'>('description');
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setMousePos({ x, y });
+  };
 
   if (!product) {
     return (
@@ -67,18 +76,24 @@ export default function ProductDetailClient({ product, related, categories }: { 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Images */}
             <div>
-              <div className="relative bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden shadow-md border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 aspect-square mb-3">
+              <div 
+                className="relative bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden shadow-md border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 aspect-square mb-3 cursor-zoom-in"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                onMouseMove={handleMouseMove}
+              >
 
                 <motion.img
                   key={selectedImage}
                   initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  animate={{ opacity: 1, scale: isHovered ? 2.5 : 1 }}
                   transition={{ duration: 0.4 }}
                   src={allImages[selectedImage]}
                   alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
+                  style={{ transformOrigin: `${mousePos.x}% ${mousePos.y}%` }}
                   className="w-full h-full object-cover"
                 />
-                <button className="absolute bottom-4 end-4 w-8 h-8 rounded-lg bg-white/80 dark:bg-[#0E1A33]/80 backdrop-blur-sm flex items-center justify-center shadow hover:bg-white transition-colors">
+                <button className="absolute bottom-4 end-4 w-8 h-8 rounded-lg bg-white/80 dark:bg-[#0E1A33]/80 backdrop-blur-sm flex items-center justify-center shadow hover:bg-white transition-colors pointer-events-none">
                   <ZoomIn size={16} className="text-[#1B4F9B]" />
                 </button>
               </div>

@@ -43,9 +43,6 @@ export function Footer() {
   ];
 
   const support = [
-    { ar: 'تحميل الكتالوجات', en: 'Download Catalogs', ku: 'دابەزاندنی کەتەلۆگەکان', href: '/support' },
-    { ar: 'دليل المستخدم', en: 'User Manuals', ku: 'ڕێبەری بەکارهێنەر', href: '/support' },
-    { ar: 'الأسئلة الشائعة', en: 'FAQs', ku: 'پرسیارە باوەکان', href: '/support' },
     { ar: 'الضمان', en: 'Warranty', ku: 'زەمانەت', href: '/support' },
     { ar: 'التركيب والصيانة', en: 'Installation & Service', ku: 'دانان و چاککردنەوە', href: '/support' },
   ];
@@ -202,11 +199,7 @@ export function Footer() {
             © 2025 {t(COMPANY_NAME_AR, COMPANY_NAME_EN, COMPANY_NAME_KU)}. {t('جميع الحقوق محفوظة.', 'All rights reserved.', 'هەموو مافەکان پارێزراون.')}
           </p>
           <div className="flex items-center gap-4">
-            {support.slice(0, 3).map((item) => (
-              <Link key={item.href + item.en} href={item.href} className="text-xs text-[#5A7A9A] hover:text-[#29ABE2] transition-colors">
-                {t(item.ar, item.en, item.ku)}
-              </Link>
-            ))}
+            {/* Additional bottom links can go here */}
           </div>
         </div>
       </div>

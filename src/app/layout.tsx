@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 function WhatsAppFloat() {
   return (
     <a
-      href="https://wa.me/966500000000"
+      href="https://wa.me/9647504454864"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 end-6 z-50 w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20BA58] flex items-center justify-center shadow-2xl shadow-[#25D366]/40 hover:shadow-[#25D366]/60 hover:scale-110 transition-all"

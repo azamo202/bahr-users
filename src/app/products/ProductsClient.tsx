@@ -9,7 +9,7 @@ import { ApiCategory, ApiBrand, ApiProduct } from "@/types/api";
 import { fetchApi } from "@/lib/api";
 import { normalizeProducts } from "@/services/normalizers/productNormalizer";
 
-const WHATSAPP_NUMBER = '966500000000';
+const WHATSAPP_NUMBER = '9647504454864';
 
 function WhatsAppButton({ productName, productNameEn, small = false }: { productName: string; productNameEn: string; small?: boolean }) {
   const { t } = useApp();
@@ -382,11 +382,11 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 onClick={() => router.push(`/products/${product.id}`)}
                 className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
               >
-                <div className="relative h-52 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
+                <div className="relative h-52 overflow-hidden bg-white dark:bg-[#0E1A33]">
                   <img
                     src={product.images?.[0]?.url || ''}
                     alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-4 flex flex-col flex-1">
@@ -425,11 +425,11 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-lg hover:shadow-[#1B4F9B]/8 transition-all cursor-pointer"
               >
                 <div className="flex flex-col sm:flex-row">
-                  <div className="relative h-40 sm:h-auto sm:w-48 flex-shrink-0 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
+                  <div className="relative h-40 sm:h-auto sm:w-48 flex-shrink-0 overflow-hidden bg-white dark:bg-[#0E1A33]">
                     <img
                       src={product.images?.[0]?.url || ''}
                       alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                   <div className="flex-1 p-5 flex flex-col justify-between">

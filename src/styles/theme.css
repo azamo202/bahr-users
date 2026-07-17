@@ -182,4 +182,18 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+
+  p {
+    font-size: var(--text-base);
+    line-height: 1.6;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+}
+
+@layer utilities {
+  .prose {
+    text-align: justify;
+    text-justify: inter-word;
+  }
 }

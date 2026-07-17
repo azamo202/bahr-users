@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'motion/react';
 import {
-  ArrowRight, ArrowLeft, CheckCircle, Star, Shield, Truck, Wrench,
+  ArrowRight, ArrowLeft, ChevronRight, ChevronLeft, CheckCircle, Star, Shield, Truck, Wrench,
   Headphones, Award, Users, Package,
   Refrigerator, Wind, Flame, Waves, Home, Snowflake, Radio, Thermometer,
   ChefHat, Droplets, Airplay,
@@ -12,7 +12,93 @@ import { useApp } from './context/AppContext';
 
 import { ApiHomeSection, ApiCategory, ApiProduct, ApiBrand } from "@/types/api";
 
-const WHATSAPP_NUMBER = '966500000000';
+const WHATSAPP_NUMBER = '9647504454864';
+
+function ProductCarousel({ products }: { products: ApiProduct[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { t, lang, dir } = useApp();
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -300 : 300;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  const isScrollable = products.length > 4;
+
+  return (
+    <div className="relative group/carousel">
+      <div 
+        ref={scrollRef}
+        className={`flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4 scrollbar-none ${!isScrollable ? 'md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : ''}`}
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {products.map((product, i) => (
+          <motion.div
+            key={`${product.id}-${i}`}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1, duration: 0.5 }}
+            className={`flex-shrink-0 w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] snap-start group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-2 flex flex-col ${!isScrollable ? 'md:w-full lg:w-full xl:w-full flex-shrink' : ''}`}
+          >
+            <div className="relative h-56 overflow-hidden bg-white dark:bg-[#0E1A33]">
+              <img
+                src={product.images?.[0]?.url || undefined}
+                alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
+                className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-3 start-3 end-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
+                <Link href={`/products/${product.id}`}
+                  className="block text-center py-2 bg-white/90 dark:bg-[#0E1A33]/90 backdrop-blur-sm rounded-xl text-[#1B4F9B] dark:text-[#4B8FE2] text-xs font-700 hover:bg-white transition-colors"
+                >
+                  {t('عرض التفاصيل', 'View Details', 'نیشاندانی وردەکارییەکان')}
+                </Link>
+              </div>
+            </div>
+            <div className="p-4 flex flex-col flex-1">
+              <div className="text-xs text-[#29ABE2] font-700 mb-1">{product.brand?.name || '---'}</div>
+              <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2 line-clamp-2 leading-snug min-h-[40px]">
+                {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
+              </h3>
+              <div className="flex flex-wrap gap-1 mb-4 mt-auto">
+                {(product.features || []).slice(0, 3).map((spec, si) => (
+                  <span key={si} className="text-[11px] bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full truncate max-w-full block">
+                    {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
+                  </span>
+                ))}
+              </div>
+              <WhatsAppButton
+                productName={product.name?.ar ?? ''}
+                productNameEn={product.name?.en ?? ''}
+                className="w-full py-2.5 mt-auto"
+              />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {isScrollable && (
+        <>
+          <button 
+            onClick={() => scroll(dir === 'rtl' ? 'right' : 'left')}
+            className="absolute top-1/2 -start-4 -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-[#0E1A33] shadow-lg hidden md:flex items-center justify-center text-[#1B4F9B] dark:text-[#4B8FE2] opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 disabled:opacity-0 z-10 border border-[#1B4F9B]/10"
+          >
+            {dir === 'rtl' ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          </button>
+          <button 
+            onClick={() => scroll(dir === 'rtl' ? 'left' : 'right')}
+            className="absolute top-1/2 -end-4 -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-[#0E1A33] shadow-lg hidden md:flex items-center justify-center text-[#1B4F9B] dark:text-[#4B8FE2] opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 disabled:opacity-0 z-10 border border-[#1B4F9B]/10"
+          >
+            {dir === 'rtl' ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
 
 function WhatsAppButton({ productName, productNameEn, className = '' }: { productName: string; productNameEn: string; className?: string }) {
   const { t } = useApp();
@@ -146,7 +232,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
     return () => clearInterval(timer);
   }, []);
 
-  const featuredProducts: ApiProduct[] = sections.flatMap(s => s.products || []).slice(0, 8);
+
 
   const whyChooseUs = [
     { icon: CheckCircle, ar: 'منتجات أصلية 100%', en: '100% Genuine Products', ku: '١٠٠٪ بەرهەمی ڕەسەن', color: '#1B4F9B' },
@@ -331,74 +417,37 @@ export default function HomePageClient({ sections, categories, initialStats, ini
         </div>
       </section>
 
-      {/* ─── FEATURED PRODUCTS ─── */}
-      <section className="py-20 px-4 sm:px-6 bg-white dark:bg-[#0E1A33]">
-        <div className="max-w-7xl mx-auto">
-          <SectionTitle
-            ar="المنتجات المميزة"
-            en="Featured Products"
-            ku="بەرهەمە تایبەتەکان"
-            subtitleAr="اختيارات مميزة من أفضل الأجهزة المنزلية بمعايير جودة عالمية"
-            subtitleEn="Premium selections from the best home appliances with world-class quality standards"
-            subtitleKu="هەڵبژاردەی تایبەت لە باشترین ئامێرەکانی ناوماڵ بە پێوەری کوالێتی جیهانی"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {featuredProducts.map((product, i) => (
-              <motion.div
-                key={`${product.id}-${i}`}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="group bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-2 flex flex-col"
-              >
-                <div className="relative h-56 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
-                  <img
-                    src={product.images?.[0]?.url || undefined}
-                    alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute bottom-3 start-3 end-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
-                    <Link href={`/products/${product.id}`}
-                      className="block text-center py-2 bg-white/90 dark:bg-[#0E1A33]/90 backdrop-blur-sm rounded-xl text-[#1B4F9B] dark:text-[#4B8FE2] text-xs font-700 hover:bg-white transition-colors"
-                    >
-                      {t('عرض التفاصيل', 'View Details', 'نیشاندانی وردەکارییەکان')}
-                    </Link>
-                  </div>
-                </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <div className="text-xs text-[#29ABE2] font-700 mb-1">{product.brand?.name || '---'}</div>
-                  <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2 line-clamp-2 leading-snug min-h-[40px]">
-                    {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                  </h3>
-                  <div className="flex flex-wrap gap-1 mb-4 mt-auto">
-                    {(product.features || []).slice(0, 3).map((spec, si) => (
-                      <span key={si} className="text-[11px] bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full truncate max-w-full block">
-                        {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
-                      </span>
-                    ))}
-                  </div>
-                  <WhatsAppButton
-                    productName={product.name?.ar ?? ''}
-                    productNameEn={product.name?.en ?? ''}
-                    className="w-full py-2.5 mt-auto"
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
+      {/* ─── DYNAMIC HOME SECTIONS ─── */}
+      {sections.map((section, sectionIdx) => {
+        if (!section.products || section.products.length === 0) return null;
+        const bgClass = sectionIdx % 2 === 0 
+          ? "bg-white dark:bg-[#0E1A33]" 
+          : "bg-[#F5F8FF] dark:bg-[#060D1A]";
+          
+        return (
+          <section key={section.id} className={`py-20 px-4 sm:px-6 ${bgClass}`}>
+            <div className="max-w-7xl mx-auto">
+              <SectionTitle
+                ar={section.title?.ar ?? 'قسم المنتجات'}
+                en={section.title?.en ?? 'Products Section'}
+                ku={section.title?.ku ?? 'بەشی بەرهەمەکان'}
+              />
+              <ProductCarousel products={section.products} />
 
-          <div className="text-center mt-12">
-            <Link href="/products"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B4F9B] hover:bg-[#163d7a] text-white rounded-2xl font-700 text-sm transition-all shadow-lg shadow-[#1B4F9B]/25 hover:shadow-[#1B4F9B]/40 hover:scale-105"
-            >
-              {t('عرض جميع المنتجات', 'View All Products', 'نیشاندانی هەموو بەرهەمەکان')}
-              {dir === 'rtl' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
-            </Link>
-          </div>
-        </div>
-      </section>
+              {sectionIdx === sections.length - 1 && (
+                <div className="text-center mt-12">
+                  <Link href="/products"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-[#1B4F9B] hover:bg-[#163d7a] text-white rounded-2xl font-700 text-sm transition-all shadow-lg shadow-[#1B4F9B]/25 hover:shadow-[#1B4F9B]/40 hover:scale-105"
+                  >
+                    {t('عرض جميع المنتجات', 'View All Products', 'نیشاندانی هەموو بەرهەمەکان')}
+                    {dir === 'rtl' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+                  </Link>
+                </div>
+              )}
+            </div>
+          </section>
+        );
+      })}
 
       {/* ─── WHY CHOOSE US ─── */}
       <section className="py-20 px-4 sm:px-6">

@@ -393,7 +393,7 @@ export default function SupportClient({ downloads, videos, serviceCenters }: Sup
                 {t('تواصل مع فريق الدعم الفني مباشرة وسنسعد بمساعدتك', 'Contact our technical support team directly and we\'ll be happy to help', 'ڕاستەوخۆ پەیوەندی بکە بە تیمی پشتگیری تەکنیکییەوە و خۆشحاڵ دەبین بە یارمەتیدانت')}
               </p>
               <a
-                href="https://wa.me/966500000000"
+                href="https://wa.me/9647504454864"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-2xl font-700 text-sm transition-all shadow-xl shadow-[#25D366]/25 hover:shadow-[#25D366]/40 hover:scale-105"
