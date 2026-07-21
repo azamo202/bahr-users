@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { ArrowLeft, ArrowRight, Check, Share2, ChevronRight, ZoomIn } from 'lucide-react';
@@ -14,6 +14,38 @@ export default function ProductDetailClient({ product, related, categories }: { 
   const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'description'>('description');
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    const productName = product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: productName,
+          url: url
+        });
+        return;
+      } catch (err) {
+        // If user aborts or share fails, fallback to copy if we want, but usually we just ignore aborts.
+        // For AbortError we can just return.
+        if ((err as Error).name !== 'AbortError') {
+          copyToClipboard(url);
+        }
+      }
+    } else {
+      copyToClipboard(url);
+    }
+  };
+
+  const copyToClipboard = (url: string) => {
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(err => console.error('Clipboard failed', err));
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -45,17 +77,24 @@ export default function ProductDetailClient({ product, related, categories }: { 
   const relatedProducts = related;
   const categoryName = product.category;
 
+  const [productUrl, setProductUrl] = useState('');
+  
+  useEffect(() => {
+    setProductUrl(window.location.href);
+  }, []);
+
   const waMessage = encodeURIComponent(t(
-    `مرحباً، أريد الاستفسار عن: ${product.name?.ar || ''}`,
-    `Hello, I'd like to inquire about: ${product.name?.en || ''}`
+    `مرحباً، أريد الاستفسار عن: ${product.name?.ar || ''}\nرابط المنتج: ${productUrl}`,
+    `Hello, I'd like to inquire about: ${product.name?.en || ''}\nProduct Link: ${productUrl}`,
+    `سڵاو، دەمەوێت پرسیار بکەم دەربارەی: ${product.name?.ku || product.name?.en || ''}\nبەستەری بەرهەم: ${productUrl}`
   ));
 
   const ArrowBack = dir === 'rtl' ? ArrowRight : ArrowLeft;
 
   const tabs = [
     { id: 'description', ar: 'الوصف', en: 'Description' },
-    { id: 'specs', ar: 'المواصفات', en: 'Specifications' },
     { id: 'features', ar: 'المميزات', en: 'Features' },
+    { id: 'specs', ar: 'المواصفات', en: 'Specifications' },
   ] as const;
 
   return (
@@ -156,11 +195,11 @@ export default function ProductDetailClient({ product, related, categories }: { 
               {/* Share */}
               <div className="flex gap-2">
                 <button
-                  onClick={() => navigator.clipboard.writeText(window.location.href)}
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-[#5A6A85] dark:text-[#7A9BC0] bg-[#EBF0FA] dark:bg-[#122040] rounded-xl hover:bg-[#1B4F9B]/10 transition-colors"
+                  onClick={handleShare}
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-[#5A6A85] dark:text-[#7A9BC0] bg-[#EBF0FA] dark:bg-[#122040] rounded-xl hover:bg-[#1B4F9B]/10 transition-colors min-w-[100px] justify-center"
                 >
-                  <Share2 size={14} />
-                  {t('مشاركة', 'Share', 'هاوبەشکردن')}
+                  {copied ? <Check size={14} className="text-[#25D366]" /> : <Share2 size={14} />}
+                  {copied ? t('تم النسخ', 'Copied', 'کۆپی کرا') : t('مشاركة', 'Share', 'هاوبەشکردن')}
                 </button>
               </div>
             </div>
