@@ -6,8 +6,56 @@ import { CACHE_TTL } from "@/lib/constants";
 import ProductDetailClient from "./ProductDetailClient";
 import { notFound } from "next/navigation";
 
+import { Metadata } from 'next';
+
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  
+  if (!/^\d{1,10}$/.test(id)) {
+    return {};
+  }
+
+  const lang = "ar"; // Or detect from cookies/headers if you add i18n support later
+
+  try {
+    const product = await fetchApi<ApiProduct>(
+      `/api/site/products/${id}?locale=${lang}&lang=${lang}`,
+      {
+        next: { revalidate: CACHE_TTL.products, tags: [`product-${id}`, "products"] },
+      }
+    ).then(normalizeProduct);
+
+    if (!product) return {};
+
+    const title = product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en ?? 'Product';
+    const rawDesc = product.description?.[lang as 'ar' | 'en' | 'ku'] ?? product.description?.en ?? '';
+    // Strip HTML tags for meta description
+    const plainDesc = rawDesc.replace(/<[^>]*>?/gm, '').substring(0, 160);
+    
+    const imageUrl = product.images?.[0]?.url;
+
+    return {
+      title: `${title} | شركة بحر الألوان`,
+      description: plainDesc,
+      openGraph: {
+        title,
+        description: plainDesc,
+        images: imageUrl ? [{ url: imageUrl }] : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description: plainDesc,
+        images: imageUrl ? [imageUrl] : [],
+      }
+    };
+  } catch (error) {
+    return {};
+  }
 }
 
 export default async function ProductDetail({ params }: PageProps) {
