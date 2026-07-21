@@ -84,9 +84,9 @@ export default function ProductDetailClient({ product, related, categories }: { 
   }, []);
 
   const waMessage = encodeURIComponent(t(
-    `مرحباً، أريد الاستفسار عن: ${product.name?.ar || ''}\nرابط المنتج: ${productUrl}`,
-    `Hello, I'd like to inquire about: ${product.name?.en || ''}\nProduct Link: ${productUrl}`,
-    `سڵاو، دەمەوێت پرسیار بکەم دەربارەی: ${product.name?.ku || product.name?.en || ''}\nبەستەری بەرهەم: ${productUrl}`
+    `مرحباً، أريد الاستفسار عن: ${product.name?.ar || ''}\nرقم الموديل: ${product.model_number || 'غير متوفر'}\nرابط المنتج: ${productUrl}`,
+    `Hello, I'd like to inquire about: ${product.name?.en || ''}\nModel Number: ${product.model_number || 'N/A'}\nProduct Link: ${productUrl}`,
+    `سڵاو، دەمەوێت پرسیار بکەم دەربارەی: ${product.name?.ku || product.name?.en || ''}\nژمارەی مۆدێل: ${product.model_number || 'نەزانراو'}\nبەستەری بەرهەم: ${productUrl}`
   ));
 
   const ArrowBack = dir === 'rtl' ? ArrowRight : ArrowLeft;
