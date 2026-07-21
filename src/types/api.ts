@@ -43,7 +43,7 @@ export interface ApiProduct {
   category: ApiCategory;
   brand?: ApiBrand;
   images: ApiImage[];
-  specifications?: Record<string, Array<{ key: string; value: string }>>;
+  specifications?: Record<string, Array<{ key: TranslatableText; value: TranslatableText }>>;
   features?: string[];
   attributes?: Array<{ type: string; value: string }>;
   created_at?: string;

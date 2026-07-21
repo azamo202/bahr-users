@@ -4,9 +4,15 @@ import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import '../styles/index.css'
 
+import logoImg from '../imports/WhatsApp_Image_2026-06-22_at_3.23.33_PM.jpeg'
+
 export const metadata: Metadata = {
   title: 'شركة بحر الألوان | Bahr Alalwan Company | کۆمپانیای بەحری ئەلوان',
   description: 'أجهزة منزلية حديثة (أفران، مكيفات، غسالات، ثلاجات، شفاطات). Modern home appliances (ovens, ACs, washing machines, refrigerators, hoods). ئامێرە مۆدێرنەکانی ناوماڵ (فڕن، سپلیت، جلشۆر، سەلاجە، هەواکێش).',
+  icons: {
+    icon: logoImg.src,
+    apple: logoImg.src,
+  },
 }
 
 function WhatsAppFloat() {

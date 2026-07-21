@@ -192,15 +192,42 @@ export default function ProductDetailClient({ product, related, categories }: { 
                 />
               )}
               {activeTab === 'specs' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {(product.features || []).map((spec, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 bg-[#F5F8FF] dark:bg-[#060D1A] rounded-xl">
-                      <div className="w-2 h-2 rounded-full bg-[#1B4F9B] dark:bg-[#4B8FE2] flex-shrink-0" />
-                      <span className="text-sm text-[#0A1628] dark:text-[#E8F0FF]">
-                        {typeof spec === 'string' ? spec : (spec as any)?.[lang as 'ar' | 'en' | 'ku'] ?? (spec as any)?.en ?? ''}
-                      </span>
+                <div className="space-y-6">
+                  {Object.entries(product.specifications || {}).map(([groupJson, specs], idx) => {
+                    let groupName = groupJson;
+                    try {
+                      const parsed = JSON.parse(groupJson);
+                      groupName = parsed[lang as 'ar' | 'en' | 'ku'] || parsed.en || groupJson;
+                    } catch (e) {
+                      // fallback to raw groupJson
+                    }
+
+                    return (
+                      <div key={idx} className="bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl border border-[#1B4F9B]/10 overflow-hidden">
+                        <div className="bg-white dark:bg-[#0E1A33] px-5 py-4 border-b border-[#1B4F9B]/10">
+                          <h3 className="font-800 text-lg text-[#1B4F9B] dark:text-[#4B8FE2]">{groupName}</h3>
+                        </div>
+                        <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {specs.map((spec, i) => (
+                            <div key={i} className="flex flex-col gap-1.5 p-3.5 bg-white dark:bg-[#0E1A33] rounded-xl shadow-sm">
+                              <span className="text-xs font-700 text-[#5A6A85] dark:text-[#7A9BC0] uppercase tracking-wider">
+                                {spec.key?.[lang as 'ar' | 'en' | 'ku'] ?? spec.key?.en ?? ''}
+                              </span>
+                              <span className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF]">
+                                {spec.value?.[lang as 'ar' | 'en' | 'ku'] ?? spec.value?.en ?? ''}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {(!product.specifications || Object.keys(product.specifications).length === 0) && (
+                    <div className="text-center text-[#5A6A85] dark:text-[#7A9BC0] py-12 font-600 bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl">
+                      <div className="text-4xl mb-3">📋</div>
+                      {t('لا توجد مواصفات متاحة', 'No specifications available', 'هیچ تایبەتمەندییەک بەردەست نییە')}
                     </div>
-                  ))}
+                  )}
                 </div>
               )}
               {activeTab === 'features' && (
