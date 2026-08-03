@@ -6,17 +6,19 @@ import {
   ArrowRight, ArrowLeft, ChevronRight, ChevronLeft, CheckCircle, Star, Shield, Truck, Wrench,
   Headphones, Award, Users, Package,
   Refrigerator, Wind, Flame, Waves, Home, Snowflake, Radio, Thermometer,
-  ChefHat, Droplets, Airplay,
+  ChefHat, Droplets, Airplay, GitCompare
 } from 'lucide-react';
 import { useApp } from './context/AppContext';
+import { useCompare } from './context/CompareContext';
 
 import { ApiHomeSection, ApiCategory, ApiProduct, ApiBrand } from "@/types/api";
 
-const WHATSAPP_NUMBER = '9647504454864';
+
 
 function ProductCarousel({ products }: { products: ApiProduct[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { t, lang, dir } = useApp();
+  const { toggleProduct, isCompared } = useCompare();
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -43,12 +45,18 @@ function ProductCarousel({ products }: { products: ApiProduct[] }) {
             transition={{ delay: i * 0.1, duration: 0.5 }}
             className={`flex-shrink-0 w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] snap-start group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-2 flex flex-col ${!isScrollable ? 'md:w-full lg:w-full xl:w-full flex-shrink' : ''}`}
           >
-            <div className="relative h-56 overflow-hidden bg-white dark:bg-[#0E1A33]">
-              <img
-                src={product.images?.[0]?.url || undefined}
-                alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
-              />
+            <div className="relative h-56 overflow-hidden bg-[#F5F8FF] dark:bg-[#0E1A33] flex items-center justify-center">
+              {product.images?.[0]?.url ? (
+                <img
+                  src={product.images[0].url}
+                  alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
+                  className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-[#C5D3E8] dark:text-[#2A3A55]">
+                  <svg viewBox="0 0 24 24" className="w-16 h-16 fill-current"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute bottom-3 start-3 end-3 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
                 <Link href={`/products/${product.id}`}
@@ -60,9 +68,14 @@ function ProductCarousel({ products }: { products: ApiProduct[] }) {
             </div>
             <div className="p-4 flex flex-col flex-1">
               <div className="text-xs text-[#29ABE2] font-700 mb-1">{product.brand?.name || '---'}</div>
-              <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2 line-clamp-2 leading-snug min-h-[40px]">
+              <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-1 line-clamp-2 leading-snug min-h-[40px]">
                 {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
               </h3>
+              {product.model_number && (
+                <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] font-500 mb-2 font-mono bg-[#F5F8FF] dark:bg-[#122040] px-2 py-0.5 rounded-lg inline-block w-fit">
+                  {product.model_number}
+                </div>
+              )}
               <div className="flex flex-wrap gap-1 mb-4 mt-auto">
                 {(product.features || []).slice(0, 3).map((spec, si) => (
                   <span key={si} className="text-[11px] bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full truncate max-w-full block">
@@ -70,11 +83,29 @@ function ProductCarousel({ products }: { products: ApiProduct[] }) {
                   </span>
                 ))}
               </div>
-              <WhatsAppButton
-                productName={product.name?.ar ?? ''}
-                productNameEn={product.name?.en ?? ''}
-                className="w-full py-2.5 mt-auto"
-              />
+              <div className="flex gap-2 w-full mt-auto">
+                <WhatsAppButton
+                  productName={product.name?.ar ?? ''}
+                  productNameEn={product.name?.en ?? ''}
+                  className="flex-1 py-2.5"
+                />
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleProduct({
+                      id: product.id,
+                      name: product.name,
+                      image: product.images?.[0]?.url || '',
+                      brand: product.brand?.name || '---',
+                      category: product.category?.name || { en: '---' }
+                    });
+                  }}
+                  className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all flex-shrink-0 ${isCompared(product.id) ? 'bg-[#1B4F9B] text-white shadow-md shadow-[#1B4F9B]/20' : 'bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] hover:bg-[#1B4F9B]/15 dark:hover:bg-[#4B8FE2]/15'}`}
+                  title={t('مقارنة', 'Compare', 'بەراورد')}
+                >
+                  <GitCompare size={18} />
+                </button>
+              </div>
             </div>
           </motion.div>
         ))}
@@ -101,14 +132,14 @@ function ProductCarousel({ products }: { products: ApiProduct[] }) {
 }
 
 function WhatsAppButton({ productName, productNameEn, className = '' }: { productName: string; productNameEn: string; className?: string }) {
-  const { t } = useApp();
+  const { t, whatsapp } = useApp();
   const message = encodeURIComponent(t(
     `مرحباً، أريد الاستفسار عن: ${productName}`,
     `Hello, I'd like to inquire about: ${productNameEn}`
   ));
   return (
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
+      href={`https://wa.me/${whatsapp}?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
       className={`flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-xl font-600 text-sm transition-all shadow-lg shadow-[#25D366]/25 hover:shadow-[#25D366]/45 hover:scale-105 active:scale-95 ${className}`}
@@ -222,8 +253,9 @@ const heroSlides = [
 ];
 
 export default function HomePageClient({ sections, categories, initialStats, initialBrands = [] }: { sections: ApiHomeSection[]; categories: ApiCategory[]; initialStats?: any[]; initialBrands?: ApiBrand[] }) {
-  const { t, lang, dir } = useApp();
+  const { t, lang, dir, whatsapp } = useApp();
   const [heroIndex, setHeroIndex] = useState(0);
+  const [liveStats, setLiveStats] = useState<any[] | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -232,14 +264,23 @@ export default function HomePageClient({ sections, categories, initialStats, ini
     return () => clearInterval(timer);
   }, []);
 
-
+  // Fetch fresh stats from API on client-side to bypass SSR cache
+  useEffect(() => {
+    fetch('/api/site/store-settings')
+      .then(r => r.json())
+      .then(json => {
+        const settings = json?.data?.settings ?? json?.settings ?? null;
+        const stats = settings?.stats;
+        if (Array.isArray(stats) && stats.length > 0) {
+          setLiveStats(stats);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const whyChooseUs = [
     { icon: CheckCircle, ar: 'منتجات أصلية 100%', en: '100% Genuine Products', ku: '١٠٠٪ بەرهەمی ڕەسەن', color: '#1B4F9B' },
     { icon: Shield, ar: 'ضمان رسمي معتمد', en: 'Official Certified Warranty', ku: 'زەمانەتی فەرمی باوەڕپێکراو', color: '#29ABE2' },
-    { icon: Wrench, ar: 'خدمة تركيب متخصصة', en: 'Specialized Installation', ku: 'خزمەتگوزاری دانانی تایبەتمەند', color: '#F7941D' },
-    { icon: Truck, ar: 'توصيل سريع وآمن', en: 'Fast & Safe Delivery', ku: 'گەیاندنی خێرا و پارێزراو', color: '#1B4F9B' },
-    { icon: Headphones, ar: 'دعم عملاء 24/7', en: '24/7 Customer Support', ku: 'پشتگیری کڕیار ٢٤/٧', color: '#29ABE2' },
     { icon: Award, ar: 'جودة عالية مضمونة', en: 'Guaranteed High Quality', ku: 'کوالێتی بەرزی زەمانەتکراو', color: '#F7941D' },
     { icon: Users, ar: 'حلول تنافسية للمشاريع', en: 'Competitive Project Solutions', ku: 'چارەسەری کێبڕکێکار بۆ پڕۆژەکان', color: '#1B4F9B' },
   ];
@@ -252,7 +293,8 @@ export default function HomePageClient({ sections, categories, initialStats, ini
     { valueAr: '+15', valueEn: '15+', labelAr: 'سنة خبرة', labelEn: 'Years Experience', labelKu: 'ساڵ ئەزموون' },
   ];
 
-  const displayStats = initialStats && initialStats.length > 0 ? initialStats : defaultStats;
+  // Priority: 1. live stats from API (bypasses cache), 2. SSR stats, 3. defaults
+  const displayStats = liveStats ?? (initialStats && initialStats.length > 0 ? initialStats : defaultStats);
 
 
   return (
@@ -305,7 +347,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
                     {dir === 'rtl' ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
                   </Link>
                   <a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                    href={`https://wa.me/${whatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-2xl font-700 text-sm transition-all shadow-xl shadow-[#25D366]/30 hover:shadow-[#25D366]/50 hover:scale-105"
@@ -393,12 +435,18 @@ export default function HomePageClient({ sections, categories, initialStats, ini
                   <Link href={`/products?category=${catSlug}`}
                     className="group block bg-white dark:bg-[#0E1A33] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-[#1B4F9B]/15 transition-all duration-500 hover:-translate-y-2 border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10"
                   >
-                    <div className="relative aspect-[4/3] sm:aspect-[3/2] overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
-                      <img
-                        src={cat.image || undefined}
-                        alt={cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
+                    <div className="relative aspect-[4/3] sm:aspect-[3/2] overflow-hidden bg-[#EBF0FA] dark:bg-[#122040] flex items-center justify-center">
+                      {cat.image ? (
+                        <img
+                          src={cat.image}
+                          alt={cat.name[lang as 'ar' | 'en' | 'ku'] ?? cat.name.en}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                      ) : (
+                        <div className="text-[#C5D3E8] dark:text-[#2A3A55]">
+                          <svg viewBox="0 0 24 24" className="w-12 h-12 fill-current"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/40 via-[#0A1628]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
                     <div className="p-4 sm:p-5 text-center bg-white dark:bg-[#0E1A33] relative z-10">
@@ -492,19 +540,21 @@ export default function HomePageClient({ sections, categories, initialStats, ini
           <div className="max-w-7xl mx-auto">
             <SectionTitle ar="علاماتنا التجارية" en="Our Brands" ku="براندەکانمان" />
             <div className="relative">
-              <div className="flex gap-8 items-center overflow-x-auto pb-4 scrollbar-none">
+              <div className="flex gap-8 items-center justify-center flex-wrap pb-4">
                 {initialBrands.map((brand) => (
                   <div
                     key={brand.id}
                     className="flex-shrink-0 w-32 h-20 bg-[#F5F8FF] dark:bg-[#060D1A] rounded-2xl border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:border-[#1B4F9B]/30 hover:shadow-lg transition-all group cursor-pointer flex items-center justify-center p-4 overflow-hidden"
                   >
-                    {brand.logo ? (
-                      <img src={brand.logo} alt={brand.name} className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300" />
-                    ) : (
-                      <span className="font-800 text-[#5A6A85] dark:text-[#7A9BC0] group-hover:text-[#1B4F9B] dark:group-hover:text-[#4B8FE2] transition-colors text-sm">
-                        {brand.name}
-                      </span>
-                    )}
+                    <div className="w-full h-full flex items-center justify-center">
+                      {brand.logo ? (
+                        <img src={brand.logo} alt={brand.name} className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300" />
+                      ) : (
+                        <span className="font-800 text-[#5A6A85] dark:text-[#7A9BC0] group-hover:text-[#1B4F9B] dark:group-hover:text-[#4B8FE2] transition-colors text-sm text-center">
+                          {brand.name}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -538,7 +588,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
               </div>
               <div className="flex-shrink-0">
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t('أريد الاستفسار عن حلول المشاريع', 'I want to inquire about project solutions', 'دەمەوێت پرسیار بکەم دەربارەی چارەسەری پڕۆژەکان'))}`}
+                  href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(t('أريد الاستفسار عن حلول المشاريع', 'I want to inquire about project solutions', 'دەمەوێت پرسیار بکەم دەربارەی چارەسەری پڕۆژەکان'))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 px-8 py-4 bg-white text-[#1B4F9B] rounded-2xl font-800 text-sm hover:bg-[#F5F8FF] transition-all shadow-xl hover:scale-105"
@@ -576,7 +626,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
             {t('فريقنا المتخصص جاهز للمساعدة في اختيار الجهاز المناسب لاحتياجاتك. تواصل معنا عبر واتساب الآن.', 'Our specialized team is ready to help you choose the right appliance for your needs. Contact us via WhatsApp now.', 'تیمی تایبەتمەندمان ئامادەیە بۆ یارمەتیدان لە هەڵبژاردنی ئامێری گونجاو. پەیوەندیمان پێوە بکە لە ڕێگەی واتسئەپەوە.')}
           </p>
           <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            href={`https://wa.me/${whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-10 py-5 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-2xl font-800 text-base transition-all shadow-2xl shadow-[#25D366]/30 hover:shadow-[#25D366]/50 hover:scale-105"

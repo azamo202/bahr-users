@@ -38,7 +38,7 @@ const categoryIcons: Record<string, React.ComponentType<{ size?: number; classNa
 };
 
 export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
-  const { lang, setLang, isDark, toggleDark, t } = useApp();
+  const { lang, setLang, isDark, toggleDark, t, whatsapp } = useApp();
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
@@ -298,7 +298,7 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
 
             {/* WhatsApp CTA (desktop) */}
             <a
-              href={`https://wa.me/${'+9647504454864'.replace('+', '')}`}
+              href={`https://wa.me/${whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-600 bg-[#25D366] hover:bg-[#20BA58] text-white transition-all shadow-md shadow-[#25D366]/30 hover:shadow-[#25D366]/50"
@@ -346,7 +346,7 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
               ))}
               <div className="pt-2">
                 <a
-                  href={`https://wa.me/${'+9647504454864'.replace('+', '')}`}
+                  href={`https://wa.me/${whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#25D366] text-white font-600 text-sm"

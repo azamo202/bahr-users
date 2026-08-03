@@ -16,15 +16,7 @@ const faqs = [
     answerEn: 'All our appliances come with an official manufacturer warranty ranging from 1 to 5 years depending on the type of appliance and brand.',
     answerKu: 'هەموو ئامێرەکانمان بە زەمانەتی فەرمی کۆمپانیای بەرهەمهێنەر دێن کە لە نێوان یەک ساڵ تا پێنج ساڵدایە بەپێی جۆری ئامێرەکە و براندەکە.',
   },
-  {
-    id: 2,
-    questionAr: 'هل توفرون خدمة التركيب والتوصيل؟',
-    questionEn: 'Do you provide installation and delivery services?',
-    questionKu: 'ئایا خزمەتگوزاری دانان و گەیاندن دابین دەکەن؟',
-    answerAr: 'نعم، نوفر خدمة التوصيل والتركيب الاحترافية على مستوى المملكة العربية السعودية بواسطة فريق متخصص ومدرب.',
-    answerEn: 'Yes, we provide professional delivery and installation services across Saudi Arabia by a specialized and trained team.',
-    answerKu: 'بەڵێ، خزمەتگوزاری گەیاندن و دانانی پیشەگەرانە لە سەرتاسەری شانشینی عەرەبستانی سعودی دابین دەکەین لەلایەن تیمێکی تایبەتمەند و ڕاهێنراوەوە.',
-  },
+
   {
     id: 3,
     questionAr: 'كيف يمكنني الاستفسار عن منتج معين؟',
@@ -61,7 +53,7 @@ interface SupportClientProps {
 }
 
 export default function SupportClient({ downloads, videos, serviceCenters }: SupportClientProps) {
-  const { t, lang, dir } = useApp();
+  const { t, lang, dir, whatsapp } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'downloads' | 'videos' | 'centers'>('downloads');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -393,7 +385,7 @@ export default function SupportClient({ downloads, videos, serviceCenters }: Sup
                 {t('تواصل مع فريق الدعم الفني مباشرة وسنسعد بمساعدتك', 'Contact our technical support team directly and we\'ll be happy to help', 'ڕاستەوخۆ پەیوەندی بکە بە تیمی پشتگیری تەکنیکییەوە و خۆشحاڵ دەبین بە یارمەتیدانت')}
               </p>
               <a
-                href="https://wa.me/9647504454864"
+                href={`https://wa.me/${whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-2xl font-700 text-sm transition-all shadow-xl shadow-[#25D366]/25 hover:shadow-[#25D366]/40 hover:scale-105"

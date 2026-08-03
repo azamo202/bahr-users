@@ -23,7 +23,7 @@ export const COMPANY_DETAILS = {
 
 /** Cache revalidation intervals (seconds). */
 export const CACHE_TTL = {
-  storeSettings: 3600,  // 1 hour
+  storeSettings: 60,    // 1 minute — changes from dashboard must appear quickly
   categories: 3600,     // 1 hour
   brands: 3600,         // 1 hour
   homeData: 60,         // 1 minute — editorial content updated more often

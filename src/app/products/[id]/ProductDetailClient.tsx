@@ -6,10 +6,10 @@ import { ArrowLeft, ArrowRight, Check, Share2, ChevronRight, ZoomIn } from 'luci
 import { useApp } from '../../context/AppContext';
 import { ApiProduct, ApiCategory } from "@/types/api";
 
-const WHATSAPP_NUMBER = '9647504454864';
+
 
 export default function ProductDetailClient({ product, related, categories }: { product: ApiProduct, related: ApiProduct[], categories: ApiCategory[] }) {
-  const { t, lang, dir } = useApp();
+  const { t, lang, dir, whatsapp } = useApp();
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'description'>('description');
   const [isHovered, setIsHovered] = useState(false);
@@ -68,11 +68,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
     );
   }
 
-  const allImages = product.images?.map(img => img.url) || [];
-  if (allImages.length === 0) {
-    // Fallback if no images
-    allImages.push('');
-  }
+  const allImages = (product.images?.map(img => img.url) || []).filter(Boolean);
 
   const relatedProducts = related;
   const categoryName = product.category;
@@ -121,17 +117,23 @@ export default function ProductDetailClient({ product, related, categories }: { 
                 onMouseLeave={() => setIsHovered(false)}
                 onMouseMove={handleMouseMove}
               >
-
-                <motion.img
-                  key={selectedImage}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: isHovered ? 2.5 : 1 }}
-                  transition={{ duration: 0.4 }}
-                  src={allImages[selectedImage]}
-                  alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                  style={{ transformOrigin: `${mousePos.x}% ${mousePos.y}%` }}
-                  className="w-full h-full object-cover"
-                />
+                {allImages.length > 0 ? (
+                  <motion.img
+                    key={selectedImage}
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: isHovered ? 2.5 : 1 }}
+                    transition={{ duration: 0.4 }}
+                    src={allImages[selectedImage]}
+                    alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
+                    style={{ transformOrigin: `${mousePos.x}% ${mousePos.y}%` }}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#C5D3E8] dark:text-[#2A3A55]">
+                    <svg viewBox="0 0 24 24" className="w-20 h-20 fill-current"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                    <span className="text-sm">{t('لا توجد صورة', 'No Image', 'وێنەی نییە')}</span>
+                  </div>
+                )}
                 <button className="absolute bottom-4 end-4 w-8 h-8 rounded-lg bg-white/80 dark:bg-[#0E1A33]/80 backdrop-blur-sm flex items-center justify-center shadow hover:bg-white transition-colors pointer-events-none">
                   <ZoomIn size={16} className="text-[#1B4F9B]" />
                 </button>
@@ -160,9 +162,21 @@ export default function ProductDetailClient({ product, related, categories }: { 
                   {categoryName?.name[lang as 'ar' | 'en' | 'ku'] ?? categoryName?.name.en}
                 </span>
               </div>
-              <h1 className="text-2xl md:text-3xl font-900 text-[#0A1628] dark:text-[#E8F0FF] mb-5 leading-snug">
+              <h1 className="text-2xl md:text-3xl font-900 text-[#0A1628] dark:text-[#E8F0FF] mb-3 leading-snug">
                 {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
               </h1>
+
+              {/* Model Number */}
+              {product.model_number && (
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] font-500">
+                    {t('الموديل:', 'Model:', 'مۆدێل:')}
+                  </span>
+                  <span className="text-sm font-700 font-mono text-[#1B4F9B] dark:text-[#4B8FE2] bg-[#EBF0FA] dark:bg-[#122040] px-3 py-1 rounded-lg tracking-wider">
+                    {product.model_number}
+                  </span>
+                </div>
+              )}
 
               {/* Quick specs */}
               <div className="flex flex-wrap gap-2 mb-6">
@@ -180,7 +194,7 @@ export default function ProductDetailClient({ product, related, categories }: { 
                   {t('للاستفسار عن السعر والتوافر وخيارات التسليم، تواصل مع فريق المبيعات مباشرة.', 'For price, availability, and delivery options, contact our sales team directly.', 'بۆ پرسیارکردن دەربارەی نرخ و بەردەستبوون، پەیوەندی بکە بە تیمی فرۆشتنەوە.')}
                 </p>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`}
+                  href={`https://wa.me/${whatsapp}?text=${waMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-3 py-4 bg-[#25D366] hover:bg-[#20BA58] text-white rounded-2xl font-800 text-base transition-all shadow-xl shadow-[#25D366]/25 hover:shadow-[#25D366]/45 hover:scale-[1.02]"
@@ -299,12 +313,18 @@ export default function ProductDetailClient({ product, related, categories }: { 
                     href={`/products/${related.id}`}
                     className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
                   >
-                    <div className="h-36 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040]">
-                      <img
-                        src={related.images?.[0]?.url || ''}
-                        alt={related.name[lang as 'ar' | 'en' | 'ku'] ?? related.name.en}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
+                    <div className="h-36 overflow-hidden bg-[#EBF0FA] dark:bg-[#122040] flex items-center justify-center">
+                      {related.images?.[0]?.url ? (
+                        <img
+                          src={related.images[0].url}
+                          alt={related.name[lang as 'ar' | 'en' | 'ku'] ?? related.name.en}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[#C5D3E8] dark:text-[#2A3A55]">
+                          <svg viewBox="0 0 24 24" className="w-10 h-10 fill-current"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                        </div>
+                      )}
                     </div>
                     <div className="p-3 flex-1 flex flex-col">
                       <div className="text-xs text-[#29ABE2] font-700 mb-1">{related.brand?.name || '---'}</div>

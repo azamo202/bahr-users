@@ -3,23 +3,24 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
-import { Search, Filter, Grid3X3, List, X, ChevronDown } from 'lucide-react';
+import { Search, Filter, Grid3X3, List, X, ChevronDown, GitCompare } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useCompare } from '../context/CompareContext';
 import { ApiCategory, ApiBrand, ApiProduct } from "@/types/api";
 import { fetchApi } from "@/lib/api";
 import { normalizeProducts } from "@/services/normalizers/productNormalizer";
 
-const WHATSAPP_NUMBER = '9647504454864';
+
 
 function WhatsAppButton({ productName, productNameEn, small = false }: { productName: string; productNameEn: string; small?: boolean }) {
-  const { t } = useApp();
+  const { t, whatsapp } = useApp();
   const message = encodeURIComponent(t(
     `مرحباً، أريد الاستفسار عن: ${productName}`,
     `Hello, I'd like to inquire about: ${productNameEn}`
   ));
   return (
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
+      href={`https://wa.me/${whatsapp}?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
@@ -190,6 +191,7 @@ function BrandDropdown({ brands, selectedBrand, onChange, t }: { brands: ApiBran
 
 function ProductsPageContent({ initialCategories, initialBrands }: { initialCategories: ApiCategory[], initialBrands: ApiBrand[] }) {
   const { t, lang } = useApp();
+  const { toggleProduct, isCompared } = useCompare();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [view, setView] = useState<'grid' | 'list'>('grid');
@@ -382,18 +384,29 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 onClick={() => router.push(`/products/${product.id}`)}
                 className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 transition-all duration-300 hover:-translate-y-1 flex flex-col cursor-pointer"
               >
-                <div className="relative h-52 overflow-hidden bg-white dark:bg-[#0E1A33]">
-                  <img
-                    src={product.images?.[0]?.url || ''}
-                    alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                    className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
-                  />
+                <div className="relative h-52 overflow-hidden bg-[#F5F8FF] dark:bg-[#0E1A33] flex items-center justify-center">
+                  {product.images?.[0]?.url ? (
+                    <img
+                      src={product.images[0].url}
+                      alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
+                      className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[#C5D3E8] dark:text-[#2A3A55]">
+                      <svg viewBox="0 0 24 24" className="w-16 h-16 fill-current"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                    </div>
+                  )}
                 </div>
                 <div className="p-4 flex flex-col flex-1">
                   <div className="text-xs text-[#29ABE2] font-700 mb-1">{product.brand?.name || '---'}</div>
-                  <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2 line-clamp-2 min-h-[40px]">
+                  <h3 className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-1 line-clamp-2 min-h-[40px]">
                     {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                   </h3>
+                  {product.model_number && (
+                    <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] font-500 mb-2 font-mono bg-[#F5F8FF] dark:bg-[#122040] px-2 py-0.5 rounded-lg inline-block w-fit">
+                      {product.model_number}
+                    </div>
+                  )}
                   <div className="flex flex-wrap gap-1 mb-3 mt-auto h-[48px] overflow-hidden">
                     {(product.features || []).slice(0, 2).map((spec, si) => (
                       <span key={si} className="text-xs bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2 py-0.5 rounded-full truncate max-w-full block">
@@ -407,6 +420,22 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                     >
                       {t('التفاصيل', 'Details', 'وردەکارییەکان')}
                     </span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleProduct({
+                          id: product.id,
+                          name: product.name,
+                          image: product.images?.[0]?.url || '',
+                          brand: product.brand?.name || '---',
+                          category: product.category?.name || { en: '---' }
+                        });
+                      }}
+                      className={`flex items-center justify-center w-8 h-8 rounded-xl transition-all ${isCompared(product.id) ? 'bg-[#1B4F9B] text-white shadow-md shadow-[#1B4F9B]/20' : 'bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] hover:bg-[#1B4F9B]/15 dark:hover:bg-[#4B8FE2]/15'}`}
+                      title={t('مقارنة', 'Compare', 'بەراورد')}
+                    >
+                      <GitCompare size={14} />
+                    </button>
                     <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} small />
                   </div>
                 </div>
@@ -425,12 +454,18 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                 className="group bg-white dark:bg-[#0E1A33] rounded-2xl overflow-hidden border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-lg hover:shadow-[#1B4F9B]/8 transition-all cursor-pointer"
               >
                 <div className="flex flex-col sm:flex-row">
-                  <div className="relative h-40 sm:h-auto sm:w-48 flex-shrink-0 overflow-hidden bg-white dark:bg-[#0E1A33]">
-                    <img
-                      src={product.images?.[0]?.url || ''}
-                      alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
-                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-                    />
+                  <div className="relative h-40 sm:h-auto sm:w-48 flex-shrink-0 overflow-hidden bg-[#F5F8FF] dark:bg-[#0E1A33] flex items-center justify-center">
+                    {product.images?.[0]?.url ? (
+                      <img
+                        src={product.images[0].url}
+                        alt={product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
+                        className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[#C5D3E8] dark:text-[#2A3A55]">
+                        <svg viewBox="0 0 24 24" className="w-12 h-12 fill-current"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1 p-5 flex flex-col justify-between">
                     <div>
@@ -440,9 +475,14 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                           · {product.category?.name[lang as 'ar' | 'en' | 'ku'] ?? product.category?.name.en}
                         </span>
                       </div>
-                      <h3 className="text-base font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-2">
+                      <h3 className="text-base font-700 text-[#0A1628] dark:text-[#E8F0FF] mb-1">
                         {product.name[lang as 'ar' | 'en' | 'ku'] ?? product.name.en}
                       </h3>
+                      {product.model_number && (
+                        <div className="text-xs text-[#5A6A85] dark:text-[#7A9BC0] font-500 mb-2 font-mono bg-[#F5F8FF] dark:bg-[#122040] px-2.5 py-1 rounded-lg inline-block">
+                          {product.model_number}
+                        </div>
+                      )}
                       <div className="flex flex-wrap gap-1.5 mb-3">
                         {(product.features || []).map((spec, si) => (
                           <span key={si} className="text-xs bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] px-2.5 py-1 rounded-full">
@@ -457,6 +497,22 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                       >
                         {t('عرض التفاصيل', 'View Details', 'نیشاندانی وردەکارییەکان')}
                       </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleProduct({
+                            id: product.id,
+                            name: product.name,
+                            image: product.images?.[0]?.url || '',
+                            brand: product.brand?.name || '---',
+                            category: product.category?.name || { en: '---' }
+                          });
+                        }}
+                        className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all ${isCompared(product.id) ? 'bg-[#1B4F9B] text-white shadow-md shadow-[#1B4F9B]/20' : 'bg-[#EBF0FA] dark:bg-[#122040] text-[#5A6A85] dark:text-[#7A9BC0] hover:bg-[#1B4F9B]/15 dark:hover:bg-[#4B8FE2]/15'}`}
+                        title={t('مقارنة', 'Compare', 'بەراورد')}
+                      >
+                        <GitCompare size={18} />
+                      </button>
                       <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} />
                     </div>
                   </div>
