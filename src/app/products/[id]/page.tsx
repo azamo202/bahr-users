@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const imageUrl = product.images?.[0]?.url;
 
     return {
-      title: `${title} | شركة بحر الألوان`,
+      title: `${title} | بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية`,
       description: plainDesc,
       openGraph: {
         title,

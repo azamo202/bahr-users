@@ -17,7 +17,7 @@ import {
 import { useApp } from '../context/AppContext';
 import { ApiCategory } from "@/types/api";
 
-const COMPANY_NAME_AR = "شركة بحر الألوان للتجارة العامة";
+const COMPANY_NAME_AR = "بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية";
 const COMPANY_NAME_EN = "Bahr Alalwan General Trading Company";
 const COMPANY_NAME_KU = "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی";
 import logoImg from '../../imports/WhatsApp_Image_2026-06-22_at_3.23.33_PM.jpeg';
@@ -104,12 +104,9 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
               alt={t(COMPANY_NAME_AR, COMPANY_NAME_EN, COMPANY_NAME_KU)}
               className="h-12 w-12 object-contain rounded-full transition-all duration-300"
             />
-            <div className="hidden sm:block">
-              <div className={`text-sm font-700 leading-tight transition-colors ${textColor}`}>
-                {t('شركة بحر الألوان', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
-              </div>
-              <div className={`text-xs transition-colors ${isTransparent ? 'text-white/70' : 'text-[#5A6A85] dark:text-[#7A9BC0]'}`}>
-                {t('للتجارة العامة', 'General Trading', 'بۆ بازرگانی گشتی')}
+            <div className="hidden sm:block w-[160px] md:w-[180px] lg:w-[240px]">
+              <div className={`text-[10px] md:text-xs lg:text-sm font-700 leading-tight transition-colors whitespace-normal ${textColor}`}>
+                {t('بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
               </div>
             </div>
           </Link>

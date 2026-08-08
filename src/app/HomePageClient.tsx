@@ -87,6 +87,9 @@ function ProductCarousel({ products }: { products: ApiProduct[] }) {
                 <WhatsAppButton
                   productName={product.name?.ar ?? ''}
                   productNameEn={product.name?.en ?? ''}
+                  productNameKu={product.name?.ku ?? ''}
+                  productId={product.id}
+                  modelNumber={product.model_number}
                   className="flex-1 py-2.5"
                 />
                 <button
@@ -131,11 +134,18 @@ function ProductCarousel({ products }: { products: ApiProduct[] }) {
   );
 }
 
-function WhatsAppButton({ productName, productNameEn, className = '' }: { productName: string; productNameEn: string; className?: string }) {
+function WhatsAppButton({ productName, productNameEn, productNameKu, productId, modelNumber, className = '' }: { productName: string; productNameEn: string; productNameKu?: string; productId: string; modelNumber?: string; className?: string }) {
   const { t, whatsapp } = useApp();
+  const [productUrl, setProductUrl] = useState('');
+
+  useEffect(() => {
+    setProductUrl(`${window.location.origin}/products/${productId}`);
+  }, [productId]);
+
   const message = encodeURIComponent(t(
-    `مرحباً، أريد الاستفسار عن: ${productName}`,
-    `Hello, I'd like to inquire about: ${productNameEn}`
+    `مرحباً، أريد الاستفسار عن: ${productName}\nرقم الموديل: ${modelNumber || 'غير متوفر'}\nرابط المنتج: ${productUrl}`,
+    `Hello, I'd like to inquire about: ${productNameEn}\nModel Number: ${modelNumber || 'N/A'}\nProduct Link: ${productUrl}`,
+    `سڵاو، دەمەوێت پرسیار بکەم دەربارەی: ${productNameKu || productNameEn}\nژمارەی مۆدێل: ${modelNumber || 'نەزانراو'}\nبەستەری بەرهەم: ${productUrl}`
   ));
   return (
     <a
@@ -187,13 +197,6 @@ function SectionTitle({ ar, en, ku, subtitleAr, subtitleEn, subtitleKu }: { ar: 
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <div className="inline-flex items-center gap-2 mb-3">
-          <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
-          <span className="text-[#F7941D] text-xs font-600 uppercase tracking-widest ltr:tracking-widest rtl:tracking-normal">
-            {t('شركة بحر الألوان', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
-          </span>
-          <span className="w-8 h-0.5 bg-[#F7941D] rounded" />
-        </div>
         <h2 className="text-3xl md:text-4xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-3">
           {t(ar, en, ku)}
         </h2>
@@ -271,7 +274,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
       .then(json => {
         const settings = json?.data?.settings ?? json?.settings ?? null;
         const stats = settings?.stats;
-        if (Array.isArray(stats) && stats.length > 0) {
+        if (Array.isArray(stats)) {
           setLiveStats(stats);
         }
       })
@@ -294,7 +297,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
   ];
 
   // Priority: 1. live stats from API (bypasses cache), 2. SSR stats, 3. defaults
-  const displayStats = liveStats ?? (initialStats && initialStats.length > 0 ? initialStats : defaultStats);
+  const displayStats = liveStats ?? (initialStats ? initialStats : defaultStats);
 
 
   return (
@@ -384,13 +387,14 @@ export default function HomePageClient({ sections, categories, initialStats, ini
       </section>
 
       {/* ─── STATS ─── */}
-      <section className="bg-[#1B4F9B] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#29ABE2] blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#F7941D] blur-3xl" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      {displayStats && displayStats.length > 0 && (
+        <section className="bg-[#1B4F9B] relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#29ABE2] blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#F7941D] blur-3xl" />
+          </div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12">
+            <div className={`grid gap-8 ${displayStats.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' : displayStats.length === 2 ? 'grid-cols-2 max-w-2xl mx-auto' : displayStats.length === 3 ? 'grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto' : 'grid-cols-2 lg:grid-cols-4'}`}>
             {displayStats.map((stat, i) => (
               <motion.div
                 key={i}
@@ -409,6 +413,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
           </div>
         </div>
       </section>
+      )}
 
       {/* ─── CATEGORIES ─── */}
       <section className="py-20 px-4 sm:px-6">
@@ -518,7 +523,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.5 }}
-                  className="group bg-white dark:bg-[#0E1A33] rounded-2xl p-6 text-center border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 hover:-translate-y-2 transition-all duration-300"
+                  className="group flex flex-col items-center justify-center bg-white dark:bg-[#0E1A33] rounded-2xl p-6 text-center border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 hover:shadow-xl hover:shadow-[#1B4F9B]/10 hover:-translate-y-2 transition-all duration-300"
                 >
                   <div
                     className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform"

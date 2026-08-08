@@ -25,7 +25,7 @@ export default function DownloadsClient({ downloads }: { downloads: ApiDownload[
             <ArrowIcon size={24} />
           </Link>
           <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('مركز التحميلات', 'Downloads Center', 'سەنتەری دابەزاندنەکان')}</h1>
-          <p className="text-white/80 text-sm mb-8">
+          <p className="text-white/80 text-sm md:text-base mb-8 text-center max-w-xl mx-auto leading-relaxed">
             {t('تصفح وحمل جميع الملفات المتاحة', 'Browse and download all available files', 'سەیربکە و هەموو فایلە بەردەستەکان دابەزێنە')}
           </p>
           <div className="relative max-w-lg mx-auto">

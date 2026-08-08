@@ -1,6 +1,6 @@
 "use client";
 import { motion } from 'motion/react';
-import { Target, Eye, Building2, ShieldCheck, Handshake, TrendingUp, Flag } from 'lucide-react';
+import { Target, Eye, ShieldCheck, Handshake, TrendingUp, Flag } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export default function AboutClient({ initialStats }: { initialStats?: any[] }) {
@@ -59,20 +59,14 @@ export default function AboutClient({ initialStats }: { initialStats?: any[] }) 
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
-              <Building2 size={14} className="text-[#F7941D]" />
-              <span className="text-xs font-600 tracking-widest ltr:tracking-widest rtl:tracking-normal uppercase text-white/80">
-                {t('شركة بحر الألوان', 'Bahr Alalwan', 'کۆمپانیای بەحر ئەلئەلوان')}
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-800 mb-6 leading-tight">
+            <h1 className="text-4xl md:text-6xl font-800 mb-4 leading-tight">
               {t('من نحن', 'About Us', 'دەربارەی ئێمە')}
             </h1>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="text-white/90 text-base sm:text-xl md:text-2xl font-700 leading-snug text-balance max-w-3xl mx-auto">
               {t(
-                'تأسست في الموصل عام 2025 — انطلاقة جديدة وحيوية في سوق الأجهزة المنزلية في العراق.',
-                'Established in Mosul in 2025 — a fresh and dynamic force in the Iraqi home appliances market.',
-                'لە مووسڵ لە ساڵی 2025 دامەزراوە — دەستپێشخەرییەکی نوێ و پڕ وزە لە بازاڕی ئامێرەکانی ناوماڵ لە عێراقدا.'
+                'بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية',
+                'Bahr Alalwan for General Trading Imp. & Exp. LTD.',
+                'بەحر ئەلئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن — سنووردار'
               )}
             </p>
           </motion.div>
@@ -115,7 +109,7 @@ export default function AboutClient({ initialStats }: { initialStats?: any[] }) 
           </div>
           <h2 className="text-2xl md:text-3xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-6">
             {t(
-              'شركة بحر الألوان للتجارة العامة والاستيراد والتصدير المحدودة',
+              'بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية',
               'Bahr Alalwan for General Trading Imp. & Exp. LTD.',
               'کۆمپانیای بەحر ئەلئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردنی سنووردار'
             )}
@@ -123,7 +117,7 @@ export default function AboutClient({ initialStats }: { initialStats?: any[] }) 
           <div className="space-y-5 text-[#5A6A85] dark:text-[#7A9BC0] leading-relaxed text-sm md:text-[15px]">
             <p>
               {t(
-                'تأسست شركة بحر الألوان للتجارة العامة والاستيراد والتصدير المحدودة في عام 2025 في مدينة الموصل، لتكون انطلاقة جديدة وحيوية في سوق الأجهزة المنزلية في العراق.',
+                'تأسست بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية في عام 2025 في مدينة الموصل، لتكون انطلاقة جديدة وحيوية في سوق الأجهزة المنزلية في العراق.',
                 'Established in 2025 in Mosul, Bahr Alalwan for General Trading Imp. & Exp. LTD. is a fresh and dynamic force in the Iraqi home appliances market.',
                 'کۆمپانیای بەحر ئەلئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردنی سنووردار لە ساڵی 2025 لە شاری مووسڵ دامەزراوە، بۆ ئەوەی ببێتە دەستپێشخەرییەکی نوێ و پڕ وزە لە بازاڕی ئامێرەکانی ناوماڵ لە عێراقدا.'
               )}
@@ -283,7 +277,7 @@ export default function AboutClient({ initialStats }: { initialStats?: any[] }) 
             </h3>
             <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-2xl mx-auto">
               {t(
-                'يقود شركة بحر الألوان بخبرة طويلة وعميقة في قطاع الأجهزة المنزلية، ورؤية شابة تجمع بين الاستراتيجيات العصرية والالتزام برضا العميل.',
+                'يقود بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية بخبرة طويلة وعميقة في قطاع الأجهزة المنزلية، ورؤية شابة تجمع بين الاستراتيجيات العصرية والالتزام برضا العميل.',
                 'Leading Bahr Alalwan with many years of deep expertise in the home appliances sector, and a modern vision that blends innovative strategies with a commitment to customer satisfaction.',
                 'کۆمپانیای بەحر ئەلئەلوان بە چەندین ساڵ ئەزموونی قووڵ لە کەرتی ئامێرەکانی ناوماڵ رێبەرایەتی دەکات، و دیدگایەکی مۆدێرن کە نێوان ستراتیژی داهێنەرانە و پابەندبوون بە ڕەزامەندی کڕیار تێکەڵ دەکات.'
               )}

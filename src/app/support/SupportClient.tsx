@@ -87,7 +87,7 @@ export default function SupportClient({ downloads, videos, serviceCenters }: Sup
       <div className="bg-gradient-to-r from-[#1B4F9B] to-[#29ABE2] pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('مركز الدعم', 'Support Center', 'سەنتەری پشتگیری')}</h1>
-          <p className="text-white/80 text-sm mb-8">
+          <p className="text-white/80 text-sm md:text-base mb-8 text-center max-w-xl mx-auto leading-relaxed">
             {t('تحميل الكتالوجات، الأدلة، وثائق الضمان والأسئلة الشائعة', 'Download catalogs, manuals, warranty documents and FAQs', 'دابەزاندنی کەتەلۆگەکان، ڕێبەرەکان، بەڵگەنامەکانی زەمانەت')}
           </p>
           <div className="relative max-w-lg mx-auto">

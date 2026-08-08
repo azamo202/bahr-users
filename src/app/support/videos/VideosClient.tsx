@@ -25,7 +25,7 @@ export default function VideosClient({ videos }: { videos: ApiVideo[] }) {
             <ArrowIcon size={24} />
           </Link>
           <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('الفيديوهات', 'Videos', 'ڤیدیۆکان')}</h1>
-          <p className="text-white/80 text-sm mb-8">
+          <p className="text-white/80 text-sm md:text-base mb-8 text-center max-w-xl mx-auto leading-relaxed">
             {t('تصفح وشاهد جميع الفيديوهات التعليمية', 'Browse and watch all tutorial videos', 'سەیربکە و تەماشای هەموو ڤیدیۆ فێرکارییەکان بکە')}
           </p>
           <div className="relative max-w-lg mx-auto">

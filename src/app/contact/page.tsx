@@ -89,7 +89,7 @@ export default function ContactPage() {
       <div className="bg-gradient-to-r from-[#1B4F9B] to-[#29ABE2] pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center text-white">
           <h1 className="text-4xl md:text-5xl font-900 mb-3">{t('اتصل بنا', 'Contact Us', 'پەیوەندیمان پێوە بکە')}</h1>
-          <p className="text-white/80 text-sm">{t('نحن هنا لخدمتك — تواصل معنا عبر أي وسيلة', 'We\'re here to serve you — contact us through any channel', 'نحن هنا لخدمتك — تواصل معنا عبر أي وسيلة')}</p>
+          <p className="text-white/80 text-sm md:text-base text-center max-w-xl mx-auto leading-relaxed">{t('نحن هنا لخدمتك — تواصل معنا عبر أي وسيلة', 'We\'re here to serve you — contact us through any channel', 'نحن هنا لخدمتك — تواصل معنا عبر أي وسيلة')}</p>
         </div>
       </div>
 
@@ -211,7 +211,6 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
                         className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all"
-                        placeholder={t('محمد عبدالله', 'Mohammed Abdullah', 'محەمەد عەبدوڵڵا')}
                       />
                     </div>
                     <div>
@@ -221,7 +220,6 @@ export default function ContactPage() {
                         value={formData.phone}
                         onChange={e => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all"
-                        placeholder="+966 5x xxx xxxx"
                       />
                     </div>
                   </div>
@@ -233,7 +231,6 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={e => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all"
-                      placeholder="example@email.com"
                     />
                   </div>
                   <div>
@@ -244,7 +241,6 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={e => setFormData({ ...formData, subject: e.target.value })}
                       className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all"
-                      placeholder={t('الاستفسار عن منتج', 'Inquiry about a product', 'پرسیارکردن دەربارەی بەرهەمێک')}
                     />
                   </div>
                   <div>
@@ -255,7 +251,6 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={e => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-4 py-3 text-sm rounded-xl bg-[#F5F8FF] dark:bg-[#060D1A] border border-[#1B4F9B]/12 dark:border-[#4B8FE2]/12 text-[#0A1628] dark:text-[#E8F0FF] placeholder-[#5A6A85] focus:outline-none focus:ring-2 focus:ring-[#1B4F9B]/30 transition-all resize-none"
-                      placeholder={t('اكتب رسالتك هنا...', 'Write your message here...', 'لێرە نامەکەت بنووسە...')}
                     />
                   </div>
                   <button

@@ -5,7 +5,7 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, Youtube, MessageCirc
 import { useApp } from '../context/AppContext';
 import { fetchApi } from '@/lib/api';
 import { ApiCategory } from '@/types/api';
-const COMPANY_NAME_AR = "شركة بحر الألوان للتجارة العامة";
+const COMPANY_NAME_AR = "بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية";
 const COMPANY_NAME_EN = "Bahr Alalwan General Trading Company";
 const COMPANY_NAME_KU = "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی";
 import logoImg from '../../imports/WhatsApp_Image_2026-06-22_at_3.23.33_PM.jpeg';
@@ -57,8 +57,9 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3 mb-6">
               <img src={logoImg.src} alt={t(COMPANY_NAME_AR, COMPANY_NAME_EN, COMPANY_NAME_KU)} className="h-14 w-14 rounded-full object-contain" />
               <div>
-                <div className="text-white font-700 text-base">{t('شركة بحر الألوان', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}</div>
-                <div className="text-[#7A9BC0] text-xs">{t('للتجارة العامة', 'General Trading', 'بۆ بازرگانی گشتی')}</div>
+                <div className="text-white font-700 text-sm md:text-base whitespace-normal max-w-[280px] leading-snug">
+                  {t('بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
+                </div>
               </div>
             </Link>
             <p className="text-sm leading-relaxed text-[#7A9BC0] mb-6">

@@ -29,6 +29,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isDark, setIsDark] = useState(false);
   const [whatsapp, setWhatsapp] = useState('');
 
+  useEffect(() => {
+    const savedLang = localStorage.getItem('app_lang') as Language;
+    if (savedLang === 'ar' || savedLang === 'en' || savedLang === 'ku') {
+      setLangState(savedLang);
+    }
+  }, []);
+
   const dir = lang === 'ar' || lang === 'ku' ? 'rtl' : 'ltr';
 
   useEffect(() => {
@@ -54,7 +61,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       .catch(() => { });
   }, []);
 
-  const setLang = (newLang: Language) => setLangState(newLang);
+  const setLang = (newLang: Language) => {
+    setLangState(newLang);
+    localStorage.setItem('app_lang', newLang);
+  };
   const toggleDark = () => setIsDark(prev => !prev);
   const t = (ar: string, en: string, ku?: string) => {
     if (lang === 'ar') return ar;

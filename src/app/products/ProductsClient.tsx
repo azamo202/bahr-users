@@ -12,11 +12,18 @@ import { normalizeProducts } from "@/services/normalizers/productNormalizer";
 
 
 
-function WhatsAppButton({ productName, productNameEn, small = false }: { productName: string; productNameEn: string; small?: boolean }) {
+function WhatsAppButton({ productName, productNameEn, productNameKu, productId, modelNumber, small = false }: { productName: string; productNameEn: string; productNameKu?: string; productId: string; modelNumber?: string; small?: boolean }) {
   const { t, whatsapp } = useApp();
+  const [productUrl, setProductUrl] = useState('');
+
+  useEffect(() => {
+    setProductUrl(`${window.location.origin}/products/${productId}`);
+  }, [productId]);
+
   const message = encodeURIComponent(t(
-    `مرحباً، أريد الاستفسار عن: ${productName}`,
-    `Hello, I'd like to inquire about: ${productNameEn}`
+    `مرحباً، أريد الاستفسار عن: ${productName}\nرقم الموديل: ${modelNumber || 'غير متوفر'}\nرابط المنتج: ${productUrl}`,
+    `Hello, I'd like to inquire about: ${productNameEn}\nModel Number: ${modelNumber || 'N/A'}\nProduct Link: ${productUrl}`,
+    `سڵاو، دەمەوێت پرسیار بکەم دەربارەی: ${productNameKu || productNameEn}\nژمارەی مۆدێل: ${modelNumber || 'نەزانراو'}\nبەستەری بەرهەم: ${productUrl}`
   ));
   return (
     <a
@@ -436,7 +443,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                     >
                       <GitCompare size={14} />
                     </button>
-                    <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} small />
+                    <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} productNameKu={product.name?.ku ?? ''} productId={product.id} modelNumber={product.model_number} small />
                   </div>
                 </div>
               </motion.div>
@@ -513,7 +520,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                       >
                         <GitCompare size={18} />
                       </button>
-                      <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} />
+                      <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} productNameKu={product.name?.ku ?? ''} productId={product.id} modelNumber={product.model_number} />
                     </div>
                   </div>
                 </div>

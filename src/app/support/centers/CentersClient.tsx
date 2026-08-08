@@ -27,7 +27,7 @@ export default function CentersClient({ centers }: { centers: ApiMaintenanceCent
             <ArrowIcon size={24} />
           </Link>
           <h1 className="text-4xl md:text-5xl font-900 mb-4">{t('مراكز الصيانة', 'Service Centers', 'سەنتەرەکانی چاککردنەوە')}</h1>
-          <p className="text-white/80 text-sm mb-8">
+          <p className="text-white/80 text-sm md:text-base mb-8 text-center max-w-xl mx-auto leading-relaxed">
             {t('ابحث عن أقرب مركز صيانة معتمد لك', 'Find the nearest authorized service center', 'بەدوای نزیکترین سەنتەری چاککردنەوەی باوەڕپێکراودا بگەڕێ')}
           </p>
           <div className="relative max-w-lg mx-auto">
