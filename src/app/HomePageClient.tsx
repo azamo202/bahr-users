@@ -269,7 +269,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
 
   // Fetch fresh stats from API on client-side to bypass SSR cache
   useEffect(() => {
-    fetch('/api/site/store-settings')
+    fetch('/api/site/store-settings', { cache: 'no-store' })
       .then(r => r.json())
       .then(json => {
         const settings = json?.data?.settings ?? json?.settings ?? null;
