@@ -1,11 +1,11 @@
-import { fetchApi } from "@/lib/api";
+import { fetchApi, getStoreSettings } from "@/lib/api";
 import { ApiDownload, ApiVideo, ApiMaintenanceCenter } from "@/types/api";
 import SupportClient from "./SupportClient";
 import { Suspense } from "react";
 import { CACHE_TTL } from "@/lib/constants";
 
 export default async function SupportPage() {
-  const [downloadsResult, videosResult, centersResult] = await Promise.allSettled([
+  const [downloadsResult, videosResult, centersResult, storeSettingsResult] = await Promise.allSettled([
     fetchApi<ApiDownload[]>("/api/site/downloads", {
       next: { revalidate: CACHE_TTL.supportData, tags: ["downloads"] },
     }),
@@ -15,11 +15,13 @@ export default async function SupportPage() {
     fetchApi<ApiMaintenanceCenter[]>("/api/site/maintenance-centers", {
       next: { revalidate: CACHE_TTL.supportData, tags: ["maintenance-centers"] },
     }),
+    getStoreSettings(),
   ]);
 
   const downloads = downloadsResult.status === "fulfilled" ? (downloadsResult.value ?? []) : [];
   const videos = videosResult.status === "fulfilled" ? (videosResult.value ?? []) : [];
   const serviceCenters = centersResult.status === "fulfilled" ? (centersResult.value ?? []) : [];
+  const faqs = storeSettingsResult.status === "fulfilled" ? (storeSettingsResult.value.faqs ?? []) : [];
 
   if (downloadsResult.status === "rejected") {
     console.error("[Support] Failed to fetch downloads:", downloadsResult.reason);
@@ -29,6 +31,9 @@ export default async function SupportPage() {
   }
   if (centersResult.status === "rejected") {
     console.error("[Support] Failed to fetch service centers:", centersResult.reason);
+  }
+  if (storeSettingsResult.status === "rejected") {
+    console.error("[Support] Failed to fetch store settings:", storeSettingsResult.reason);
   }
 
   return (
@@ -43,6 +48,7 @@ export default async function SupportPage() {
         downloads={downloads} 
         videos={videos} 
         serviceCenters={serviceCenters} 
+        faqs={faqs as any}
       />
     </Suspense>
   );

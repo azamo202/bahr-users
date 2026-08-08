@@ -6,53 +6,24 @@ import { useApp } from '../context/AppContext';
 import { ApiDownload, ApiVideo, ApiMaintenanceCenter } from '@/types/api';
 import Link from 'next/link';
 
-const faqs = [
-  {
-    id: 1,
-    questionAr: 'ما هي مدة الضمان على الأجهزة؟',
-    questionEn: 'What is the warranty period for appliances?',
-    questionKu: 'ماوەی زەمانەت لەسەر ئامێرەکان چەندە؟',
-    answerAr: 'جميع أجهزتنا تأتي بضمان رسمي من الشركة المصنعة يتراوح بين سنة واحدة وخمس سنوات حسب نوع الجهاز والعلامة التجارية.',
-    answerEn: 'All our appliances come with an official manufacturer warranty ranging from 1 to 5 years depending on the type of appliance and brand.',
-    answerKu: 'هەموو ئامێرەکانمان بە زەمانەتی فەرمی کۆمپانیای بەرهەمهێنەر دێن کە لە نێوان یەک ساڵ تا پێنج ساڵدایە بەپێی جۆری ئامێرەکە و براندەکە.',
-  },
-
-  {
-    id: 3,
-    questionAr: 'كيف يمكنني الاستفسار عن منتج معين؟',
-    questionEn: 'How can I inquire about a specific product?',
-    questionKu: 'چۆن دەتوانم پرسیار بکەم دەربارەی بەرهەمێکی دیاریکراو؟',
-    answerAr: 'يمكنك التواصل معنا مباشرة عبر واتساب أو الاتصال بنا عبر الهاتف أو تعبئة نموذج الاستفسار على موقعنا.',
-    answerEn: 'You can contact us directly via WhatsApp or call us by phone or fill out the inquiry form on our website.',
-    answerKu: 'دەتوانیت ڕاستەوخۆ لە ڕێگەی واتسئەپەوە پەیوەندیمان پێوە بکەیت یان لە ڕێگەی تەلەفۆنەوە یان فۆڕمی پرسیارکردن لە ماڵپەڕەکەمان پڕبکەیتەوە.',
-  },
-  {
-    id: 4,
-    questionAr: 'هل الأجهزة أصلية 100%؟',
-    questionEn: 'Are the appliances 100% genuine?',
-    questionKu: 'ئایا ئامێرەکان ١٠٠٪ ڕەسەنن؟',
-    answerAr: 'نعم، جميع أجهزتنا أصلية 100% ونوكيل معتمد للعلامات التجارية الكبرى مع ضمان رسمي.',
-    answerEn: 'Yes, all our appliances are 100% genuine and we are an authorized dealer for major brands with official warranty.',
-    answerKu: 'بەڵێ، هەموو ئامێرەکانمان ١٠٠٪ ڕەسەنن و ئێمە بریکاری ڕێگەپێدراوین بۆ براندە گەورەکان بە زەمانەتی فەرمی.',
-  },
-  {
-    id: 5,
-    questionAr: 'هل يمكن الطلب بكميات كبيرة للمشاريع؟',
-    questionEn: 'Can I order in large quantities for projects?',
-    questionKu: 'ئایا دەتوانم بە بڕی زۆر بۆ پڕۆژەکان داوا بکەم؟',
-    answerAr: 'بالتأكيد، نوفر حلولاً متكاملة للمشاريع السكنية والتجارية مع أسعار تنافسية خاصة بالكميات.',
-    answerEn: 'Absolutely, we provide comprehensive solutions for residential and commercial projects with competitive bulk pricing.',
-    answerKu: 'بێگومان، چارەسەری گشتگیر دابین دەکەین بۆ پڕۆژە نیشتەجێبوون و بازرگانییەکان بە نرخی کێبڕکێکاری تایبەت بە بڕ.',
-  },
-];
+interface FaqItem {
+  id?: number;
+  questionAr: string;
+  questionEn: string;
+  questionKu: string;
+  answerAr: string;
+  answerEn: string;
+  answerKu: string;
+}
 
 interface SupportClientProps {
   downloads: ApiDownload[];
   videos: ApiVideo[];
   serviceCenters: ApiMaintenanceCenter[];
+  faqs?: FaqItem[];
 }
 
-export default function SupportClient({ downloads, videos, serviceCenters }: SupportClientProps) {
+export default function SupportClient({ downloads, videos, serviceCenters, faqs = [] }: SupportClientProps) {
   const { t, lang, dir, whatsapp } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'downloads' | 'videos' | 'centers'>('downloads');
@@ -338,7 +309,7 @@ export default function SupportClient({ downloads, videos, serviceCenters }: Sup
           <div className="space-y-3 max-w-3xl">
             {faqs.map((faq, i) => (
               <motion.div
-                key={faq.id}
+                key={faq.id || i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -346,18 +317,18 @@ export default function SupportClient({ downloads, videos, serviceCenters }: Sup
                 className="bg-white dark:bg-[#0E1A33] rounded-2xl border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 overflow-hidden"
               >
                 <button
-                  onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between p-5 text-start"
                 >
                   <span className="text-sm font-700 text-[#0A1628] dark:text-[#E8F0FF] pe-4">
                     {t(faq.questionAr, faq.questionEn, faq.questionKu)}
                   </span>
-                  {openFaq === faq.id
+                  {openFaq === i
                     ? <ChevronUp size={18} className="text-[#1B4F9B] dark:text-[#4B8FE2] flex-shrink-0" />
                     : <ChevronDown size={18} className="text-[#5A6A85] flex-shrink-0" />
                   }
                 </button>
-                {openFaq === faq.id && (
+                {openFaq === i && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}

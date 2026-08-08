@@ -41,6 +41,15 @@ export interface StoreSettings {
     textEn: string;
     textKu: string;
   }>;
+  faqs?: Array<{
+    id?: number;
+    questionAr: string;
+    questionEn: string;
+    questionKu: string;
+    answerAr: string;
+    answerEn: string;
+    answerKu: string;
+  }>;
 }
 
 /** Default request timeout in milliseconds */

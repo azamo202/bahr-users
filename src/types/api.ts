@@ -64,6 +64,15 @@ export interface ApiStoreSettings {
     textEn: string;
     textKu: string;
   }>;
+  faqs?: Array<{
+    id?: number;
+    questionAr: string;
+    questionEn: string;
+    questionKu: string;
+    answerAr: string;
+    answerEn: string;
+    answerKu: string;
+  }>;
 }
 
 export interface ApiMaintenanceCenter {
