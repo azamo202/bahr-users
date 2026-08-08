@@ -104,8 +104,8 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
               alt={t(COMPANY_NAME_AR, COMPANY_NAME_EN, COMPANY_NAME_KU)}
               className="h-12 w-12 object-contain rounded-full transition-all duration-300"
             />
-            <div className="hidden sm:block w-[160px] md:w-[180px] lg:w-[240px]">
-              <div className={`text-[10px] md:text-xs lg:text-sm font-700 leading-tight transition-colors whitespace-normal ${textColor}`}>
+            <div className="block w-[140px] sm:w-[160px] md:w-[180px] lg:w-[240px]">
+              <div className={`text-[8.5px] sm:text-[10px] md:text-xs lg:text-sm font-700 leading-tight transition-colors whitespace-normal ${textColor}`}>
                 {t('بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
               </div>
             </div>
@@ -169,11 +169,11 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
                                     <Icon size={18} />
                                   </div>
                                 </Link>
-                                
+
                                 {/* Subcategories Absolute Dropdown */}
                                 {cat.children && cat.children.length > 0 && (
                                   <div className="absolute top-full pt-1 opacity-0 invisible group-hover/cat:opacity-100 group-hover/cat:visible transition-all duration-200 z-50 min-w-[200px]"
-                                       style={{ [lang === 'ar' || lang === 'ku' ? 'right' : 'left']: '12px' }}>
+                                    style={{ [lang === 'ar' || lang === 'ku' ? 'right' : 'left']: '12px' }}>
                                     <div className="bg-white dark:bg-[#0E1A33] rounded-2xl shadow-xl border border-[#1B4F9B]/10 dark:border-[#4B8FE2]/15 p-2 flex flex-col gap-1">
                                       {cat.children.map((sub) => (
                                         <Link
@@ -266,11 +266,10 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-600 transition-all border ${
-                    isTransparent
+                  className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-600 transition-all border ${isTransparent
                       ? 'border-white/30 text-white hover:bg-white/15'
                       : 'border-[#1B4F9B]/20 text-[#1B4F9B] dark:text-[#4B8FE2] hover:bg-[#1B4F9B]/8 dark:hover:bg-[#4B8FE2]/10'
-                  }`}
+                    }`}
                 >
                   <Globe size={14} />
                   {lang === 'ar' ? 'عربي' : lang === 'en' ? 'English' : 'کوردی'}
@@ -332,11 +331,10 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`block px-4 py-3 rounded-xl text-sm font-600 transition-all ${
-                    pathname === link.href
+                  className={`block px-4 py-3 rounded-xl text-sm font-600 transition-all ${pathname === link.href
                       ? 'bg-[#1B4F9B] text-white'
                       : 'text-[#0A1628] dark:text-[#E8F0FF] hover:bg-[#1B4F9B]/8'
-                  }`}
+                    }`}
                 >
                   {t(link.pathAr, link.pathEn, link.pathKu)}
                 </Link>

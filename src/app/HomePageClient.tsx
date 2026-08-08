@@ -255,10 +255,11 @@ const heroSlides = [
   },
 ];
 
-export default function HomePageClient({ sections, categories, initialStats, initialBrands = [] }: { sections: ApiHomeSection[]; categories: ApiCategory[]; initialStats?: any[]; initialBrands?: ApiBrand[] }) {
+export default function HomePageClient({ sections, categories, initialStats, initialBrands = [], initialReviews = [] }: { sections: ApiHomeSection[]; categories: ApiCategory[]; initialStats?: any[]; initialBrands?: ApiBrand[]; initialReviews?: any[] }) {
   const { t, lang, dir, whatsapp } = useApp();
   const [heroIndex, setHeroIndex] = useState(0);
   const [liveStats, setLiveStats] = useState<any[] | null>(null);
+  const [liveReviews, setLiveReviews] = useState<any[] | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -276,6 +277,10 @@ export default function HomePageClient({ sections, categories, initialStats, ini
         const stats = settings?.stats;
         if (Array.isArray(stats)) {
           setLiveStats(stats);
+        }
+        const reviews = settings?.reviews;
+        if (Array.isArray(reviews)) {
+          setLiveReviews(reviews);
         }
       })
       .catch(() => {});
@@ -298,6 +303,7 @@ export default function HomePageClient({ sections, categories, initialStats, ini
 
   // Priority: 1. live stats from API (bypasses cache), 2. SSR stats, 3. defaults
   const displayStats = liveStats ?? (initialStats ? initialStats : defaultStats);
+  const displayReviews = liveReviews ?? initialReviews;
 
 
   return (
@@ -608,6 +614,57 @@ export default function HomePageClient({ sections, categories, initialStats, ini
           </motion.div>
         </div>
       </section>
+
+
+      {/* ─── CUSTOMER REVIEWS ─── */}
+      {displayReviews && displayReviews.length > 0 && (
+        <section className="py-20 px-4 sm:px-6 bg-[#F5F8FF] dark:bg-[#060D1A]">
+          <div className="max-w-7xl mx-auto">
+            <SectionTitle
+              ar="آراء عملائنا"
+              en="Customer Reviews"
+              ku="بۆچوونی کڕیارانمان"
+              subtitleAr="نفخر بثقة عملائنا ونسعى دائماً لتقديم أفضل تجربة تسوق لهم"
+              subtitleEn="We are proud of our customers' trust and always strive to provide the best shopping experience"
+              subtitleKu="شانازی بە متمانەی کڕیارەکانمانەوە دەکەین و هەمیشە هەوڵدەدەین باشترین ئەزموونی کڕینیان پێشکەش بکەین"
+            />
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4 scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {displayReviews.map((review, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="flex-shrink-0 w-[85%] sm:w-[400px] snap-start bg-white dark:bg-[#0E1A33] rounded-3xl p-8 border border-[#1B4F9B]/8 dark:border-[#4B8FE2]/10 shadow-lg shadow-[#1B4F9B]/5 flex flex-col"
+                >
+                  <div className="flex gap-1 mb-6">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} size={20} className="fill-[#F7941D] text-[#F7941D]" />
+                    ))}
+                  </div>
+                  <p className="text-[#5A6A85] dark:text-[#7A9BC0] text-lg leading-relaxed mb-6 italic flex-1">
+                    "{t(review.textAr, review.textEn, review.textKu)}"
+                  </p>
+                  <div className="flex items-center gap-4 mt-auto pt-6 border-t border-[#1B4F9B]/10 dark:border-[#4B8FE2]/10">
+                    <div className="w-12 h-12 rounded-full bg-[#1B4F9B]/10 dark:bg-[#4B8FE2]/10 flex items-center justify-center">
+                      <Users size={24} className="text-[#1B4F9B] dark:text-[#4B8FE2]" />
+                    </div>
+                    <div>
+                      <div className="font-800 text-[#0A1628] dark:text-[#E8F0FF]">
+                        {t('عميل مميز', 'Valued Customer', 'کڕیارێکی بەڕێز')}
+                      </div>
+                      <div className="text-sm text-[#29ABE2]">
+                        {t('مشتري موثق', 'Verified Buyer', 'کڕیاری باوەڕپێکراو')}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
 
       {/* ─── CTA SECTION ─── */}

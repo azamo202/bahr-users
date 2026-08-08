@@ -47,6 +47,7 @@ export default async function Home() {
 
   const settings = settingsResult.status === "fulfilled" ? settingsResult.value : null;
   const stats = settings?.stats || [];
+  const reviews = settings?.reviews || [];
 
-  return <HomePageClient sections={sections} categories={categories} initialStats={stats} initialBrands={brands} />;
+  return <HomePageClient sections={sections} categories={categories} initialStats={stats} initialBrands={brands} initialReviews={reviews} />;
 }
