@@ -88,7 +88,7 @@ function ProductCarousel({ products }: { products: ApiProduct[] }) {
                   productName={product.name?.ar ?? ''}
                   productNameEn={product.name?.en ?? ''}
                   productNameKu={product.name?.ku ?? ''}
-                  productId={product.id}
+                  productId={String(product.id)}
                   modelNumber={product.model_number}
                   className="flex-1 py-2.5"
                 />

@@ -443,7 +443,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                     >
                       <GitCompare size={14} />
                     </button>
-                    <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} productNameKu={product.name?.ku ?? ''} productId={product.id} modelNumber={product.model_number} small />
+                    <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} productNameKu={product.name?.ku ?? ''} productId={String(product.id)} modelNumber={product.model_number} small />
                   </div>
                 </div>
               </motion.div>
@@ -520,7 +520,7 @@ function ProductsPageContent({ initialCategories, initialBrands }: { initialCate
                       >
                         <GitCompare size={18} />
                       </button>
-                      <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} productNameKu={product.name?.ku ?? ''} productId={product.id} modelNumber={product.model_number} />
+                      <WhatsAppButton productName={product.name?.ar ?? ''} productNameEn={product.name?.en ?? ''} productNameKu={product.name?.ku ?? ''} productId={String(product.id)} modelNumber={product.model_number} />
                     </div>
                   </div>
                 </div>
