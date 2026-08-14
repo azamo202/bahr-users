@@ -18,8 +18,8 @@ import { useApp } from '../context/AppContext';
 import { ApiCategory } from "@/types/api";
 
 const COMPANY_NAME_AR = "بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية";
-const COMPANY_NAME_EN = "Bahr Alalwan General Trading Company";
-const COMPANY_NAME_KU = "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی";
+const COMPANY_NAME_EN = "Bahr Alalwan for General Trading Import and Export LTD";
+const COMPANY_NAME_KU = "کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن سنووردار";
 import logoImg from '../../imports/WhatsApp_Image_2026-06-22_at_3.23.33_PM.jpeg';
 
 const categoryIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -106,7 +106,7 @@ export function NavbarClient({ categories }: { categories: ApiCategory[] }) {
             />
             <div className="block w-[140px] sm:w-[160px] md:w-[180px] lg:w-[240px]">
               <div className={`text-[8.5px] sm:text-[10px] md:text-xs lg:text-sm font-700 leading-tight transition-colors whitespace-normal ${textColor}`}>
-                {t('بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية', 'Bahr Alalwan Company', 'کۆمپانیای بەحری ئەلوان')}
+                {t('بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية', 'Bahr Alalwan for General Trading Import and Export LTD', 'کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن سنووردار')}
               </div>
             </div>
           </Link>

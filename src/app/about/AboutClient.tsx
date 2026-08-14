@@ -65,8 +65,8 @@ export default function AboutClient({ initialStats }: { initialStats?: any[] }) 
             <p className="text-white/90 text-base sm:text-xl md:text-2xl font-700 leading-snug text-balance max-w-3xl mx-auto">
               {t(
                 'بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية',
-                'Bahr Alalwan for General Trading Imp. & Exp. LTD.',
-                'بەحر ئەلئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن — سنووردار'
+                'Bahr Alalwan for General Trading Import and Export LTD',
+                'کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن سنووردار'
               )}
             </p>
           </motion.div>
@@ -110,16 +110,16 @@ export default function AboutClient({ initialStats }: { initialStats?: any[] }) 
           <h2 className="text-2xl md:text-3xl font-800 text-[#0A1628] dark:text-[#E8F0FF] mb-6">
             {t(
               'بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية',
-              'Bahr Alalwan for General Trading Imp. & Exp. LTD.',
-              'کۆمپانیای بەحر ئەلئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردنی سنووردار'
+              'Bahr Alalwan for General Trading Import and Export LTD',
+              'کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن سنووردار'
             )}
           </h2>
           <div className="space-y-5 text-[#5A6A85] dark:text-[#7A9BC0] leading-relaxed text-sm md:text-[15px]">
             <p>
               {t(
                 'تأسست بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية في عام 2025 في مدينة الموصل، لتكون انطلاقة جديدة وحيوية في سوق الأجهزة المنزلية في العراق.',
-                'Established in 2025 in Mosul, Bahr Alalwan for General Trading Imp. & Exp. LTD. is a fresh and dynamic force in the Iraqi home appliances market.',
-                'کۆمپانیای بەحر ئەلئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردنی سنووردار لە ساڵی 2025 لە شاری مووسڵ دامەزراوە، بۆ ئەوەی ببێتە دەستپێشخەرییەکی نوێ و پڕ وزە لە بازاڕی ئامێرەکانی ناوماڵ لە عێراقدا.'
+                'Established in 2025 in Mosul, Bahr Alalwan for General Trading Import and Export LTD is a fresh and dynamic force in the Iraqi home appliances market.',
+                'کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن سنووردار لە ساڵی 2025 لە شاری مووسڵ دامەزراوە، بۆ ئەوەی ببێتە دەستپێشخەرییەکی نوێ و پڕ وزە لە بازاڕی ئامێرەکانی ناوماڵ لە عێراقدا.'
               )}
             </p>
             <p>
@@ -278,8 +278,8 @@ export default function AboutClient({ initialStats }: { initialStats?: any[] }) 
             <p className="text-white/80 leading-relaxed text-sm md:text-base max-w-2xl mx-auto">
               {t(
                 'يقود بحر الالوان للتجارة العامة والاستيراد والتصدير محدودة المسؤولية بخبرة طويلة وعميقة في قطاع الأجهزة المنزلية، ورؤية شابة تجمع بين الاستراتيجيات العصرية والالتزام برضا العميل.',
-                'Leading Bahr Alalwan with many years of deep expertise in the home appliances sector, and a modern vision that blends innovative strategies with a commitment to customer satisfaction.',
-                'کۆمپانیای بەحر ئەلئەلوان بە چەندین ساڵ ئەزموونی قووڵ لە کەرتی ئامێرەکانی ناوماڵ رێبەرایەتی دەکات، و دیدگایەکی مۆدێرن کە نێوان ستراتیژی داهێنەرانە و پابەندبوون بە ڕەزامەندی کڕیار تێکەڵ دەکات.'
+                'Leading Bahr Alalwan for General Trading Import and Export LTD with many years of deep expertise in the home appliances sector, and a modern vision that blends innovative strategies with a commitment to customer satisfaction.',
+                'کۆمپانیای بەحری ئەلوان بۆ بازرگانی گشتی و هاوردەکردن و هەناردەکردن سنووردار بە چەندین ساڵ ئەزموونی قووڵ لە کەرتی ئامێرەکانی ناوماڵ رێبەرایەتی دەکات، و دیدگایەکی مۆدێرن کە نێوان ستراتیژی داهێنەرانە و پابەندبوون بە ڕەزامەندی کڕیار تێکەڵ دەکات.'
               )}
             </p>
           </div>
